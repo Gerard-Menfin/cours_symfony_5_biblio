@@ -19,7 +19,7 @@ class AbonneFixtures extends Fixture
     {
         $abonnes = [
             [ "pseudo"  => "admin",     "prenom" => "Nordine",   "nom" => "Ateur",      "role" => "admin"   ],
-            [ "pseudo"  => "biblio",   "prenom" => "Hayet ",    "nom" => "Dementir",    "role" => "biblio"  ],
+            [ "pseudo"  => "biblio",    "prenom" => "Hayet ",    "nom" => "Dementir",    "role" => "biblio"  ],
             [ "pseudo"  => "mentor",    "prenom" => "Gérard",    "nom" => "Mentor",     "role" => "biblio"  ],
             [ "pseudo"  => "alien",     "prenom" => "Ali ",      "nom" => "Aine",       "role" => "biblio"  ],
             [ "pseudo"  => "lecteur",   "prenom" => "Hannibal",  "nom" => "Lecteur",    "role" => "lecteur" ],
@@ -31,7 +31,6 @@ class AbonneFixtures extends Fixture
             [ "pseudo"  => "robe",      "prenom" => "Anissa ",   "nom" => "Plubelrob",  "role" => "lecteur" ],
             [ "pseudo"  => "comedie",   "prenom" => "Eddy",      "nom" => "Lacome",     "role" => "lecteur" ],
             [ "pseudo"  => "belle",     "prenom" => "Cybèle ",   "nom" => "Hélabèt",    "role" => "lecteur" ],
-            [ "pseudo"  => "fanta",     "prenom" => "Fanta",     "nom" => "Stick",      "role" => "lecteur" ],
         ];
 
         foreach ($abonnes as $cpt => $abo ) {
