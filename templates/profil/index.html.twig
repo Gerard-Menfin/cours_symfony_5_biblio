@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfilController!{% endblock %}
+
+{% block body %}
+
+    <ul>
+        <li>Pseudo : {{ app.user.pseudo }}</li>
+        <li>Identité : {{ app.user.prenom ~ app.user.nom }}</li>
+    </ul>
+
+    <h2>Mes emprunts</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <th>Livre</th>
+            <th>Date emprunt</th>
+            <th>Date retour</th>
+        </thead>
+
+        <tbody>
+        {# Afficher la liste des emprunts de l'utilsateur connecté #}
+        {% for emprunt in app.user.emprunts %}
+            <tr>
+                <td>{{ emprunt.livre.titre ~ " - " ~ emprunt.livre.auteur }}</td>
+                <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/y') : '' }}</td>
+                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date('d/m/y') : '' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block titre %}Mon profil{% endblock %}

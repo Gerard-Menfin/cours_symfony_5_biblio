@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    Message : cours de Symfony !
+    {% if message is defined %}
+        <p>{{ message }}</p>
+    {% else %}
+        <p>Pas de message</p>
+    {% endif %}
+{% endblock %}
+
+{% block titre %}Titre de message.html{% endblock %}

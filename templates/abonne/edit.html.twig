@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Abonne{% endblock %}
+
+{% block titre %}Modifier un Abonne{% endblock %}
+
+{% block body %}
+
+    {{ include('abonne/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('abonne_index') }}">
+<i class="fa fa-reply"></i> Retour liste
+</a>
+
+    {{ include('abonne/_delete_form.html.twig') }}
+{% endblock %}

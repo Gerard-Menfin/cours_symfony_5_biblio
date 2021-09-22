@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %}Welcome!{% endblock %}</title>
+		
+        {# Run `composer require symfony/webpack-encore-bundle` and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+
+	<body class="container">
+		<div id="wrap">
+			<div class="mb-5" id="main">
+				{% include "_partiels/_menu.html.twig" %}
+
+				{# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
+                    qui est une variable globale de Twig, et 
+                    qui contient plusieurs informations concernant le projet. 
+                  'app' est un objet #}
+				{% for type, messages in app.flashes %}
+					{% for msg in messages %}
+						<div class="alert alert-{{ type }}">{{ msg }}</div>
+					{% endfor %}
+				{% endfor %}
+
+				<h1 class="mt-1 mb-3">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
+
+				{% block body %}
+					<p>
+						Lien vers la route test-titre
+						{# La fonction 'path' retourne l'URL la route dont le name est passée en argument #}
+						<a href="{{ path("test_titre") }}">Test titre</a>
+					</p>
+
+					Lien vers la route boucle
+					<a href="{{ path("test_boucle") }}">Test boucle</a>
+
+					<p>
+						Lien vers la route boucle 13
+						{# Pour générer une route paramétrée avec 'path', il faut fournir une valeur à 
+						                        ce paramètre. Cette valeur doit être passé en utilisant la syntaxe json :
+						                                { nomDuParametre: valeurDuParametre, ... }
+						                    #}
+						<a href="{{ path('test_param', { taille: 13 }) }}">
+							boucle de 1 à 13</a>
+					</p>
+
+
+					contenu du block body de accueil/index
+				{% endblock %}
+			</div>
+			<footer class="container">Ceci est le footer</footer>
+		</div>
+	</body>
+</html>
+
+{# balise twig pour les commentaires 
+
+{% %} : balise twig pour les structures, instructions
+{{ }} : balise twig équivalent du echo en PHP (équivalent de la balise <?= ?>)
+
+{% extends 'nom_du_template_parent' %}  : permet à la vue d'hériter d'une autre vue 
+    - Si un template hérite d'un autre template, le contenu de ses balises 'block'
+        remplacera le contenu des balises 'block' du template parent
+    - ⚠ IMPORTANT ⚠
+        dans une vue qui hérite, on ne peut mettre du contenu que dans un 'block'
+        {% block nom_du_block %}
+            ...
+        {% endblock %}
+    - Le contenu des blocks de la vue remplacera le contenu des blocks de la vue parente
+    - Si on veut conserver le contenu du block parent correspondant, on utilise la fonction parent()
+        {{ parent() }}
+
+STRUCTURE CONDITIONNELLE
+    - En Twig, il n'y a que le IF ELSEIF ELSE
+        {% if condition %}
+            ...
+        {% elseif condition %}
+            ...
+        {% else %}
+            ...
+        {% endif %}
+
+    - CONDITION : on peut utiliser des 'tests'. Dans Twig, les tests s'écrivent ainsi 
+        ... is test
+        Par exemple 
+            if variable is defined 
+        est équivalent en PHP à 
+            if ( isset($variable) ) 
+    - Notez qu'il n'y a pas de () autour de la condition
+    - OPÉRATEURS LOGIQUE
+         _____________
+        |  PHP | TWIG |
+        |------|------|
+        |  &&  | and  |
+        |  ||  | or   |
+        |  !   | not  |
+        |______|______|
+
+STRUCTURE ITERATIVE
+    - En Twig, il n'y a que la boucle FOR
+         __________________________________________________________________________
+        |                   PHP                   |              TWIG              |
+        |-----------------------------------------|--------------------------------|
+        | for($i=1 ; $i<=10 ; $i++)               | for i in 1..10                 |
+        | foreach($tableau as $valeur)            | for valeur in tableau          |
+        | foreach($tableau as $indice => $valeur) | for indice, valeur in tableau  |
+        |_________________________________________|________________________________|
+
+
+    - Syntaxe : 
+        {% for i in 1..10 %}
+            ...
+        {% endfor %}
+    
+    - Pour une boucle sur un tableau, on peut gérer le case où le tableau est vide
+        {% for valeur in tableau %}
+            ...
+        {% else %}
+            ...
+        {% endfor %}
+
+
+#}

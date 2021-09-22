@@ -1,0 +1,70 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set plusAncien = livres.plusAncienEmprunt  %}
+{% set retard = plusAncien ? date(plusAncien.dateSortie).diff(date("now")) : null %}
+
+
+{% block title %}Gestion {% endblock %}
+
+{% block titre %}Gestion de la bibliothèque{% endblock %}
+
+{% block body %}
+    <div class="card-columns">
+        <div class="card">
+            <h3 class="card-header">Abonnés</h3>
+            <ul class="list-group"> 
+                <li class="list-group-item">
+                    Abonnés : <strong class="float-right">{{ abonnes.nb }}</strong>
+                </li>
+                <li class="list-group-item">
+                    Ayant emprunt en cours : <strong class="float-right">{{  abonnes.emprunteurs|length }}</strong>
+                </li>
+                <li class="list-group-item">
+                    Le plus en retard : <strong class="float-right">{{ livres.plusAncienEmprunt is not null ? livres.plusAncienEmprunt.abonne.pseudo : "" }}</strong>
+                </li>
+                <li class="list-group-item">
+                    {% if abonnes.assidu %}
+                        Le plus présent : {{ abonnes.assidu.abonne.pseudo  }} <strong class="float-right">x {{  abonnes.assidu.nb_emprunts }}</strong>
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if abonnes.bibliophile is not empty %}
+                        Le plus bibliovore : {{ abonnes.bibliophile.abonne.pseudo }}<strong class="float-right">x {{ abonnes.bibliophile.nb_livres_empruntes }}</strong>
+                    {% endif %}
+                </li>
+            </ul>
+            <div class="card-footer">
+                <a class="card-link" href="{{ path("abonne_index") }}"> <i class="fa fa-list-alt"></i> Liste </a>
+                <a class="card-link float-right" href="{{ path("abonne_new") }}"> <i class="fa fa-plus-square"></i> Ajouter </a>
+            </div>
+        </div>
+        <div class="card">
+            <h3 class="card-header">Livres</h3>
+            <ul class="list-group">
+                <li class="list-group-item">Livres : <strong class="float-right">{{ livres.nb }}</strong></li>
+                <li class="list-group-item">Empruntés : <strong class="float-right">{{ livres.nbSortis }}</strong></li>
+                <li class="list-group-item">En rayon  : <strong class="float-right">{{ livres.nbDisponibles }}</strong></li>
+                <li class="list-group-item">Le plus en retard : <strong class="float-right">{{ plusAncien is not null ? plusAncien.livre.titre ~ " - " ~ retard.days ~" jours" : "" }}</strong></li>
+                <li class="list-group-item">Le plus emprunté : {% if livres.plusEmprunte %}<strong>{{ livres.plusEmprunte["livre"].titre }}</strong><strong class="float-right"> x {{ livres.plusEmprunte["nbEmprunts"] }}</strong></li>{% endif %}
+                <li class="list-group-item">Le moins emprunté : {% if livres.moinsEmprunte %}<strong>{{ livres.moinsEmprunte["livre"].titre }}</strong><strong class="float-right"> x {{ livres.moinsEmprunte["nbEmprunts"] }}</strong></li>{% endif %}
+            </ul>
+            <div class="card-footer">
+                <a class="card-link" href="{{ path("livre_index") }}"><i class="fa fa-list-alt"></i> Liste</a>
+                <a class="card-link float-right" href="{{ path("livre_new") }}"><i class="fa fa-plus-square"></i> Ajouter</a>
+            </div>
+        </div>
+        <div class="card">
+            <h3 class="card-header">Emprunts</h3>
+            <ul class="list-group">
+                <li class="list-group-item">Nombre d'emprunts : <strong class="float-right">{{ emprunts.nb }}</strong></li>
+                <li class="list-group-item">Emprunts en cours : <strong class="float-right">{{ emprunts["en cours"]|length }}</strong></li>
+            </ul>
+            <div class="card-footer">
+                <a class="card-link" href="{{ path("emprunt_index") }}"><i class="fa fa-list-alt"></i> Liste</a>
+                <a class="card-link float-right" href="{{ path("emprunt_new") }}"><i class="fa fa-plus-square"></i> Ajouter</a>
+            </div>
+        </div>
+    </div>
+    
+    
+{% endblock %}

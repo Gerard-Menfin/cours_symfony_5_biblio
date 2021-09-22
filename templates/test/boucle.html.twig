@@ -1,0 +1,142 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {# EXO : affichez tous les liens pour afficher
+            les tables de taille 14 à taille 29 
+            (il y aura donc 16 liens) 
+    #}
+    {% for n in 14..29 %}
+        <a href="/test/boucle/{{ n }}">de 1 à {{ n }}</a> <br>
+    {% endfor %}
+
+    <a href="/test/boucle/52">taille 52</a>
+    <br>
+    <a href="/test/boucle/7">taille 7</a>
+
+    {% for i in 1..10 %}
+        <p>{{ i * 2 }}</p>
+    {% endfor %}
+
+    <hr>
+    <h2>Table</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Nombre</th>
+            <th>Nombre * 2</th>
+        </thead>
+        
+        <tbody>
+            {% for i in 1..10 %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ i * 2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <h2>Table (taille en paramètre)</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Nombre</th>
+            <th>Nombre * 2</th>
+        </thead>
+        
+        <tbody>
+            {% if taille is defined %}
+                {% for i in 1..taille %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ i * 2 }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for i in 1..10 %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ i * 2 }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <hr>
+    <h2>Table (taille en paramètre) 2</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Nombre</th>
+            <th>Nombre * 2</th>
+        </thead>
+        
+        <tbody>
+            {% for i in 1..(taille is defined ? taille : 10) %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ i * 2 }}</td>
+                </tr>
+            {% endfor %}           
+        </tbody>
+    </table>
+
+    <hr>
+    <h2>Table (taille en paramètre) 3</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Nombre</th>
+            <th>Nombre * 2</th>
+        </thead>
+        
+        <tbody>
+            {% for i in 1..taille|default(10) %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ i * 2 }}</td>
+                </tr>
+            {% endfor %}           
+        </tbody>
+    </table>
+
+    <hr>
+    <h2>Table</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Nombre</th>
+            <th>Nombre * 2</th>
+        </thead>
+        
+        <tbody>
+            {% for i in 1..10 %}
+                {% if i != 3 and i !=8 %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ i * 2 }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+
+
+{# EXO : afficher cette boucle dans une table HTML
+    | 1  |  2  |
+    | 2  |  4  |
+
+    ...
+
+    EXO 2 - La limite doit être défini dans le controleur
+    Par exemple si je veux affiche de 1 à 20, la valeur
+    20 doit venir du controleur.
+    Si aucune valeur n'est donnée dans le controleur alors
+    on affiche jusquà 10
+
+    EXO 3 : Affichez la même boucle mais
+                il n'y aura pas de ligne affichéepour les chiffres
+                3 et 8
+
+ #}

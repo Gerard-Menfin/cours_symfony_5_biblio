@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Fiche détaillée{% endblock %}
+
+{% block titre %}Fiche détaillée{% endblock %}
+
+{% block body %}
+    <ul class="list-group">
+        <li class="list-group-item"><h2>Titre : {{ livre.titre }}</h2></li>
+        <li class="list-group-item"><h3>Auteur : {{ livre.auteur }}</h3></li>
+    </ul>
+    
+    {% if is_granted("ROLE_LECTEUR") %}
+        <a href="{{ "" }}" class="btn btn-success mt-5">Emprunter</a>
+    {% endif %}
+
+{% endblock %}

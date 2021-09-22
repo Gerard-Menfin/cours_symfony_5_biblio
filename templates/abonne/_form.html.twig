@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+    {{ form_row(form.roles) }}
+    {{ form_row(form.pseudo, {
+        'attr': {
+            'class': 'bg-secondary'
+    }}) }}
+    {{ form_widget(form.password) }}
+    {# {{ form_label(form.password)}} #}
+    <button class="btn btn-primary btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

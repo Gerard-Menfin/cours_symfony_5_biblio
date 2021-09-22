@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bibliothèque{% endblock %}
+
+{% block titre %}Bienvenue à la Bibliothèque{% endblock %}
+
+{% block body %}
+    <div class="card-columns">
+        {% for l in liste_livres %}
+            {# Lorsque l'on utilise la fonction include, on peut passer des variables à la 
+                vue que l'on inclut. 
+                Le 2ième paramètre de la fonction include doit être en JSON
+                    les propriétés sont variables à passées à la vue
+            #}
+            {{ include("livre/vignette.html.twig", { livre: l }) }}
+        {% endfor %}
+    </div>
+
+
+
+{% endblock %}
+
+{% block nulle %}
+    Contenu du block 'nulle'
+{% endblock %}
+
+

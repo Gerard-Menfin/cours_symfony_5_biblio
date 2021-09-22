@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter Livre{% endblock %}
+
+{% block titre %}Ajouter un Livre{% endblock %}
+
+{% block body %}
+
+    {{ include('admin_livre/_form.html.twig') }}
+
+    <a href="{{ path('admin_livre_index') }}">
+<i class="fa fa-reply"></i> Retour liste
+</a>
+{% endblock %}

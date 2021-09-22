@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block titre %}
+    Ajouter un livre
+{% endblock %}
+
+{% block body %}
+    <form method="post">
+        <div class="form-group">
+            <label for="titre">Titre</label>
+            <input type="text" name="titre" id="titre" class="form-control" value="{{ livre is defined ? livre.titre : "" }}">
+        </div>
+        <div class="form-group">
+            <label for="auteur">Auteur</label>
+            <input type="text" name="auteur" id="auteur" class="form-control" value="{{ livre is defined ? livre.auteur : "" }}">
+        </div>
+
+        <div class="row px-3">
+            <button type="submit" class="btn btn-primary mr-5">Enregistrer</button>
+            
+            <button type="reset" class="btn btn-warning float-right mr-5">Effacer</button>
+
+            <a href="{{ path("livre")}}" class="btn btn-danger">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h2>Affichage d'un tableau associatif ou d'un objet</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+        </tr>
+        <tr>
+            <td>{{ variable.nom }}</td>
+            <td>{{ variable.prenom }}</td>
+        </tr>
+        {# <tr>
+            <td>{{ variable["nom"] }}</td>
+            <td>{{ variable["prenom"] }}</td>
+        </tr> #}
+    </table>
+{% endblock %}
