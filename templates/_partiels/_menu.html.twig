@@ -8,45 +8,54 @@
 		<ul class="navbar-nav mr-auto">
 			{% if app.user %}
 				{# si app.user est 'vrai', c'est qu'un utilisateur est connecté #}
-				<li class="nav-item active">
+				<li class="nav-item {{ app.request.attributes.get("_route") == "profil" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("profil") }}">
 						<i class="fa fa-user"></i>
 						{{ app.user.username }}
 					</a>
 				</li>
-				<li class="nav-item ">
+				<li class="nav-item {{ app.request.attributes.get("_route") == "app_logout" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_logout") }}">
 						<i class="fa fa-sign-out-alt"></i>
 						Déconnexion
 					</a>
 				</li>
 			{% else %}
-				<li class="nav-item ">
+				<li class="nav-item {{ app.request.attributes.get("_route") == "app_login" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_login") }}">
 						<i class="fa fa-sign-in-alt"></i>
 						Connexion
 					</a>
 				</li>
 
-				<li class="nav-item ">
+				<li class="nav-item {{ app.request.attributes.get("_route") == "app_register" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_register") }}">
             			<i class="fa fa-user-plus"></i> Inscription
 					</a>
 				</li>
 			{% endif %}
 
-			{% if is_granted("ROLE_BIBLIOTHECAIRE") %} {# is_granted permet de vérifier si l'utilisateur connecté à le rôle demandé #}
-				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Mes Livres", liens: {"Liste": "livre", "Ajouter": "livre_ajouter", "divider": "", "Nouveau": "livre_nouveau" }} ) }}
-				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Emprunts", liens: {"Liste": "emprunt_index", "Ajouter": "emprunt_new" }} ) }}
-			{% endif %}
-
 			{% if is_granted("ROLE_ADMIN") %}
 				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Abonnés", liens: {"Liste": "abonne_index", "Ajouter": "abonne_new" }} ) }}
-				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Livres", liens: {"Liste": "admin_livre_index", "Ajouter": "admin_livre_new" }} ) }}
+				{{ include("_partiels/_lien_deroulant_menu.html.twig", { 
+					libelle: "Livres", 
+					liens: {
+						"Liste": "admin_livre_index", 
+						"Ajouter": "admin_livre_new", 
+						"divider": "",
+						"divider": "",
+						"Liste_": "livre", 
+						"Ajouter_": "livre_ajouter", "divider": "", 
+						"Nouveau_": "livre_nouveau"
+					}} ) }}
 				{% include "_partiels/_lien_deroulant_menu.html.twig" with {
 					libelle: "Catégories",
 					liens:  {"Liste": "admin_categorie_index", "Ajouter": "admin_categorie_new" }
 				} %}
+			{% endif %}
+
+			{% if is_granted("ROLE_BIBLIO") %} {# is_granted permet de vérifier si l'utilisateur connecté à le rôle demandé #}
+				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Emprunts", liens: {"Liste": "emprunt_index", "Ajouter": "emprunt_new" }} ) }}
 			{% endif %}
 
 		</ul>

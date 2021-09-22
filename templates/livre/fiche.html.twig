@@ -8,18 +8,25 @@
     <ul class="list-group">
         <li class="list-group-item"><strong>Titre :  </strong>{{ livre.titre }}</li>
         <li class="list-group-item"><strong>Auteur : </strong>{{ livre.auteur }}</li>
+        <li class="list-group-item"><strong>Catégories : </strong>
+            {# COURS : La variable permet d'avoir des informations sur les itérations #}
+            {% for categorie in livre.categories %}
+                {{ categorie.titre ~ (loop.last ? "" : ", ") }}
+            {% endfor %}
+        </li>
+
         <li class="list-group-item"><strong>Disponible : </strong>
             {% if livre.dispo is not null %}
                 {{ livre.dispo ? "✔" : "❌" }}
             {% endif %} 
         </li>
         <li class="list-group-item">
-            <strong>Emprunts</strong>
+            <strong>Emprunts :</strong>
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <th>Abonné</th>
-                    <th>Date emprunt</th>
-                    <th>Date retour</th>
+                    <th>Emprunté le</th>
+                    <th>Rendu le</th>
                 </thead>
 
                 <tbody>
@@ -28,6 +35,10 @@
                         <td>{{ emprunt.abonne.pseudo }}</td>
                         <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/y') : '' }}</td>
                         <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date('d/m/y') : '' }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucun emprunt enregistré pour ce livre</td>
                     </tr>
                 {% endfor %}
                 </tbody>

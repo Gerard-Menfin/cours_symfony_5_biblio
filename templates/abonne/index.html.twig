@@ -7,13 +7,13 @@
 {% block body %}
 
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th>Id</th>
                 <th>Pseudo</th>
-                <th>Roles</th>
                 <th>Nom</th>
-                <th>Prenom</th>
+                <th>Prénom</th>
+                <th>Niveau</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,11 +22,13 @@
             <tr>
                 <td>{{ abonne.id }}</td>
                 <td>{{ abonne.pseudo }}</td>
+                <td>{{ abonne.nom }}</td>
+                <td>{{ abonne.prenom }}</td>
                 <td>
                     {# EXO : affichez tous les roles de l'abonné mais 
                         au lieu de ROLE_ADMIN,           affichez Directeur
                         au lieu de ROLE_LECTEUR,         affichez Lecteur
-                                    ROLE_BIBLIOTHECAIRE, affichez Bibliothécaire
+                                    ROLE_BIBLIO, affichez Bibliothécaire
                                     ROLE_DEV                      Développeur
 
                         Rappel : la propriété roles est un Array
@@ -37,7 +39,7 @@
                             Directeur
                         {% elseif role == "ROLE_LECTEUR" %}
                             Lecteur
-                        {% elseif role == "ROLE_BIBLIOTHECAIRE" %}
+                        {% elseif role == "ROLE_BIBLIO" %}
                             Bibliothécaire
                         {% elseif role == "ROLE_DEV" %}
                             Développeur
@@ -45,8 +47,6 @@
                     {% endfor %}
 
                 </td>
-                <td>{{ abonne.nom }}</td>
-                <td>{{ abonne.prenom }}</td>
                 <td>
                     <a href="{{ path('abonne_show', {'id': abonne.id}) }}"><i class="fa fa-eye"></i></a>
                     <a href="{{ path('abonne_edit', {'id': abonne.id}) }}"><i class="fa fa-edit"></i></a>
@@ -54,7 +54,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">Auncun enregistrement</td>
+                <td colspan="7">Auncun abonné inscrit</td>
             </tr>
         {% endfor %}
         </tbody>
