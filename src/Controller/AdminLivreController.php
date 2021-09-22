@@ -52,7 +52,7 @@ class AdminLivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_livre_show", methods={"GET"}, requirements={"id"="\+d"})
+     * @Route("/{id}", name="admin_livre_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Livre $livre): Response
     {
@@ -62,7 +62,7 @@ class AdminLivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_livre_edit", methods={"GET","POST"}, requirements={"id"="\+d"})
+     * @Route("/{id}/edit", name="admin_livre_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, Livre $livre): Response
     {
@@ -82,7 +82,7 @@ class AdminLivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_livre_delete", methods={"POST"}, requirements={"id"="\+d"})
+     * @Route("/{id}", name="admin_livre_delete", methods={"POST"}, requirements={"id"="\d+"})
      */
     public function delete(Request $request, Livre $livre): Response
     {
