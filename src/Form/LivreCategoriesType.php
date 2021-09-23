@@ -55,7 +55,8 @@ class LivreCategoriesType extends AbstractType
                 "choice_label"  => "titre",
                 'multiple'      => true,
                 'expanded'      => true,
-                'mapped'        => false
+                // 'mapped'        => false
+                'label' => "Catégories"
             ])
 
         ;

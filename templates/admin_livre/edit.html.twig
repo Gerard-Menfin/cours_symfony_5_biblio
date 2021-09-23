@@ -6,11 +6,16 @@
 
 {% block body %}
 
-    {{ include('admin_livre/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin_livre/_form.html.twig', {'button_label': 'Actualiser'}) }}
 
-    <a href="{{ path('admin_livre_index') }}">
-<i class="fa fa-reply"></i> Retour liste
-</a>
 
+    <hr>
+    <a href="{{ path('admin_livre_index') }}" class="btn btn-warning ">
+        <i class="fa fa-reply"></i>
+        Annuler
+    </a>
+
+    <span class="float-right">
     {{ include('admin_livre/_delete_form.html.twig') }}
+    </span>
 {% endblock %}

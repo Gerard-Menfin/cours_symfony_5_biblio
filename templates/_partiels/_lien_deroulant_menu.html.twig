@@ -4,10 +4,10 @@
 	</a>
 	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		{% for titre, lien in liens %}
-			{% if titre == "divider" %}
+			{% if titre|slice(0, 7) == "divider" %}
 				<div class="dropdown-divider"></div>
 			{% else %}	
-				<a class="dropdown-item" href="{{ path(lien) }}">{{ titre }}</a>
+				<a class="dropdown-item" href="{{ lien ? path(lien) : "" }}">{{ titre }}</a>
 			{% endif %}
 		{% endfor %}
 	</div>

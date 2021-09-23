@@ -40,12 +40,16 @@
 				{{ include("_partiels/_lien_deroulant_menu.html.twig", { 
 					libelle: "Livres", 
 					liens: {
-						"Liste": "admin_livre_index", 
-						"Ajouter": "admin_livre_new", 
-						"divider": "",
-						"divider": "",
-						"Liste_": "livre", 
-						"Ajouter_": "livre_ajouter", "divider": "", 
+						"Admin":	"",
+						"divider1": 	"",
+						"Liste": 	"admin_livre_index", 
+						"Ajouter (cat)": 	"admin_livre_new_cat", 
+						"divider2": 	"",
+						"divider3": 	"",
+						"Livre Controller":	"",
+						"divider4": 	"",
+						"Liste_": 	"livre", 
+						"Ajouter_": "livre_ajouter",
 						"Nouveau_": "livre_nouveau"
 					}} ) }}
 				{% include "_partiels/_lien_deroulant_menu.html.twig" with {
