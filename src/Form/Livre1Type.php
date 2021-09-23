@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Livre;
+use App\Entity\Categorie;
 use App\Form\CategorieType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -48,11 +50,12 @@ class Livre1Type extends AbstractType
                     ])
                 ]
             ])
-            ->add('categories', CollectionType::class, [
-                'entry_type' => CategorieType::class,
-                "entry_options" => [ "label" => false ],
-                'allow_add' => true,
-                'allow_delete' => true
+            ->add('categories', EntityType::class, [
+                'class'         => Categorie::class,
+                "choice_label"  => "titre",
+                'multiple'      => true,
+                'expanded'      => true,
+                'label' => "Catégories"
             ])
 
         ;

@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminLivreController extends AbstractController
 {
     /**
-     * @Route("/", name="admin_livre_index", methods={"GET"})
+     * @Route("/liste", name="admin_livre_index", methods={"GET"})
      */
     public function index(LivreRepository $livreRepository): Response
     {
@@ -28,12 +28,27 @@ class AdminLivreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_livre_new", methods={"GET","POST"})
+     * COURS : ⚠ si la route show est avant la route new, c'est la fonction show qui sera exécutée '/admin/livre/new'
+     *          Pour éviter cette erreur, on ajoute une restriction sur la partie variable du chemin, avec le paramètre 'requirements'
+     * @Route("/{id}", name="admin_livre_show", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function show(Livre $livre): Response
+    {
+        return $this->render('admin_livre/show.html.twig', [
+            'livre' => $livre,
+        ]);
+    }
+
+    /* *************************************************************************  */
+    // ROUTES new et edit avec le formulaire utilisant CollectionType
+    
+    /**
+     * @Route("/ajouter", name="admin_livre_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $livre = new Livre();
-        $livre->addCategory(new Categorie);
+        // $livre->addCategory(new Categorie);
         $form = $this->createForm(Livre1Type::class, $livre);
         $form->handleRequest($request);
 
@@ -52,17 +67,7 @@ class AdminLivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_livre_show", methods={"GET"}, requirements={"id"="\d+"})
-     */
-    public function show(Livre $livre): Response
-    {
-        return $this->render('admin_livre/show.html.twig', [
-            'livre' => $livre,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="admin_livre_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
+     * @Route("/modifier/{id}", name="admin_livre_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, Livre $livre): Response
     {
@@ -82,7 +87,7 @@ class AdminLivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_livre_delete", methods={"POST"}, requirements={"id"="\d+"})
+     * @Route("/supprimer/{id}", name="admin_livre_delete", methods={"POST"}, requirements={"id"="\d+"})
      */
     public function delete(Request $request, Livre $livre): Response
     {
@@ -95,12 +100,15 @@ class AdminLivreController extends AbstractController
         return $this->redirectToRoute('admin_livre_index');
     }
 
+    
+    /* *************************************************************************  */
+    // ROUTES new et edit avec le formulaire utilisant EntityType (ChoiceType) 
 
     /**
      * AJOUTER avec TOUTES LES CATEGORIES
-     * @Route("/new1", name="admin_livre_new", methods={"GET","POST"})
+     * @Route("/nouveau", name="admin_livre_new_cat", methods={"GET","POST"})
      */
-    public function new1(Request $request): Response
+    public function new_cat(Request $request): Response
     {
         $livre = new Livre();
         $form = $this->createForm(LivreCategoriesType::class, $livre);
@@ -120,5 +128,24 @@ class AdminLivreController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}/modifier", name="admin_livre_edit_cat", methods={"GET","POST"}, requirements={"id"="\d+"})
+     */
+    public function edit_cat(Request $request, Livre $livre): Response
+    {
+        $form = $this->createForm(LivreCategoriesType::class, $livre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('admin_livre_index');
+        }
+
+        return $this->render('admin_livre/edit.html.twig', [
+            'livre' => $livre,
+            'form' => $form->createView(),
+        ]);
+    }
     
 }

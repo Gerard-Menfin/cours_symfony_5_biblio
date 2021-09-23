@@ -37,7 +37,9 @@ class Livre
     private $couverture;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="livres")
+     * COURS : pour que le formulaire Livre qui utilise un formulaire Categorie enregistre des nouvelles 
+     *          catégories en même temps qu'un nouveau livre
+     * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="livres",cascade={"persist"})
      */
     private $categories;
 
