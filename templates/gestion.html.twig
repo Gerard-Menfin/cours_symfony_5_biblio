@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('gestion') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('gestion') }}
+{% endblock %}
+
+
+{# <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Gestion|{% block title %}{% endblock %}</title>
+		
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+			{{ encore_entry_link_tags('gestion') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			{{ encore_entry_script_tags('gestion') }}
+		{% endblock %}
+	</head>
+
+	<body class="container">
+		<div id="wrap">
+			<div class="mb-5" id="main">
+				{% include "_partiels/_menu.html.twig" %}
+
+				{% for type, messages in app.flashes %}
+					{% for msg in messages %}
+						<div class="alert alert-{{ type }}">{{ msg }}</div>
+					{% endfor %}
+				{% endfor %}
+
+				<h1 class="mt-1 mb-3">{% block titre %}Gestion de la bibliothèque{% endblock %}</h1>
+
+				{% block body %}{% endblock %}
+			</div>
+			<footer class="container">Ceci est le footer</footer>
+		</div>
+	</body>
+</html> #}

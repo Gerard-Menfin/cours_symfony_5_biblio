@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'gestion.html.twig' %}
 
 {% block title %}Liste Livres{% endblock %}
 
@@ -21,7 +21,7 @@
         {% for livre in livres %}
             <tr>
                 <td>{{ livre.id }} {{ livre.dispo ? "✔" : "❌" }}</td>
-                <td><img src="{{ livre.couverture }}" alt="" ></td>
+                <td><img src="{{ asset(dossier_couvertures ~ livre.couverture) }}" alt="" class="vignette"></td>
                 <td>{{ livre.titre }}</td>
                 <td>{{ livre.auteur }}</td>
                 <td>
@@ -33,8 +33,8 @@
 
                 <td>
                     <a href="{{ path('admin_livre_show', {'id': livre.id}) }}"><i class="fa fa-eye"></i></a>
-                    <a href="{{ path('admin_livre_edit_cat', {'id': livre.id}) }}"><i class="fa fa-edit"></i></a>
-                    <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}"><i class="fa fa-pen-square"></i></a>
+                    <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}"><i class="fa fa-edit"></i></a>
+                    {# <a href="{{ path('admin_livre_edit_cat', {'id': livre.id}) }}"><i class="fa fa-pen-square"></i></a> #}
                 </td>
             </tr>
         {% else %}
