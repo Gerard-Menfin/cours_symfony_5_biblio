@@ -16,10 +16,11 @@
 
 	<body class="container">
         {# COURS : 
-            app.request.schemeAndHttpHost   : protocole - domaine 
-            app.request.pathinfo            : URL relatif
-            url("app_register")             : génère URL complèt
-            path("app_register")            : URL relatif
+            app.request.schemeAndHttpHost           : protocole - domaine
+            app.request.attributes.get("_route")    : retourne le nom de la route correspondant à l'URL actuelle
+            app.request.pathinfo                    : URL relatif
+            url("app_register")                     : retourne URL complet selon une route
+            path("app_register")                    : retourne URL relatif selon une route
         #}
 		<div id="wrap">
 			<div class="mb-5" id="main">

@@ -53,6 +53,24 @@ class AdminLivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // si un fichier a été téléversé dans l'input 'couverture'...
+            if( $fichier = $form->get("couverture")->getData() ){
+                
+                // on récupère le nom du fichier qui a été téléversé
+                $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // on remplace les espaces par des _
+                $nouveauNomFichier = str_replace(" ", "_", $nomFichier);
+
+                // on ajoute un string unique au nom du fichier (pour éviter les doublons) et l'extension du fichier
+                $nouveauNomFichier .= uniqid() . "." . $fichier->guessExtension(); 
+
+                // on copie le fichier téléversé dans un dossier du dossier 'public' avec le nouveau nom de fichier
+                $fichier->move($this->getParameter("dossier_couvertures"), $nouveauNomFichier);
+
+                // on modifie la propriété 'couverture' de l'entité $livre
+                $livre->setCouverture($nouveauNomFichier);
+            } 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livre);
             $entityManager->flush();
@@ -75,6 +93,24 @@ class AdminLivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // si un fichier a été téléversé dans l'input 'couverture'...
+            if( $fichier = $form->get("couverture")->getData() ){
+                
+                // on récupère le nom du fichier qui a été téléversé
+                $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // on remplace les espaces par des _
+                $nouveauNomFichier = str_replace(" ", "_", $nomFichier);
+
+                // on ajoute un string unique au nom du fichier (pour éviter les doublons) et l'extension du fichier
+                $nouveauNomFichier .= uniqid() . "." . $fichier->guessExtension(); 
+
+                // on copie le fichier téléversé dans un dossier du dossier 'public' avec le nouveau nom de fichier
+                $fichier->move($this->getParameter("dossier_couvertures"), $nouveauNomFichier);
+
+                // on modifie la propriété 'couverture' de l'entité $livre
+                $livre->setCouverture($nouveauNomFichier);
+            } 
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_livre_index');

@@ -7,6 +7,7 @@ twig:
     # la propriété 'globals' permet de créer des variables globales (⚠ la valeur ne peut être variable)
     globals:
         dossier_images: "/img/"
+        dossier_couvertures: "/img/couvertures/"
     
     # la propriété 'date' va permettre de configurer le format par défaut d'affichage des date
     date:

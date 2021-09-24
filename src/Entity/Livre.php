@@ -171,4 +171,15 @@ class Livre
 
         return $this;
     }
+
+    /* Modifications qui ne modifieront pas la bdd (pas d'annotations) */
+    public function getToutesCategories()
+    {
+        $resultat = "";
+        foreach ($this->categories as $categorie ) {
+            $resultat .= $resultat ? ", " : ""; // COURS : si $resultat n'est pas vide, concaténation de ", " 
+            $resultat .= ucfirst($categorie->getTitre());
+        }
+        return $resultat;
+    }
 }
