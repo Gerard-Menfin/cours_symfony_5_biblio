@@ -5,27 +5,36 @@ $primary: #183772;
 $dark: #182030;
 $warning: #a06e04;
 $success: #527e52;
+$white: #eee;
 
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "~bootstrap/scss/bootstrap";
 
-body {
-    background-color: $gris_clair;
-}
-
-html, body {
+html {
+    background-color: $white;
     height: 100%;
 }
+
+body {
+    background-color: $gris_clair;
+    // annuler le padding de .container
+    padding-inline: 0 !important;
+}
+
+// html, body {
+//     height: 100%;
+// }
   
 #wrap {
     min-height: 100%;
 }
 
 #main {
-    overflow      : auto;
+    // overflow      : auto;
     padding-bottom: 150px;
     /* this needs to be bigger than footer height*/
     // background-color: $gris_clair;
+    padding-inline: 10px;
 }
 
 footer {

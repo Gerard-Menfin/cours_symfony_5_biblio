@@ -14,17 +14,19 @@
 		{% endblock %}
 	</head>
 
+    {# COURS : 
+        app.request.schemeAndHttpHost           : protocole - domaine
+        app.request.attributes.get("_route")    : retourne le nom de la route correspondant à l'URL actuelle
+        app.request.pathinfo                    : URL relatif
+        url("app_register")                     : retourne URL complet selon une route
+        path("app_register")                    : retourne URL relatif selon une route
+    #}
+
 	<body class="container">
-        {# COURS : 
-            app.request.schemeAndHttpHost           : protocole - domaine
-            app.request.attributes.get("_route")    : retourne le nom de la route correspondant à l'URL actuelle
-            app.request.pathinfo                    : URL relatif
-            url("app_register")                     : retourne URL complet selon une route
-            path("app_register")                    : retourne URL relatif selon une route
-        #}
+        {% include "_partiels/_menu.html.twig" %}
+            
 		<div id="wrap">
 			<div class="mb-5" id="main">
-				{% include "_partiels/_menu.html.twig" %}
 
 				{# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
                     qui est une variable globale de Twig, et 
@@ -62,8 +64,8 @@
 					contenu du block body de accueil/index
 				{% endblock %}
 			</div>
-			<footer class="container">Ceci est le footer</footer>
 		</div>
+        <footer class="container">Ceci est le footer</footer>
 	</body>
 </html>
 
