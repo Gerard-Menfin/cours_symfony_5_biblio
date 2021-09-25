@@ -35,8 +35,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/livre, roles: ROLE_BIBLIO }  # toutes les routes qui commencent par /livre sont accessibles uniquement aux utilisateurs ROLE_BIBLIOTHECAIRE
-        - { path: ^/abonne, roles: ROLE_ADMIN }          # toutes les routes qui commencent par /abonne sont accessibles uniquement aux utilisateurs ROLE_ADMIN
+        - { path: ^/livre,  roles: ROLE_BIBLIO }  # toutes les routes qui commencent par /livre sont accessibles uniquement aux utilisateurs ROLE_BIBLIOTHECAIRE
+        - { path: ^/admin,  roles: ROLE_ADMIN  }          # toutes les routes qui commencent par /abonne sont accessibles uniquement aux utilisateurs ROLE_ADMIN
         - { path: ^/profil, roles: IS_AUTHENTICATED_FULLY }
     
     # COURS : l'option 'role_hierarchy' sert à définir une hiérarchie entre les rôles
