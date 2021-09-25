@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Abonne{% endblock %}
+{% block title %}Fiche Abonné{% endblock %}
 
-{% block titre %}Fiche Abonne{% endblock %}
+{% block titre %}{{ block("title") }}{% endblock %}
 
 {% block body %}
 
@@ -17,20 +17,20 @@
                 <td>{{ abonne.pseudo }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
+                <th>Accréditations</th>
                 <td>{{ abonne.roles ? abonne.roles|json_encode : '' }}</td>
             </tr>
             <tr>
-                <th>Password</th>
+                <th>Mot de passe</th>
                 <td>{{ abonne.password }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ abonne.prenom }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
                 <td>{{ abonne.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ abonne.prenom }}</td>
             </tr>
         </tbody>
     </table>

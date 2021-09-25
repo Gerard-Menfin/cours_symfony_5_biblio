@@ -25,16 +25,17 @@ class AbonneType extends AbstractType
                 ]
             ])
             ->add('roles', ChoiceType::class, [
-                "choices" => [
-                    "Lecteur" => "ROLE_LECTEUR",
+                "choices"   => [
+                    "Abonné"         => "ROLE_ABONNE",
+                    "Lecteur"        => "ROLE_LECTEUR",
                     "Bibliothécaire" => "ROLE_BIBLIOTHECAIRE",
-                    "Directeur" => "ROLE_ADMIN",
-                    "Développeur" => "ROLE_DEV",
-                    "Abonné" => "ROLE_USER"
+                    "Directeur"      => "ROLE_ADMIN",
+                    "Développeur"    => "ROLE_DEV",
+                    "Abonné"         => "ROLE_USER"
                 ],
-                "multiple" => true,
-                "expanded" => true,
-                "label" => "Niveau d'accès"
+                "multiple"  => true,
+                "expanded"  => true,
+                "label"     => "Niveau d'accès"
             ])
             ->add('password', PasswordType::class, [
                 "mapped" => false

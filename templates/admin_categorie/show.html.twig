@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'gestion.html.twig' %}
 
-{% block title %}Categorie{% endblock %}
+{% block title %}Fiche Catégorie{% endblock %}
 
-{% block titre %}Fiche Categorie{% endblock %}
+{% block titre %}{{ block("title") }}{% endblock %}
 
 {% block body %}
 
@@ -20,6 +20,30 @@
                 <th>Mots-clés</th>
                 <td>{{ categorie.mots }}</td>
             </tr>
+            <tr>
+                <th>Livres</th>
+                <td>
+                    <table class="table table-bordered table-primary table-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Titre</th>
+                                <th>Auteur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for livre in categorie.livres %}
+                                <tr>
+                                    <td>{{ livre.id }}</td>
+                                    <td>{{ livre.titre }}</td>
+                                    <td>{{ livre.auteur}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
         </tbody>
     </table>
 

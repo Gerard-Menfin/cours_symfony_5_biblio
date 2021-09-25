@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'gestion.html.twig' %}
 
 {% block title %}Fiche Livre{% endblock %}
 
@@ -11,7 +11,8 @@
             <tr>
                 <th>Couverture</th>
                 <td>
-                    <img src="{{ asset(dossier_couvertures ~ livre.couverture) }}" alt="{{ livre.titre }}" class="miniature">
+                    {# <img src="{{ asset(chemin_couvertures ~ livre.couverture) }}" alt="{{ livre.titre }}" class="miniature"> #}
+                    {{ livre.couverture|img("couvertures", "miniature")|raw }}
                 </td>
             </tr>
             <tr>

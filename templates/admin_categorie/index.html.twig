@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'gestion.html.twig' %}
 
 {% block title %}Liste Categories{% endblock %}
 
@@ -12,6 +12,7 @@
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Mots</th>
+                <th>Nb de livres</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <td>{{ categorie.id }}</td>
                 <td>{{ categorie.titre }}</td>
                 <td>{{ categorie.mots }}</td>
+                <td>{{ categorie.livres|length }}</td>
                 <td>
                     <a href="{{ path('admin_categorie_show', {'id': categorie.id}) }}"><i class="fa fa-eye"></i></a>
                     <a href="{{ path('admin_categorie_edit', {'id': categorie.id}) }}"><i class="fa fa-edit"></i></a>

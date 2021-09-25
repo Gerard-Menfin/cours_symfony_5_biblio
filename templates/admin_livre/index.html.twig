@@ -21,7 +21,8 @@
         {% for livre in livres %}
             <tr>
                 <td>{{ livre.id }} {{ livre.dispo ? "✔" : "❌" }}</td>
-                <td><img src="{{ asset(dossier_couvertures ~ livre.couverture) }}" alt="" class="vignette"></td>
+                {# <td><img src="{{ asset(chemin_couvertures ~ livre.couverture) }}" alt="" class="vignette"></td> #}
+                <td>{{ livre.couverture|img("couvertures", "vignette")|raw }}</td>
                 <td>{{ livre.titre }}</td>
                 <td>{{ livre.auteur }}</td>
                 <td>

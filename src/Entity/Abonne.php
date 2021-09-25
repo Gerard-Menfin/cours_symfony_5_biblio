@@ -192,4 +192,43 @@ class Abonne implements UserInterface
 
         return $this;
     }
+
+    /* *************** */
+
+    /**
+     * Retourne la liste des rôles de l'abooné sous forme de string
+     */
+    public function autorisations(): string
+    {
+        $texte = "";
+        foreach ($this->roles as $role ) {
+            $texte .= $texte ? ", " : "";
+            switch ($role) {
+                case 'ROLE_ADMIN':
+                    $texte .= "Directeur";
+                    break;
+                
+                case 'ROLE_BIBLIO':
+                    $texte .= "Bibliothécaire";
+                    break;
+                
+                case 'ROLE_LECTEUR':
+                    $texte .= "Lecteur";
+                    break;
+                
+                case 'ROLE_USER':
+                    $texte .= "Abonné";
+                    break;
+
+                case 'ROLE_DEV':
+                    $texte .= "Développeur";
+                    break;
+                
+                default:
+                    $texte .= "Autre";
+                    break;
+            }
+        }
+        return $texte;
+    }
 }
