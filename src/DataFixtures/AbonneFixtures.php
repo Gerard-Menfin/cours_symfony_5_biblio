@@ -19,7 +19,7 @@ class AbonneFixtures extends Fixture
     {
         $abonnes = [
             [ "pseudo"  => "admin",     "prenom" => "Nordine",   "nom" => "Ateur",      "role" => "admin"   ],
-            [ "pseudo"  => "biblio",    "prenom" => "Hayet ",    "nom" => "Dementir",    "role" => "biblio"  ],
+            [ "pseudo"  => "biblio",    "prenom" => "Hayet ",    "nom" => "Dementir",   "role" => "biblio"  ],
             [ "pseudo"  => "mentor",    "prenom" => "Gérard",    "nom" => "Mentor",     "role" => "biblio"  ],
             [ "pseudo"  => "alien",     "prenom" => "Ali ",      "nom" => "Aine",       "role" => "biblio"  ],
             [ "pseudo"  => "lecteur",   "prenom" => "Hannibal",  "nom" => "Lecteur",    "role" => "lecteur" ],
@@ -33,7 +33,8 @@ class AbonneFixtures extends Fixture
             [ "pseudo"  => "belle",     "prenom" => "Cybèle ",   "nom" => "Hélabèt",    "role" => "lecteur" ],
         ];
 
-        foreach ($abonnes as $cpt => $abo ) {
+        $cpt = 0;
+        foreach ($abonnes as $abo ) {
             $abonne = new Abonne;
             $abonne->setPseudo( $abo["pseudo"] )
                    ->setPrenom( $abo["prenom"] )
@@ -42,8 +43,10 @@ class AbonneFixtures extends Fixture
                    ->setRoles( ["ROLE_" . strtoupper($abo["role"]) ] );
             $manager->persist( $abonne );
             
-            if( $abo["role"] == "lecteur" ) 
-                $this->addReference( "abonne_" . $abo["pseudo"], $abonne );
+            if( $abo["role"] == "lecteur" ) {
+                $this->addReference( "abonne_" . $cpt, $abonne );  // 9 lecteurs
+                $cpt++;
+            }
         }
 
         $manager->flush();
