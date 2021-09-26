@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Cocur\Slugify\Slugify;
 
 /**
  * @Route("/admin/livre")
@@ -60,7 +61,8 @@ class AdminLivreController extends AbstractController
                 $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
 
                 // on remplace les espaces par des _
-                $nouveauNomFichier = str_replace(" ", "_", $nomFichier);
+                // $nouveauNomFichier = str_replace(" ", "_", $nomFichier);
+                $nouveauNomFichier = (new Slugify)->slugify($nomFichier);
 
                 // on ajoute un string unique au nom du fichier (pour éviter les doublons) et l'extension du fichier
                 $nouveauNomFichier .= uniqid() . "." . $fichier->guessExtension(); 
