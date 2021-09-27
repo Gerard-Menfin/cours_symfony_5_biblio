@@ -26,7 +26,7 @@
                 <td>{{ livre.titre }}</td>
                 <td>{{ livre.auteur }}</td>
                 <td>
-                    {# COURS : La variable permet d'avoir des informations sur les itérations #}
+                    {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
                     {% for categorie in livre.categories %}
                         {{ categorie.titre ~ (loop.last ? "" : ", ") }}
                     {% endfor %}                

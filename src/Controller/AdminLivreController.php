@@ -72,11 +72,13 @@ class AdminLivreController extends AbstractController
 
                 // on modifie la propriété 'couverture' de l'entité $livre
                 $livre->setCouverture($nouveauNomFichier);
-            } 
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livre);
             $entityManager->flush();
-
+            /* COURS : l'id n'est donné à une nouvelle entité qu'après avoir lancé $em->flush(). 
+                        Cet objet n'est pas détruit, on peut donc connaître l'id qui lui a été attribué */
+            $livre->setUrl( $livre->getId() . "-" . (new Slugify)->slugify($livre->getTitre()) );
             return $this->redirectToRoute('admin_livre_index');
         }
 
@@ -113,6 +115,7 @@ class AdminLivreController extends AbstractController
                 // on modifie la propriété 'couverture' de l'entité $livre
                 $livre->setCouverture($nouveauNomFichier);
             } 
+            $livre->setUrl( $livre->getId() . "-" . (new Slugify)->slugify($livre->getTitre()) );
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_livre_index');

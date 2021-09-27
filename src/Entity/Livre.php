@@ -37,6 +37,13 @@ class Livre
     private $couverture;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $url;
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * COURS : pour que le formulaire Livre qui utilise un formulaire Categorie enregistre des nouvelles 
      *          catégories en même temps qu'un nouveau livre
      * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="livres",cascade={"persist"})
@@ -113,28 +120,6 @@ class Livre
         return $this;
     }
 
-    /* Dans la bdd, le seul moyen de savoir si un livre est indisponible 
-        c'est en regardant les enregistrements de la table Emprunt dont la
-        date_retour est null. 
-        Je vais rajouter une propriété à la classe Livre, mais cette propriété
-        ne  crééra pas de champ dans la base de donnée (=pas d'annotations)
-
-        Pour affecter une valeur à cette propriété, je vais utiliser la méthode
-        LivreRepository::findLivresSortis mais je ne peux pas instancier une classe Repository
-        il faut utiliser l'injection de dépendance dans un contrôleur.
-        Alors, je vais utiliser la technique des écouteurs d'évènements
-        cf : App/EventListener/LivreListener
-    */
-    private $dispo;
-    
-    public function getDispo()
-    {
-        return $this->dispo;
-    }
-    public function setDispo(bool $dispo)
-    {
-        $this->dispo = $dispo;
-    }
 
     /**
      * @return Collection|Categorie[]
@@ -182,4 +167,40 @@ class Livre
         }
         return $resultat;
     }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /* Dans la bdd, le seul moyen de savoir si un livre est indisponible 
+        c'est en regardant les enregistrements de la table Emprunt dont la
+        date_retour est null. 
+        Je vais rajouter une propriété à la classe Livre, mais cette propriété
+        ne  crééra pas de champ dans la base de donnée (=pas d'annotations)
+
+        Pour affecter une valeur à cette propriété, je vais utiliser la méthode
+        LivreRepository::findLivresSortis mais je ne peux pas instancier une classe Repository
+        il faut utiliser l'injection de dépendance dans un contrôleur.
+        Alors, je vais utiliser la technique des écouteurs d'évènements
+        cf : App/EventListener/LivreListener
+    */
+    private $dispo;
+
+    public function getDispo()
+    {
+        return $this->dispo;
+    }
+    public function setDispo(bool $dispo)
+    {
+        $this->dispo = $dispo;
+    }
+
 }

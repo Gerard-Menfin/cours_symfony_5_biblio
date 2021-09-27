@@ -15,6 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LivreController extends AbstractController
 {
+
+    /**
+    * @Route("/fiche-livre/{url}", name="livre_fiche")
+    */
+    public function ficheLivre(Livre $livre) {
+        return $this->render("livre/fiche.html.twig", compact("livre"));
+    }
+
+
+    /********************************************************************************************************** */
+    /********************************************************************************************************** */
+    /********************************************************************************************************** */
     /**
      * @Route("/livre", name="livre")
      * 
@@ -156,7 +168,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/fiche/{id}", name="livre_fiche", requirements={"id"="\d+"})
+     * @Route("/livre/fiche/{id}", name="livre_fiche2", requirements={"id"="\d+"})
      */
     public function fiche(LivreRepository $lr, $id)
     {
@@ -168,12 +180,12 @@ class LivreController extends AbstractController
     }
 
     /**
-     * Comme les routes commençant par "/livre" ne sont autorisés que pour les admins, 
+     * COURS : Comme les routes commençant par "/livre" ne sont autorisés que pour les admins, 
      * on peut écrire cette route dans le même contrôleur en la faisant commencer par 
      * autre chose
-     * Rappel : si le paramètre récupérer dans l'URL correspond à une propriété d'une entité,
-     *          on peut passer en paramètre de la méthode un objet entité qui sera récupéré selon
-     *          la valeur de cette propriété
+     * Rappel : si le paramètre récupéré dans l'URL correspond à une propriété d'une entité (id, titre, ...),
+     *          on peut passer en paramètre de la fonction un objet entité qui sera récupéré selon
+     *          la valeur de cette propriété (SELECT * FROM livre WHERE id = {id} )
      * 
      * @Route("/afficher/livre/{id}", name="livre_afficher", requirements={"id"="\d+"})
      */
