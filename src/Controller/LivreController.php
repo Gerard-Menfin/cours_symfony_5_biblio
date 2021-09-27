@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Livre;
+use App\Entity\Emprunt;
 use App\Form\LivreType;
 use App\Repository\LivreRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,14 +16,32 @@ use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @Route("/livre", name="livre_")
+ */
 class LivreController extends AbstractController
 {
 
     /**
-    * @Route("/fiche-livre/{url}", name="livre_fiche")
-    */
+     * @Route("/fiche/{url}", name="fiche")
+     */
     public function ficheLivre(Livre $livre) {
         return $this->render("livre/fiche.html.twig", compact("livre"));
+    }
+
+    /**
+     * @Route("/emprunter/{id}", name="emprunter", requirements={"id"="\d+"})
+     */
+    public function emprunter(EntityManagerInterface $em, Livre $livre)
+    {
+        $emprunt = new Emprunt;
+        $emprunt->setAbonne( $this->getUser() );
+        $emprunt->setDateEmprunt( new DateTime() );
+        $emprunt->setLivre( $livre );
+        $em->persist( $emprunt );
+        $em->flush();
+        $this->addFlash("success", "Votre emprunt du livre <strong>" . $livre->getTitre() . "</strong> a été enregistré");
+        return $this->redirectToRoute("espace");
     }
 
 

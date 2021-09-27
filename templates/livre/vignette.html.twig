@@ -24,5 +24,11 @@
                 Emprunter
             </a>
         {% endif %} #}
-    </div>
+        {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
+            <a href="{{ path("livre_emprunter", {"id": livre.id}) }}" class="card-link">
+                <i class="fa fa-cart-arrow-down"></i> Emprunter
+            </a>
+
+        {% endif %}
+        </div>
 </div>

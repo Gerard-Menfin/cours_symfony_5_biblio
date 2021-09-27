@@ -10,8 +10,8 @@
 		<ul class="navbar-nav mr-auto">
 			{% if app.user %}
 				{# si app.user est 'vrai', c'est qu'un utilisateur est connecté #}
-				<li class="nav-item {{ app.request.attributes.get("_route") == "profil" ? "active" : "" }}">
-					<a class="nav-link" href="{{ path("profil") }}">
+				<li class="nav-item {{ app.request.attributes.get("_route") == "espace" ? "active" : "" }}">
+					<a class="nav-link" href="{{ path("espace") }}">
 						<i class="fa fa-user"></i>
 						{{ app.user.username }}
 					</a>
