@@ -28,18 +28,18 @@
             {% include "_partiels/_menu.html.twig" %}
                 
             <div id="wrap">
-                <div class="mb-5" id="main">
 
-                    {# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
-                        qui est une variable globale de Twig, et 
-                        qui contient plusieurs informations concernant le projet. 
-                    'app' est un objet #}
-                    {% for type, messages in app.flashes %}
-                        {% for msg in messages %}
-                            <div class="alert alert-{{ type }}">{{ msg }}</div>
-                        {% endfor %}
+                {# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
+                    qui est une variable globale de Twig, et 
+                    qui contient plusieurs informations concernant le projet. 
+                'app' est un objet #}
+                {% for type, messages in app.flashes %}
+                    {% for msg in messages %}
+                        <div class="alert alert-{{ type }}">{{ msg|raw }}</div>
                     {% endfor %}
+                {% endfor %}
 
+                <div class="mb-5" id="main">
                     <h1 class="mt-1 mb-3">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
 
                     {% block body %}
