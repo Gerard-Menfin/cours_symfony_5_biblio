@@ -203,4 +203,10 @@ class Livre
         $this->dispo = $dispo;
     }
 
+    /*********************************************************************************************/
+    public function __toString()
+    {
+        return ucfirst( $this->getTitre() ) . " - " . strtoupper( $this->getAuteur() );
+    }
+
 }
