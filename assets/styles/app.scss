@@ -12,15 +12,17 @@ $white: #eee;
 
 html {
     background-color: $white;
-    height: 100%;
 }
 
 body {
     background-color: $gris_clair;
     // annuler le padding de .container
-    padding-inline: 0 !important;
-}
+    // padding-inline: 0 !important;
 
+    background-image: url("../images/bibpublique_stokholm.png");
+    background-size: cover;
+    height: 100vh;
+}
 // html, body {
 //     height: 100%;
 // }

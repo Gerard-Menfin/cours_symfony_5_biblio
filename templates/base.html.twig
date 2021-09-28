@@ -23,51 +23,53 @@
         path("app_register")                    : retourne URL relatif selon une route
     #}
 
-	<body class="container">
-        {% include "_partiels/_menu.html.twig" %}
-            
-		<div id="wrap">
-			<div class="mb-5" id="main">
+    <body>
+        <div class="container">
+            {% include "_partiels/_menu.html.twig" %}
+                
+            <div id="wrap">
+                <div class="mb-5" id="main">
 
-				{# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
-                    qui est une variable globale de Twig, et 
-                    qui contient plusieurs informations concernant le projet. 
-                  'app' est un objet #}
-				{% for type, messages in app.flashes %}
-					{% for msg in messages %}
-						<div class="alert alert-{{ type }}">{{ msg }}</div>
-					{% endfor %}
-				{% endfor %}
+                    {# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
+                        qui est une variable globale de Twig, et 
+                        qui contient plusieurs informations concernant le projet. 
+                    'app' est un objet #}
+                    {% for type, messages in app.flashes %}
+                        {% for msg in messages %}
+                            <div class="alert alert-{{ type }}">{{ msg }}</div>
+                        {% endfor %}
+                    {% endfor %}
 
-				<h1 class="mt-1 mb-3">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
+                    <h1 class="mt-1 mb-3">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
 
-				{% block body %}
-					<p>
-						Lien vers la route test-titre
-						{# La fonction 'path' retourne l'URL la route dont le name est passée en argument #}
-						<a href="{{ path("test_titre") }}">Test titre</a>
-					</p>
+                    {% block body %}
+                        <p>
+                            Lien vers la route test-titre
+                            {# La fonction 'path' retourne l'URL la route dont le name est passée en argument #}
+                            <a href="{{ path("test_titre") }}">Test titre</a>
+                        </p>
 
-					Lien vers la route boucle
-					<a href="{{ path("test_boucle") }}">Test boucle</a>
+                        Lien vers la route boucle
+                        <a href="{{ path("test_boucle") }}">Test boucle</a>
 
-					<p>
-						Lien vers la route boucle 13
-						{# Pour générer une route paramétrée avec 'path', il faut fournir une valeur à 
-						                        ce paramètre. Cette valeur doit être passé en utilisant la syntaxe json :
-						                                { nomDuParametre: valeurDuParametre, ... }
-						                    #}
-						<a href="{{ path('test_param', { taille: 13 }) }}">
-							boucle de 1 à 13</a>
-					</p>
+                        <p>
+                            Lien vers la route boucle 13
+                            {# Pour générer une route paramétrée avec 'path', il faut fournir une valeur à 
+                                                    ce paramètre. Cette valeur doit être passé en utilisant la syntaxe json :
+                                                            { nomDuParametre: valeurDuParametre, ... }
+                                                #}
+                            <a href="{{ path('test_param', { taille: 13 }) }}">
+                                boucle de 1 à 13</a>
+                        </p>
 
 
-					contenu du block body de accueil/index
-				{% endblock %}
-			</div>
-		</div>
-        <footer class="container">Ceci est le footer</footer>
-	</body>
+                        contenu du block body de accueil/index
+                    {% endblock %}
+                </div>
+            </div>
+            <footer class="container">Ceci est le footer</footer>
+        </div>
+    </body>
 </html>
 
 {# balise twig pour les commentaires 
