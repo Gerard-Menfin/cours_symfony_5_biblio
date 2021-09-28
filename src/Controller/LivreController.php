@@ -17,20 +17,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/livre", name="livre_")
+ * @Route("/livre", name="livre")
  */
 class LivreController extends AbstractController
 {
 
     /**
-     * @Route("/fiche/{url}", name="fiche")
+     * @Route("/fiche/{url}", name="_fiche")
      */
     public function ficheLivre(Livre $livre) {
         return $this->render("livre/fiche.html.twig", compact("livre"));
     }
 
     /**
-     * @Route("/emprunter/{id}", name="emprunter", requirements={"id"="\d+"})
+     * @Route("/emprunter/{id}", name="_emprunter", requirements={"id"="\d+"})
      */
     public function emprunter(EntityManagerInterface $em, Livre $livre)
     {
@@ -49,7 +49,7 @@ class LivreController extends AbstractController
     /********************************************************************************************************** */
     /********************************************************************************************************** */
     /**
-     * @Route("/livre", name="livre")
+     * @Route("/livre", name="")
      * 
      * Pour pouvoir utiliser certaines classes qu'on ne peut pas instancier directement, on va utiliser
      * 'linjection de dépendance : l'objet est passé comme paramètre d'une méthode d'un contrôleur
@@ -66,7 +66,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/ajouter", name="livre_ajouter")
+     * @Route("/livre/ajouter", name="_ajouter")
      * 
      * La classe Request permet de gérer tout ce qui vient d'une requête HTTP
      * Comme pour la classe Repository, on doit l'utiliser en injection de dépendance.
@@ -105,7 +105,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/modifier/{id}", name="livre_modifier", requirements={"id"="[0-9]+"})
+     * @Route("/livre/modifier/{id}", name="_modifier", requirements={"id"="[0-9]+"})
      */
     public function modifier(Request $request, LivreRepository $lr, EntityManager $em, $id)
     {
@@ -129,7 +129,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/supprimer/{id}", name="livre_supprimer", requirements={"id"="\d+"})
+     * @Route("/livre/supprimer/{id}", name="_supprimer", requirements={"id"="\d+"})
      */
     public function supprimer(LivreRepository $lr, EntityManager $em, $id)
     {
@@ -151,7 +151,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/nouveau", name="livre_nouveau")
+     * @Route("/livre/nouveau", name="_nouveau")
      */
     public function nouveau(Request $request, EntityManager $em)
     {
@@ -172,7 +172,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/editer/{id}", name="livre_editer", requirements={"id"="\d+"})
+     * @Route("/livre/editer/{id}", name="_editer", requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function editer(Request $request, EntityManager $em, LivreRepository $lr, $id)
@@ -189,7 +189,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/fiche/{id}", name="livre_fiche2", requirements={"id"="\d+"})
+     * @Route("/livre/fiche/{id}", name="_fiche2", requirements={"id"="\d+"})
      */
     public function fiche(LivreRepository $lr, $id)
     {
@@ -208,7 +208,7 @@ class LivreController extends AbstractController
      *          on peut passer en paramètre de la fonction un objet entité qui sera récupéré selon
      *          la valeur de cette propriété (SELECT * FROM livre WHERE id = {id} )
      * 
-     * @Route("/afficher/livre/{id}", name="livre_afficher", requirements={"id"="\d+"})
+     * @Route("/afficher/livre/{id}", name="_afficher", requirements={"id"="\d+"})
      */
      public function afficher(Livre $livre)
      {

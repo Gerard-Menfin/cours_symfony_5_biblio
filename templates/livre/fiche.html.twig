@@ -5,55 +5,68 @@
 {% block titre %}Fiche du livre n°{{ livre.id }}{% endblock %}
 
 {% block body %}
-    <ul class="list-group ">
-        <li class="list-group-item">
-            <h2 class="row">
-                <strong class="col-2 text-right">Titre :  </strong>
-                <span class="col-10">{{ livre.titre }}</span>
-            </h2>
-        </li>
-        
-        <li class="list-group-item">
-            <h3 class="row">
-                <strong class="col-2 text-right">Auteur : </strong>
-                <span class="col-10">{{ livre.auteur }}</span>
-            </h3>
-        </li>
-        
-        <li class="list-group-item">
-            <h4 class="row">
-                <strong class="col-2 text-right">Catégories : </strong>
-                {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
-                <span class="col-10">
-                    {% for categorie in livre.categories %}
-                        {{ categorie.titre ~ (loop.last ? "" : ", ") }}
-                    {% endfor %}
-                    {# On peut aussi utiliser la fonction getToutescategories ajoutée dans l'entité Categorie #}
-                    {# {{ livre.toutesCategories }}  #}
-                </span>
-            </h4>
-        </li>
+    <div class="row">
+        <div class="col-3">
+            {{ livre.couverture|img("couvertures")|raw }}
+        </div>
+        <div class="col-9">
+            <ul class="list-group ">
+                <li class="list-group-item">
+                    <h2 class="row">
+                        <strong class="col-3 text-right">Titre</strong>
+                        <span class="col-9  d-flex justify-content-between align-items-center" >
+                            {{ livre.titre }}
 
-        <li class="list-group-item">
-            <h5 class="row">
-                <strong class="col-2 text-right">Disponible : </strong>
-                <span class="col-10">
-                    <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span>
-                 </span>
-            </h5>
-        </li>
+                            <!-- <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span> -->
+                            <span class="badge badge-primary badge-pill"> <i class="fa fa-{{ livre.dispo ? "check" : "times" }}"></i> </span>
+                        </span>
 
-        <li class="list-group-item">
-            <h6 class="row">
-                <strong class="col-2 text-right">Popularité : </strong>
-                <span class="col-10"> 
-                    <span class="badge badge-primary badge-pill">Emprunté {{ livre.emprunts|length }} fois </span>
-                      
-                </span>
-            </h6>
-        </li>
-        <li class="list-group-item"></li>
-    </ul> 
+                    </h2>
+                </li>
+                
+                <li class="list-group-item">
+                    <h3 class="row">
+                        <strong class="col-3 text-right">Auteur</strong>
+                        <span class="col-9">{{ livre.auteur }}</span>
+                    </h3>
+                </li>
+                
+                <li class="list-group-item">
+                    <h4 class="row">
+                        <strong class="col-3 text-right">Catégories</strong>
+                        {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
+                        <span class="col-9">
+                            {% for categorie in livre.categories %}
+                                {{ categorie.titre ~ (loop.last ? "" : ", ") }}
+                            {% endfor %}
+                            {# On peut aussi utiliser la fonction getToutescategories ajoutée dans l'entité Categorie #}
+                            {# {{ livre.toutesCategories }}  #}
+                        </span>
+                    </h4>
+                </li>
+
+                <li class="list-group-item">
+                    <h5 class="row">
+                        <strong class="col-3 text-right">Disponible</strong>
+                        <span class="col-9">
+                            <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span>
+                        </span>
+                    </h5>
+                </li>
+
+                <li class="list-group-item">
+                    <h6 class="row">
+                        <strong class="col-3 text-right">Popularité</strong>
+                        <span class="col-9"> 
+                            <span class="badge badge-primary badge-pill">Emprunté {{ livre.emprunts|length }} fois </span>
+                            
+                        </span>
+                    </h6>
+                </li>
+                <li class="list-group-item"></li>
+            </ul> 
+        </div>
+    </div>
     
 
     <a href="{{ path("accueil") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
