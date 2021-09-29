@@ -21,8 +21,8 @@ class EmpruntFixtures extends Fixture implements DependentFixtureInterface
             $livre = "livre_" . rand(0, 19);
             $debut = rand(2000, 2020) . "-" . rand(1, 12) . "-" . rand(1, 31);
             $sortie = new DateTime( $debut );
-            $retour = rand(0, 1) ? $sortie->add(new DateInterval("P10D")) : null;
-            $retour = $retour ? clone $retour : null;
+            $retour =clone $sortie;
+            $retour = rand(0, 1) ? $retour->add(new DateInterval("P10D")) : null;
             $emprunt = new Emprunt;
             $emprunt->setDateEmprunt( $sortie );
             $emprunt->setDateRetour( $retour );
