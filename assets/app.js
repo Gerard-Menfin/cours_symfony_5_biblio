@@ -19,7 +19,6 @@ require("bootstrap");
 
 $(function(){
     console.log("%c chargement js 0.1", 'background: #222; color: #bada55');
-    
     if( $("html").prop("clientHeight") < $("body > .container").prop("clientHeight") ) {
         $("html").css("height", $("body>.container").prop("clientHeight"));
     }

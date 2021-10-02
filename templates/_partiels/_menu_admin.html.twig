@@ -1,0 +1,109 @@
+{% set chemin = app.request.attributes.get("_route") %}
+
+<nav class="nav navbar-expand flex-md-column navbar-dark bg-dark flex-row align-items-start">
+	<div class="collapse navbar-collapse">
+		<ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+			
+			<li class="nav-item ">
+				<a class="nav-link" href="">GESTION</a>
+			</li>
+
+			{# <li class="nav-item {{ app.request.pathinfo == path("gestion") ? " active" : " " }}">
+				<a class="nav-link" href="{{ path("gestion") }}">GESTION</a>
+			</li>
+ 			#}
+
+			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+				<a class="nav-link {{ chemin starts with "abonne" ? " active" : " " }}" href="#menu-abonnes"  data-toggle="collapse" >
+					Abonnés
+				</a>
+				<ul id="menu-abonnes" class="collapse {{ chemin starts with "abonne" ? "show" : " " }}">
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "abonne_index" ? " active" : " " }}" href="{{ path("abonne_index") }}">
+							<i class="fa fa-list-alt"></i>
+							Liste
+						</a>
+					</li>
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "abonne_new" ? " active" : " " }}" href="{{ path("abonne_new") }}">
+							<i class="fa fa-plus-square"></i>
+							Ajouter
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+				<a class="nav-link {{ chemin starts with "admin_livre" ? " active" : " " }}" href="#menu-livres" data-toggle="collapse">
+					Livres
+				</a>
+				<ul id="menu-livres" class="collapse {{ chemin starts with "admin_livre" ? "show" : " " }}">
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "admin_livre_index" ? " active" : " " }}" href="{{ path("admin_livre_index") }}">
+							<i class="fa fa-list-alt"></i>
+							Liste
+						</a>
+					</li>
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "admin_livre_new" ? " active" : " " }}" href="{{ path("admin_livre_new") }}">
+							<i class="fa fa-plus-square"></i>
+							Ajouter
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+				<a class="nav-link {{ chemin starts with "admin_categorie" ? " active" : " " }}" href="#menu-categories" data-toggle="collapse">
+					Catégories
+				</a>
+				<ul id="menu-categories" class="collapse  {{ chemin starts with "admin_categorie" ? "show" : " " }}">
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "admin_categorie_index" ? " active" : " " }}" href="{{ path("admin_categorie_index") }}">
+							<i class="fa fa-list-alt"></i>
+							Liste
+						</a>
+					</li>
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "admin_categorie_new" ? " active" : " " }}" href="{{ path("admin_categorie_new") }}">
+							<i class="fa fa-plus-square"></i>
+							Ajouter
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+				<a class="nav-link {{ chemin starts with "emprunt" ? " active" : " " }}" href="#menu-emprunts" data-toggle="collapse">
+					Emprunts
+				</a>
+				<ul id="menu-emprunts" class="collapse {{ chemin starts with "emprunt" ? "show" : " " }}">
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "emprunt_index" ? " active" : " " }}" href="{{ path("emprunt_index") }}">
+							<i class="fa fa-list-alt"></i>
+							Liste
+						</a>
+					</li>
+					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+						<a class="nav-link {{ chemin == "emprunt_new" ? " active" : " " }}" href="{{ path("emprunt_new") }}">
+							<i class="fa fa-plus-square"></i>
+							Ajouter
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link">
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path("app_logout") }}">
+					<i class="fa fa-sign-out-alt"></i> Déconnexion
+				</a>
+			</li>
+
+		</ul>
+	</div>
+</nav>

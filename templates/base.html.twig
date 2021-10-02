@@ -25,20 +25,14 @@
 
     <body>
         <div class="container">
-            {% include "_partiels/_menu.html.twig" %}
+            {% block menu %}
+                {% include "_partiels/_menu.html.twig" %}
                 
-            <div id="wrap">
+            {% endblock %}
+                
+            <div id="wrap" class="right-aside">
 
-                {# Affichage des messages flash. Pour accéder aux messages, on utilise la variable 'app' 
-                    qui est une variable globale de Twig, et 
-                    qui contient plusieurs informations concernant le projet. 
-                    'app' est un objet #}
-                {% for type, messages in app.flashes %}
-                    {% for msg in messages %}
-                        <div class="alert alert-{{ type }}">{{ msg|raw }}</div>
-                    {% endfor %}
-                {% endfor %}
-
+                {% include "_partiels/_messages.html.twig" %}
                 <div class="mb-5" id="main">
                     <h1 class="mt-1 mb-3">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
 
@@ -67,7 +61,8 @@
                     {% endblock %}
                 </div>
             </div>
-            <footer class="container">Ceci est le footer</footer>
+            {# <footer class="container">Ceci est le footer</footer> #}
+            {% include "_partiels/_footer.html.twig" %}
         </div>
     </body>
 </html>
