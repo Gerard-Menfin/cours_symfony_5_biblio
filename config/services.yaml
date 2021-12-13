@@ -39,3 +39,6 @@ services:
     # App\EventListener\LivreListener:
     #     tags: [doctrine.orm.entity_listener]
             # - { name: doctrine.event_listener , event: oc.lifecyle }
+
+    # Twig ?
+    Twig\Extra\Intl\IntlExtension: null

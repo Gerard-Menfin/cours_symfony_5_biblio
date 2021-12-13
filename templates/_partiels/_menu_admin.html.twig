@@ -19,13 +19,13 @@
 				</a>
 				<ul id="menu-abonnes" class="collapse {{ chemin starts with "abonne" ? "show" : " " }}">
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ chemin == "abonne_index" ? " active" : " " }}" href="{{ path("abonne_index") }}">
+						<a class="nav-link {{ chemin == "admin_abonne_index" ? " active" : " " }}" href="{{ path("admin_abonne_index") }}">
 							<i class="fa fa-list-alt"></i>
 							Liste
 						</a>
 					</li>
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ chemin == "abonne_new" ? " active" : " " }}" href="{{ path("abonne_new") }}">
+						<a class="nav-link {{ chemin == "admin_abonne_new" ? " active" : " " }}" href="{{ path("admin_abonne_new") }}">
 							<i class="fa fa-plus-square"></i>
 							Ajouter
 						</a>
@@ -34,18 +34,18 @@
 			</li>
 
 			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-				<a class="nav-link {{ chemin starts with "admin_livre" ? " active" : " " }}" href="#menu-livres" data-toggle="collapse">
+				<a class="nav-link {{ chemin starts with "admin/livre" ? " active" : " " }}" href="#menu-livres" data-toggle="collapse">
 					Livres
 				</a>
-				<ul id="menu-livres" class="collapse {{ chemin starts with "admin_livre" ? "show" : " " }}">
+				<ul id="menu-livres" class="collapse {{ chemin starts with "admin/livre" ? "show" : " " }}">
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ chemin == "admin_livre_index" ? " active" : " " }}" href="{{ path("admin_livre_index") }}">
+						<a class="nav-link {{ chemin == "admin/livre_index" ? " active" : " " }}" href="{{ path("admin/livre_index") }}">
 							<i class="fa fa-list-alt"></i>
 							Liste
 						</a>
 					</li>
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ chemin == "admin_livre_new" ? " active" : " " }}" href="{{ path("admin_livre_new") }}">
+						<a class="nav-link {{ chemin == "admin/livre_new" ? " active" : " " }}" href="{{ path("admin/livre_new") }}">
 							<i class="fa fa-plus-square"></i>
 							Ajouter
 						</a>
@@ -54,18 +54,18 @@
 			</li>
 
 			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-				<a class="nav-link {{ chemin starts with "admin_categorie" ? " active" : " " }}" href="#menu-categories" data-toggle="collapse">
+				<a class="nav-link {{ chemin starts with "admin/categorie" ? " active" : " " }}" href="#menu-categories" data-toggle="collapse">
 					Catégories
 				</a>
-				<ul id="menu-categories" class="collapse  {{ chemin starts with "admin_categorie" ? "show" : " " }}">
+				<ul id="menu-categories" class="collapse  {{ chemin starts with "admin/categorie" ? "show" : " " }}">
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ chemin == "admin_categorie_index" ? " active" : " " }}" href="{{ path("admin_categorie_index") }}">
+						<a class="nav-link {{ chemin == "admin/categorie_index" ? " active" : " " }}" href="{{ path("admin/categorie_index") }}">
 							<i class="fa fa-list-alt"></i>
 							Liste
 						</a>
 					</li>
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ chemin == "admin_categorie_new" ? " active" : " " }}" href="{{ path("admin_categorie_new") }}">
+						<a class="nav-link {{ chemin == "admin/categorie_new" ? " active" : " " }}" href="{{ path("admin/categorie_new") }}">
 							<i class="fa fa-plus-square"></i>
 							Ajouter
 						</a>

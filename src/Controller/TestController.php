@@ -6,6 +6,7 @@ use stdClass;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class TestController extends AbstractController
 {
@@ -75,6 +76,7 @@ class TestController extends AbstractController
      */
     public function titre()
     {
+        throw $this->createNotFoundException('The product does not exist');
         return $this->render("test/titre.html.twig");
     }
 
@@ -127,4 +129,14 @@ class TestController extends AbstractController
 
         return $this->render("test/variable.html.twig", [ "variable" => $objet ]);
     }
+    
+    /**
+    * @Route("/test/erreur", name="test_erreur")
+    */
+    public function erreur() {
+        throw new \Exception("Error Processing Request", 1);
+        
+    }
+
+
 }

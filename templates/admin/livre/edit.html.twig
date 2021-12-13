@@ -1,0 +1,21 @@
+{% extends 'gestion.html.twig' %}
+
+{% block title %}Modifier Livre{% endblock %}
+
+{% block titre %}Modifier un Livre{% endblock %}
+
+{% block body %}
+
+    {{ include('admin/livre/_form.html.twig', {'button_label': 'Actualiser'}) }}
+
+
+    <hr>
+    <a href="{{ path('admin/livre_index') }}" class="btn btn-warning ">
+        <i class="fa fa-reply"></i>
+        Annuler
+    </a>
+
+	<span class="float-right">
+	    {{ include('admin/livre/_delete_form.html.twig') }}
+    </span>
+{% endblock %}

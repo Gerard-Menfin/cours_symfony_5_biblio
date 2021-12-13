@@ -37,17 +37,17 @@
 				</li>
 			{% endif %}
 
-			{% if is_granted("ROLE_ADMIN") %}
-				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Abonnés", liens: {"Liste": "abonne_index", "Ajouter": "abonne_new" }} ) }}
+			{# {% if is_granted("ROLE_ADMIN") %}
+				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Abonnés", liens: {"Liste": "admin_abonne_index", "Ajouter": "admin_abonne_new" }} ) }}
 				{{ include("_partiels/_lien_deroulant_menu.html.twig", { 
 					libelle: "Livres", 
 					liens: {
 						"Admin":			"",
 						"divider1": 		"",
-						"Liste": 			"admin_livre_index", 
-						"Ajouter": 			"admin_livre_new",
+						"Liste": 			"admin/livre_index", 
+						"Ajouter": 			"admin/livre_new",
 						"divider2": 		"",
-						"Ajouter (cat)": 	"admin_livre_new_cat",
+						"Ajouter (cat)": 	"admin/livre_new_cat",
 						"divider3": 		"",
 						"Livre Controller":	"",
 						"divider4": 		"",
@@ -57,10 +57,10 @@
 					}} ) }}
 				{% include "_partiels/_lien_deroulant_menu.html.twig" with {
 					libelle: "Catégories",
-					liens:  {"Liste": "admin_categorie_index", "Ajouter": "admin_categorie_new" }
+					liens:  {"Liste": "admin/categorie_index", "Ajouter": "admin/categorie_new" }
 				} %}
 			{% endif %}
-
+ #}
 			{% if is_granted("ROLE_BIBLIO") %} {# is_granted permet de vérifier si l'utilisateur connecté à le rôle demandé #}
 				{{ include("_partiels/_lien_deroulant_menu.html.twig", { libelle: "Emprunts", liens: {"Liste": "emprunt_index", "Ajouter": "emprunt_new" }} ) }}
 			{% endif %}

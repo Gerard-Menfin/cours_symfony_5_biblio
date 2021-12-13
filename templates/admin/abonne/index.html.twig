@@ -1,0 +1,62 @@
+{% extends 'gestion.html.twig' %}
+
+{% block title %}Liste Abonnes{% endblock %}
+
+{% block titre %}Liste des Abonnes{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Pseudo</th>
+                <th>Prénom Nom</th>
+                <th>Niveau</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for abonne in abonnes %}
+                <tr>
+                    <td>{{ abonne.id }}</td>
+                    <td>{{ abonne.pseudo }}</td>
+                    <td>{{ abonne.prenom ~ " " ~ abonne.nom }}</td>
+                    <td>
+                        {# EXO : affichez tous les roles de l'abonné mais 
+                            au lieu de ROLE_ADMIN,           affichez Directeur
+                            au lieu de ROLE_LECTEUR,         affichez Lecteur
+                                        ROLE_BIBLIO, affichez Bibliothécaire
+                                        ROLE_DEV                      Développeur
+
+                            Rappel : la propriété roles est un Array
+                        #}
+                        {# {{ abonne.roles ? abonne.roles|json_encode : '' }} #}
+                        {% for role in abonne.roles %}
+                            {% if role == "ROLE_ADMIN" %}
+                                Directeur
+                            {% elseif role == "ROLE_LECTEUR" %}
+                                Lecteur
+                            {% elseif role == "ROLE_BIBLIO" %}
+                                Bibliothécaire
+                            {% elseif role == "ROLE_DEV" %}
+                                Développeur
+                            {% endif %}
+                        {% endfor %}
+
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_abonne_show', {'id': abonne.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a href="{{ path('admin_abonne_edit', {'id': abonne.id}) }}"><i class="fa fa-edit"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Auncun abonné inscrit</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_abonne_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>
+{% endblock %}

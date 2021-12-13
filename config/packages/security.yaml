@@ -44,4 +44,4 @@ security:
         ROLE_ADMIN: ROLE_BIBLIO, ROLE_LECTEUR
 
     # Redirection Access Denied (error 403)
-    access_denied_url: /
+    # access_denied_url: /

@@ -23,7 +23,7 @@ class LivreController extends AbstractController
 {
 
     /**
-     * @Route("/fiche/{url}", name="_fiche")
+     * @Route("/fiche/{url}", name="_fiche2")
      */
     public function ficheLivre(Livre $livre) {
         return $this->render("livre/fiche.html.twig", compact("livre"));
@@ -189,7 +189,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/fiche/{id}", name="_fiche2", requirements={"id"="\d+"})
+     * @Route("/livre/fiche/{id}", name="_fiche", requirements={"id"="\d+"})
      */
     public function fiche(LivreRepository $lr, $id)
     {

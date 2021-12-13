@@ -27,9 +27,9 @@ class Livre
     private $titre;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $auteur;
+    private $resume;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -41,14 +41,18 @@ class Livre
      */
     private $url;
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="livres")
+     */
+    private $genres;
 
     /**
-     * COURS : pour que le formulaire Livre qui utilise un formulaire Categorie enregistre des nouvelles 
-     *          catégories en même temps qu'un nouveau livre
-     * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="livres",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Auteur::class, inversedBy="livres")
      */
-    private $categories;
+    private $auteur;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="livre", orphanRemoval=true)
@@ -58,7 +62,7 @@ class Livre
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
-        $this->categories = new ArrayCollection();
+      
     }
 
     public function getId(): ?int
@@ -78,17 +82,43 @@ class Livre
         return $this;
     }
 
-    public function getAuteur(): ?string
+    public function getAuteur(): ?Auteur
     {
         return $this->auteur;
     }
 
-    public function setAuteur(string $auteur): self
+    public function setAuteur(?Auteur $auteur): self
     {
         $this->auteur = $auteur;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Genre[]
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): self
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres[] = $genre;
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): self
+    {
+        $this->genres->removeElement($genre);
+
+        return $this;
+    }
+
+
 
     /**
      * @return Collection|Emprunt[]
@@ -121,29 +151,6 @@ class Livre
     }
 
 
-    /**
-     * @return Collection|Categorie[]
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Categorie $category): self
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Categorie $category): self
-    {
-        $this->categories->removeElement($category);
-
-        return $this;
-    }
 
     public function getCouverture(): ?string
     {
@@ -157,16 +164,23 @@ class Livre
         return $this;
     }
 
-    /* Modifications qui ne modifieront pas la bdd (pas d'annotations) */
-    public function getToutesCategories()
+    /**
+     * Retourne la liste des genres liés au livre sous forme de string
+     */
+    public function getStringGenres(): string
     {
+        $genres = $this->genres;
         $resultat = "";
-        foreach ($this->categories as $categorie ) {
-            $resultat .= $resultat ? ", " : ""; // COURS : si $resultat n'est pas vide, concaténation de ", " 
-            $resultat .= ucfirst($categorie->getTitre());
+        foreach($genres as $genre){
+            if( $resultat != ""){
+                $resultat .= ", ";  //💬 si $resultat n'est pas une string vide, je concatène une virgule à $resultat
+            }
+            $resultat .= $genre->getLibelle();
         }
         return $resultat;
     }
+
+
 
     public function getUrl(): ?string
     {
@@ -194,6 +208,7 @@ class Livre
     */
     private $dispo;
 
+
     public function getDispo()
     {
         return $this->dispo;
@@ -206,7 +221,10 @@ class Livre
     /*********************************************************************************************/
     public function __toString()
     {
-        return ucfirst( $this->getTitre() ) . " - " . strtoupper( $this->getAuteur() );
+        return ucfirst( $this->getTitre() ) . " - " . strtoupper( $this->getAuteur()->getIdentite() );
     }
+    
+    
+    /*********************************************************************************************/
 
 }

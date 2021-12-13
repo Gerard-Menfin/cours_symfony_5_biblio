@@ -10,13 +10,13 @@
         <div class="col-8">
             <div class="card-body">
                 <p class="card-text">De : {{ livre.auteur }}</p>
-                <p class="card-text">Genre : {{ livre.toutescategories }}</p>
+                {# <p class="card-text">Genre : {{ livre.toutescategories }}</p> #}
             </div>
         </div>
     </div>
     
     <div class="card-footer">
-        <a href="{{ path("livre_fiche", {url: livre.url}) }}" class="card-link"> 
+        <a href="{{ path("livre_fiche", {id: livre.id}) }}" class="card-link"> 
             <i class="fa fa-book"></i> Voir plus 
         </a>
 

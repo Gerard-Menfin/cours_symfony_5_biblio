@@ -38,7 +38,8 @@ class AbonneType extends AbstractType
                 "label"     => "Niveau d'accès"
             ])
             ->add('password', PasswordType::class, [
-                "mapped" => false
+                "mapped" => false,
+                "label"  => "Mot de passe"
             ])
             ->add('nom')
             ->add('prenom')
