@@ -11,6 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * TODO : utiliser les Repository => récupérer les id après le flush (? persist)
+ */
 class EmpruntFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
@@ -21,7 +24,7 @@ class EmpruntFixtures extends Fixture implements DependentFixtureInterface
             $livre = "livre_" . rand(0, 19);
             $debut = rand(2000, 2020) . "-" . rand(1, 12) . "-" . rand(1, 31);
             $sortie = new DateTime( $debut );
-            $retour =clone $sortie;
+            $retour = clone $sortie;
             $retour = rand(0, 1) ? $retour->add(new DateInterval("P10D")) : null;
             $emprunt = new Emprunt;
             $emprunt->setDateEmprunt( $sortie );

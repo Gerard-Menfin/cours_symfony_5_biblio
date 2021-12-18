@@ -167,7 +167,7 @@ class Livre
     /**
      * Retourne la liste des genres liés au livre sous forme de string
      */
-    public function getStringGenres(): string
+    public function getCategories(): string
     {
         $genres = $this->genres;
         $resultat = "";

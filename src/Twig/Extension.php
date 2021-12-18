@@ -26,36 +26,36 @@ class Extension extends AbstractExtension {
      */
     public function autorisations(array $roles): string
     {
-        $texte = "";
+        $autorisations = "";
         foreach ($this->roles as $role ) {
-            $texte .= $texte ? ", " : "";
+            $autorisations .= $autorisations ? ", " : "";
             switch ($role) {
                 case 'ROLE_ADMIN':
-                    $texte .= "Directeur";
+                    $autorisations .= "Directeur";
                     break;
                 
                 case 'ROLE_BIBLIO':
-                    $texte .= "Bibliothécaire";
+                    $autorisations .= "Bibliothécaire";
                     break;
                 
                 case 'ROLE_LECTEUR':
-                    $texte .= "Lecteur";
+                    $autorisations .= "Lecteur";
                     break;
                 
                 case 'ROLE_USER':
-                    $texte .= "Abonné";
+                    $autorisations .= "Abonné";
                     break;
 
                 case 'ROLE_DEV':
-                    $texte .= "Développeur";
+                    $autorisations .= "Développeur";
                     break;
                 
                 default:
-                    $texte .= "Autre";
+                    $autorisations .= "Autre";
                     break;
             }
         }
-        return $texte;
+        return $autorisations;
     }
 
     /**

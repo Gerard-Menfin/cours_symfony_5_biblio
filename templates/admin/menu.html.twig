@@ -47,18 +47,18 @@
 			</li>
 			</li>
 			<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-				<a class="nav-link {{ app.request.pathinfo == path("emprunt_index") ? " active" : " " }}" href="{{ path("emprunt_index") }}">
+				<a class="nav-link {{ app.request.pathinfo == path("admin_emprunt_index") ? " active" : " " }}" href="{{ path("admin_emprunt_index") }}">
 					Emprunts
 				</a>
 				<ul>
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ app.request.pathinfo == path("emprunt_index") ? " active" : " " }}" href="{{ path("emprunt_index") }}">
+						<a class="nav-link {{ app.request.pathinfo == path("admin_emprunt_index") ? " active" : " " }}" href="{{ path("admin_emprunt_index") }}">
 							<i class="fa fa-list-alt"></i>
 							Liste
 						</a>
 					</li>
 					<li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-						<a class="nav-link {{ app.request.pathinfo == path("emprunt_new") ? " active" : " " }}" href="{{ path("emprunt_new") }}">
+						<a class="nav-link {{ app.request.pathinfo == path("admin_emprunt_new") ? " active" : " " }}" href="{{ path("admin_emprunt_new") }}">
 							<i class="fa fa-plus-square"></i>
 							Ajouter
 						</a>
@@ -99,7 +99,7 @@
 		          <a class="nav-link" href="{{ path("livre_index") }}"></a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link" href="{{ path("emprunt_index") }}"></a>
+		          <a class="nav-link" href="{{ path("admin_emprunt_index") }}"></a>
 		        </li>
 		
 		      {% endif %}

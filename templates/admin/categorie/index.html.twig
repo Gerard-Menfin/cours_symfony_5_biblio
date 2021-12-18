@@ -24,8 +24,8 @@
                 <td>{{ categorie.mots }}</td>
                 <td>{{ categorie.livres|length }}</td>
                 <td>
-                    <a href="{{ path('admin/categorie_show', {'id': categorie.id}) }}"><i class="fa fa-eye"></i></a>
-                    <a href="{{ path('admin/categorie_edit', {'id': categorie.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a href="{{ path('admin_categorie_show', {'id': categorie.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('admin_categorie_edit', {'id': categorie.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}

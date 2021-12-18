@@ -32,6 +32,30 @@
                 <th>Nom</th>
                 <td>{{ abonne.nom }}</td>
             </tr>
+            <tr>
+                <th>Emprunts</th>
+                <td>
+                    <table class="table table-bordered table-primary table-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Livre</th>
+                                <th>Emprunté le</th>
+                                <th>Rendu le</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for emprunt in abonne.emprunts %}
+                                <tr>
+                                    <td>{{ emprunt.livre.titre }} - {{ emprunt.livre.auteur.identite }}</td>
+                                    <td>{{ emprunt.dateEmprunt|date() }}</td>
+                                    <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date() : "-" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
         </tbody>
     </table>
 

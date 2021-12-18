@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Abonne;
 use App\Form\AbonneType;
@@ -13,21 +13,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface as Encoder;
 
 /**
- * COURS : si @Route est avant la classe, il s'applique à toutes les routes de la classe
+ * COURS : si Route est avant la classe, il s'applique à toutes les routes de la classe
  *          ex : toutes les routes commenceront par '/admin/abonne'
  * je peux utiliser 
- * @IsGranted("ROLE_ADMIN") pour limiter toutes les routes de ce controleur
+ * IsGranted("ROLE_ADMIN") pour limiter toutes les routes de ce controleur
  * 
  * @Route("/admin/abonne", name="admin_")
  */
-class AdminAbonneController extends AbstractController
+class AbonneController extends AbstractController
 {
     /**
      * @Route("/", name="abonne_index", methods={"GET"})
      */
     public function index(AbonneRepository $abonneRepository): Response
     {
-        return $this->render('abonne/index.html.twig', [
+        return $this->render('admin/abonne/index.html.twig', [
             'abonnes' => $abonneRepository->findAll(),
         ]);
     }
@@ -56,7 +56,7 @@ class AdminAbonneController extends AbstractController
             return $this->redirectToRoute('admin_abonne_index');
         }
 
-        return $this->render('abonne/new.html.twig', [
+        return $this->render('admin/abonne/new.html.twig', [
             'abonne' => $abonne,
             'form' => $form->createView(),
         ]);
@@ -67,7 +67,7 @@ class AdminAbonneController extends AbstractController
      */
     public function show(Abonne $abonne): Response
     {
-        return $this->render('abonne/show.html.twig', [
+        return $this->render('admin/abonne/show.html.twig', [
             'abonne' => $abonne,
         ]);
     }
@@ -90,7 +90,7 @@ class AdminAbonneController extends AbstractController
             return $this->redirectToRoute('admin_abonne_index');
         }
 
-        return $this->render('abonne/edit.html.twig', [
+        return $this->render('admin/abonne/edit.html.twig', [
             'abonne' => $abonne,
             'form' => $form->createView(),
         ]);

@@ -3,14 +3,14 @@
 
     <div class="row  couverture">
         <div class="col-4 d-flex align-items-center">
-            <!-- <img class="card-img p-1 miniature" src="{{ chemin_couvertures ~ livre.couverture }}" alt="pas de couverture"> -->
-            {{ livre.couverture|img("couvertures", "card-img p-1 miniature", "pas de couverture")|raw }}
+            <img class="card-img p-1 miniature" src="{{ chemin_couvertures ~ livre.couverture }}" alt="pas de couverture">
+            {# {{ livre.couverture|img("couvertures", "card-img p-1 miniature", "pas de couverture")|raw }} #}
         </div>
 
         <div class="col-8">
             <div class="card-body">
-                <p class="card-text">De : {{ livre.auteur }}</p>
-                {# <p class="card-text">Genre : {{ livre.toutescategories }}</p> #}
+                <p class="card-text">De : {{ livre.auteur ? livre.auteur.identite : "" }}</p>
+                <p class="card-text">Genre : {{ livre.categories }}</p>
             </div>
         </div>
     </div>
@@ -25,11 +25,11 @@
                 Emprunter
             </a>
         {% endif %} #}
-        {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
+        {# {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
             <a href="{{ path("livre_emprunter", {"id": livre.id}) }}" class="card-link">
                 <i class="fa fa-cart-arrow-down"></i> Emprunter
             </a>
 
-        {% endif %}
+        {% endif %} #}
         </div>
 </div>
