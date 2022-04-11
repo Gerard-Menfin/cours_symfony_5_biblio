@@ -9,6 +9,7 @@
         <th>Titre</th>
         <th>Auteur</th>
         <th>Catégorie(s)</th>
+        <th>Résumé</th>
         <th>Dispo</th>
         <th>Actions</th>
     </thead>
@@ -20,11 +21,13 @@
                 <td>{{ livre.titre }}</td>
                 <td>{{ livre.auteur }}</td>
                 <td>
-                    {# COURS : La variable permet d'avoir des informations sur les itérations #}
-                    {% for categorie in livre.categories %}
-                        {{ categorie.titre ~ (loop.last ? "" : ", ") }}
+                    {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
+                    
+                    {% for genre in livre.genres %}
+                        {{ genre.titre ~ (loop.last ? "" : ", ") }}
                     {% endfor %}                
                 </td>
+                <td>{{ livre.resume|slice(0, 10) }}...</td>
                 <td>{{ livre.dispo ? "✔" : "❌" }}</td>
                 <td>
                     <a href="{{ path("livre_fiche", { id: livre.id }) }}" class="btn btn-secondary">📘</a>

@@ -72,6 +72,13 @@ class TestController extends AbstractController
     }
 
     /**
+     * Pour générer l'affichage, on utilise la méthode render
+     *    1e argument : le fichier vue que l'on veut afficher
+     *                  le nom du fichier est donné à partir du dossier "templates"
+     *    2e argument : un array qui contient les variables nécéssaires à la vue
+     *                  Les indices de cet array correspondent aux noms des variables
+     *                  dans le fichier twig
+     * 
      * @Route("/affiche-titre", name="test_titre")
      */
     public function titre()

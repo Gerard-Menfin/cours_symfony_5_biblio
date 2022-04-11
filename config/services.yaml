@@ -6,7 +6,7 @@
 parameters:
     # COURS : ajouter un paramètre équivalent d'une constante dans le projet
     dossier_images: '%kernel.project_dir%/public/img/'
-    dossier_couvertures: '%kernel.project_dir%/public/img/couvertures'
+    dossier_couvertures: '%kernel.project_dir%/public/img/couvertures/'
     chemin_images: "/img/"
 
 services:
@@ -21,7 +21,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            # - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 

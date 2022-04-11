@@ -1,4 +1,8 @@
 {% set chemin = app.request.attributes.get("_route") %}
+{{ include('vue.html.twig') }}
+
+{# avec paramètres envoyés à la vue #}
+{{ include('vue.html.twig', { variable: "valeur" }) }}
 
 <nav class="nav navbar-expand flex-md-column navbar-dark bg-dark flex-row align-items-start">
 	<div class="collapse navbar-collapse">

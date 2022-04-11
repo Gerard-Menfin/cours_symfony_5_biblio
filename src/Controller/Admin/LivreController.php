@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Cocur\Slugify\Slugify;
-
+use Knp\Component\Pager\PaginatorInterface as Paginator;
 /**
  * @Route("/admin/livre")
  */
@@ -21,10 +21,11 @@ class LivreController extends AbstractController
     /**
      * @Route("/liste", name="admin_livre_index", methods={"GET"})
      */
-    public function index(LivreRepository $livreRepository): Response
+    public function index(LivreRepository $lr, Paginator $paginator, Request $rq): Response
     {
+        $nombreParPage = 10;
         return $this->render('admin/livre/index.html.twig', [
-            'livres' => $livreRepository->findAll(),
+            'livres' => $paginator->paginate($lr->findAll(), $rq->query->get("page", 1 ), $nombreParPage),
         ]);
     }
 

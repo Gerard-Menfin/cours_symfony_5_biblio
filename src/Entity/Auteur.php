@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\AuteurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AuteurRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AuteurRepository::class)
  */
 class Auteur
 {
+    private $em;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -39,8 +42,9 @@ class Auteur
      */
     private $livres;
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $em)
     {
+        $this->em = $em;
         $this->livres = new ArrayCollection();
     }
 

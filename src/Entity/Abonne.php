@@ -7,13 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AbonneRepository::class)
  * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo est déjà utilisé")
  */
-class Abonne implements UserInterface
+class Abonne implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -49,6 +50,11 @@ class Abonne implements UserInterface
     private $prenom;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $adresse;
+
+    /**
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="abonne", orphanRemoval=true)
      */
     private $emprunts;
@@ -79,6 +85,14 @@ class Abonne implements UserInterface
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
     public function getUsername(): string
     {
@@ -162,6 +176,19 @@ class Abonne implements UserInterface
 
         return $this;
     }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection|Emprunt[]

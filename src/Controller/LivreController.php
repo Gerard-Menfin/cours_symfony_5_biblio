@@ -23,13 +23,6 @@ class LivreController extends AbstractController
 {
 
     /**
-     * @Route("/fiche/{url}", name="_fiche2")
-     */
-    public function ficheLivre(Livre $livre) {
-        return $this->render("livre/fiche.html.twig", compact("livre"));
-    }
-
-    /**
      * @Route("/emprunter/{id}", name="_emprunter", requirements={"id"="\d+"})
      */
     public function emprunter(EntityManagerInterface $em, Livre $livre)
@@ -42,6 +35,13 @@ class LivreController extends AbstractController
         $em->flush();
         $this->addFlash("success", "Votre emprunt du livre <strong>" . $livre->getTitre() . "</strong> a été enregistré");
         return $this->redirectToRoute("espace");
+    }
+
+    /**
+     * @Route("/fiche/{url}", name="_fiche2")
+     */
+    public function ficheLivre(Livre $livre) {
+        return $this->render("livre/fiche.html.twig", compact("livre"));
     }
 
 
@@ -76,7 +76,7 @@ class LivreController extends AbstractController
      *  la propriété request contient $_POST
      * 
      * Cet objet a aussi des méthodes, par exemple
-     *  isMethod permet de savoir si on est en méthode GET ou POST
+     *      isMethod() permet de savoir si on est en méthode GET ou POST
      * 
      */
     public function ajouter(Request $request, EntityManager $em)

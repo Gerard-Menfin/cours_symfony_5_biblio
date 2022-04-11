@@ -68,13 +68,21 @@ class Extension extends AbstractExtension {
         if($dossier && substr($dossier, -1) != "/"){
             $dossier .= "/";    // 🎶 ajoute un "/" en fin de $dossier s'il n'y en a pas déjà
         }
-        $src =  $this->parametres->get("chemin_images") . $dossier .  $nomImage;
+        if( file_exists($this->parametres->get("dossier_images") . $dossier . $nomImage) ) {
+            $src =  $this->parametres->get("chemin_images") . $dossier .  $nomImage;
+        } else {
+            $src = "";
+        }
         $alt = $alt ?: $nomImage;
         $balise = "<img src='$src' class='$classes' alt='$alt'>";
         // $balise = html_entity_decode($balise); // COURS obligatoire pour que twig accepte les balises HTML. ⚠ il faut utiliser 'raw'
         return $balise;
     }
 
+    public function exit()
+    {
+        exit;
+    }
     /**
      * Je référence le nouveau filtre grâce à la méthode getFilters()
      * Si je veux ajouter une fonction, j'utilise la méthode getFunctions() et
@@ -92,6 +100,7 @@ class Extension extends AbstractExtension {
     {
         return [
             new TwigFunction('balise_image', [$this, 'baliseImg']),
+            new TwigFunction('exit', [$this, 'exit']),
         ];
     }
 

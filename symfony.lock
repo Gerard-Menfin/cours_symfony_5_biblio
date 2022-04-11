@@ -103,6 +103,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.2"
+    },
     "knplabs/knp-components": {
         "version": "v3.5.0"
     },

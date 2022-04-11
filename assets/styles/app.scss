@@ -10,6 +10,12 @@ $white: #eee;
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "~bootstrap/scss/bootstrap";
 
+@for $i from 0 to 100 {
+    .w-#{$i}{
+      width: $i * 1%;
+    }
+}
+
 html {
     background-color: $white;
     /**/ height: 100vh;

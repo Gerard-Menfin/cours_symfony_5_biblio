@@ -15,6 +15,14 @@ class AbonneType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /* Dans Symfony, le rôle utilisateur sont des string, tout en majuscules, et 
+            doivent commencer par ROLE_
+            ⚠ : la propriété roles DOIT être de type array 
+        */
+
+        $abonne = $options["data"]; // $options["data"] permet de récupérer l'objet utilisé comme données du formulaire 
+                                    // c'est le 2ième argument de createForm(), utilisée dans le contrôleur
+
         $builder
             ->add("confirmation", CheckboxType::class, [
                 "mapped" => false
@@ -39,10 +47,15 @@ class AbonneType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 "mapped" => false,
-                "label"  => "Mot de passe"
+                ])
+                ->add('password', TextType::class, [
+                    "mapped"    => false,
+                    "required"  => $abonne->getId() ? false : true,
+                    "label"  => "Mot de passe"
             ])
-            ->add('nom')
             ->add('prenom')
+            ->add('nom')
+            ->add("adresse")
         ;
     }
 

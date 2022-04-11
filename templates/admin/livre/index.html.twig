@@ -1,51 +1,63 @@
 {% extends 'gestion.html.twig' %}
 
-{% block title %}Liste Livres{% endblock %}
+{% block title %}Liste des livres{% endblock %}
 
-{% block titre %}Liste des Livres{% endblock %}
+{% block titre %}Livres : {{ livres.getTotalItemCount }} <a href="{{ path('admin_livre_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>{% endblock %}
 
 {% block body %}
-
-    <table class="table">
-        <thead>
+    <table class="table table-bordered">
+        <thead class="thead-dark_">
             <tr>
-                <th>Id</th>
-                <th>Couverture</th>
-                <th>Titre</th>
-                <th>Auteur</th>
+                <th {% if livres.isSorted('id') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(livres, 'Id', 'id') }}
+                </th>
+                <th class="text-center">Couverture</th>
+                <th {% if livres.isSorted('titre') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(livres, 'Titre', 'titre') }}
+                </th>
+                <th {% if livres.isSorted('auteur') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(livres, 'Auteur', 'auteur') }}
+                </th>
                 <th>Catégorie(s)</th>
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
-        {% for livre in livres %}
-            <tr>
-                <td>{{ livre.id }} {{ livre.dispo ? "✔" : "❌" }}</td>
-                {# <td><img src="{{ asset(chemin_couvertures ~ livre.couverture) }}" alt="" class="vignette"></td> #}
-                <td>{{ livre.couverture|img("couvertures", "vignette")|raw }}</td>
-                <td>{{ livre.titre }}</td>
-                <td>{{ livre.auteur }}</td>
-                <td>
-                    {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
-                    {% for categorie in livre.categories %}
-                        {{ categorie.titre ~ (loop.last ? "" : ", ") }}
-                    {% endfor %}                
-                </td>
 
-                <td>
-                    <a href="{{ path('admin_livre_show', {'id': livre.id}) }}"><i class="fa fa-eye"></i></a>
-                    <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}"><i class="fa fa-edit"></i></a>
-                    {{ include('admin/livre/_delete_form.html.twig', {icone: true}) }}
-                    {# <a href="{{ path('admin_livre_edit_cat', {'id': livre.id}) }}"><i class="fa fa-pen-square"></i></a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">Auncun enregistrement</td>
-            </tr>
-        {% endfor %}
+        <tbody>
+            {% for livre in livres %}
+                <tr>
+                    <td>{{ livre.id }} {{ livre.dispo ? "✔" : "❌" }}</td>
+                    {# <td><img src="{{ asset(chemin_couvertures ~ livre.couverture) }}" alt="" class="vignette"></td> #}
+                    <td>{{ livre.couverture|img("couvertures", "vignette")|raw }}</td>
+                    <td>{{ livre.titre }}</td>
+                    <td>{{ livre.auteur.identite }}</td>
+                    <td>
+                        {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
+                        {% for categorie in livre.categories %}
+                            {{ categorie.titre ~ (loop.last ? "" : ", ") }}
+                        {% endfor %}                
+                    </td>
+
+                    <td class="d-flex justify-content-between">
+                        <a href="{{ path('admin_livre_show', {'id': livre.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}"><i class="fa fa-edit"></i></a>
+                        {{ include('admin/livre/_delete_form.html.twig', {icone: true}) }}
+                        {# <a href="{{ path('admin_livre_edit_cat', {'id': livre.id}) }}"><i class="fa fa-pen-square"></i></a> #}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Auncun enregistrement</td>
+                </tr>
+            {% endfor %}
         </tbody>
+
+        <tfoot class="thead-dark">
+            <tr>
+                <th colspan="6">{{ knp_pagination_render(livres, null, {}, {align: "center"}) }}</th>
+            </tr>
+        </tfoot>
     </table>
 
-    <a href="{{ path('admin_livre_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>
+    
 {% endblock %}
