@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GenreController extends AbstractController
 {
     /**
-     * @Route("/", name="admin_genre_index", methods={"GET"})
+     * @Route("/", name="app_admin_genre_index", methods={"GET"})
      */
     public function index(GenreRepository $genreRepository): Response
     {
@@ -26,20 +26,18 @@ class GenreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_genre_new", methods={"GET","POST"})
+     * @Route("/new", name="app_admin_genre_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, GenreRepository $gr): Response
     {
         $genre = new Genre();
         $form = $this->createForm(GenreType::class, $genre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($genre);
-            $entityManager->flush();
+            $gr->save($genre, true);
 
-            return $this->redirectToRoute('admin_genre_index');
+            return $this->redirectToRoute('app_admin_genre_index');
         }
 
         return $this->render('admin/genre/new.html.twig', [
@@ -49,7 +47,7 @@ class GenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_genre_show", methods={"GET"})
+     * @Route("/{id}", name="app_admin_genre_show", methods={"GET"})
      */
     public function show(Genre $genre): Response
     {
@@ -59,17 +57,17 @@ class GenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_genre_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="app_admin_genre_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Genre $genre): Response
+    public function edit(Request $request, Genre $genre, GenreRepository $gr): Response
     {
         $form = $this->createForm(GenreType::class, $genre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $gr->save($genre, true);
 
-            return $this->redirectToRoute('admin_genre_index');
+            return $this->redirectToRoute('app_admin_genre_index');
         }
 
         return $this->render('admin/genre/edit.html.twig', [
@@ -79,16 +77,14 @@ class GenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_genre_delete", methods={"POST"})
+     * @Route("/{id}", name="app_admin_genre_delete", methods={"POST"})
      */
-    public function delete(Request $request, Genre $genre): Response
+    public function delete(Request $request, Genre $genre, GenreRepository $gr): Response
     {
         if ($this->isCsrfTokenValid('delete'.$genre->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($genre);
-            $entityManager->flush();
+            $gr->remove($genre, true);
         }
 
-        return $this->redirectToRoute('admin_genre_index');
+        return $this->redirectToRoute('app_admin_genre_index');
     }
 }

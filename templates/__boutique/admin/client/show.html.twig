@@ -1,0 +1,107 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Client{% endblock %}
+
+{% block body %}
+    <h1>Client</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ client.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr>
+                <th>Autorisations</th>
+                <td>
+                    {% for role in client.roles %}
+                        {% if role == "ROLE_ADMIN" %}
+                            Administrateur
+                        {% elseif role == "ROLE_CLIENT" %}
+                            Client
+                        {% endif %}
+                    {% endfor %}                
+                </td>
+            </tr>
+            <tr>
+                <th>Mot de passe</th>
+                <td>*****</td>
+            </tr>
+            <tr>
+                <th>Civilité</th>
+                <td>
+                    {% if client.civilite == "m" %}
+                        M.
+                    {% elseif client.civilite == "f" %}
+                        Mme
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ client.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ client.nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ client.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Code Postal</th>
+                <td>{{ client.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ client.ville }}</td>
+            </tr>
+            <tr>
+                <th>Commandes</th>
+                <td>
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Numéro</th>
+                                <th>Date</th>
+                                <th>État</th>
+                                <th>Montant</th>
+                                <th>Nb de produits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for commande in client.commandes %}                                
+                                <tr>
+                                    <td>
+                                        <a href="{{ path("app_admin_commande_show", {id: commande.id}) }}">
+                                            {{ commande.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ commande.date|date("d/m/Y") }}</td>
+                                    <td>{{ commande.etat }}</td>
+                                    <td>{{ commande.montant }} €</td>
+                                    <td>{{ commande.details|length }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_client_index') }}"><i class="fa fa-reply"></i> Retour à la liste</a>
+
+    <a href="{{ path('app_admin_client_edit', {'id': client.id}) }}"><i class="fa fa-edit"></i></a>
+
+    {{ include('admin_client/_delete_form.html.twig') }}
+{% endblock %}

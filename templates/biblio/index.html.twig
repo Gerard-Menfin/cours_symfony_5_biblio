@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des emprunts{% endblock %}
+
+{% block titreH1 %}Biblio : Liste des emprunts{% endblock %}
+
+{% block body %}
+    {{ include("emprunt/_table.html.twig", {emprunts: tousLesEmprunts}) }}
+{% endblock %}

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=EmpruntRepository::class)
  */
-class Emprunt
+class Emprunt extends Entity
 {
     /**
      * @ORM\Id
@@ -38,6 +38,11 @@ class Emprunt
      * @ORM\JoinColumn(nullable=false)
      */
     private $abonne;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $date_prevue;
 
     public function getId(): ?int
     {
@@ -88,6 +93,18 @@ class Emprunt
     public function setAbonne(?Abonne $abonne): self
     {
         $this->abonne = $abonne;
+
+        return $this;
+    }
+
+    public function getDatePrevue(): ?\DateTimeInterface
+    {
+        return $this->date_prevue;
+    }
+
+    public function setDatePrevue(?\DateTimeInterface $date_prevue): self
+    {
+        $this->date_prevue = $date_prevue;
 
         return $this;
     }

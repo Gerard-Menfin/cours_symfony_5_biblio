@@ -30,9 +30,9 @@
                 <td>{{ livre.resume|slice(0, 10) }}...</td>
                 <td>{{ livre.dispo ? "✔" : "❌" }}</td>
                 <td>
-                    <a href="{{ path("livre_fiche", { id: livre.id }) }}" class="btn btn-secondary">📘</a>
-                    <a href="{{ path("livre_editer", { id: livre.id }) }}" class="btn btn-secondary">🖍</a>
-                    <a href="{{ path("livre_supprimer", { id: livre.id }) }}" class="btn btn-danger"
+                    <a href="{{ path("app_livre_fiche", { id: livre.id }) }}" class="btn btn-secondary">📘</a>
+                    <a href="{{ path("app_livre_editer", { id: livre.id }) }}" class="btn btn-secondary">🖍</a>
+                    <a href="{{ path("app_livre_supprimer", { id: livre.id }) }}" class="btn btn-danger"
                         onclick="return confirm('Confirmation de la suppression ?');" >🗑</a>
                 </td>
             </tr>

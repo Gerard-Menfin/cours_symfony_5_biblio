@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Auteur;
 use App\Entity\Livre;
-use App\Entity\Categorie;
-use App\Form\CategorieType;
+use App\Entity\Genre;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class Livre1Type extends AbstractType
 {
@@ -22,9 +21,9 @@ class Livre1Type extends AbstractType
     {
         $builder
             ->add('titre', TextType::class, [
-                "label" => "Titre du livre",
-                "required" => false,
-                "constraints" => [
+                "label"         => "Titre du livre",
+                "required"      => false,
+                "constraints"   => [
                     new NotBlank([
                         "message" => "Le titre ne peut pas être vide !"
                     ]),
@@ -36,26 +35,29 @@ class Livre1Type extends AbstractType
                     ])
                 ]
             ])
-            ->add('auteur', TextType::class, [
-                "help" => "Tapez le nom de l'auteur du livre"
+            ->add('auteur', EntityType::class, [
+                'class'         => Auteur::class,
+                "choice_label"  => "identite",
+                "placeholder"   => "Choisir parmi les auteurs enregistrés..."
             ])
             ->add('couverture', FileType::class,  [ 
-                "mapped" => false, "required" => false,
-                "constraints" => [ 
+                "mapped"        => false, 
+                "required"      => false,
+                "constraints"   => [ 
                     new File([ 
                                 "mimeTypes" => [  "image/gif", "image/jpeg", "image/png" ],
                                 "mimeTypesMessage" => "Les formats autorisés sont gif, jpeg, png",
                                 "maxSize" => "2048k",
                                 "maxSizeMessage" => "Le fichier ne peut pas faire plus de 2Mo"
                     ])
-                ]
+                ],
+                "help" => ""
             ])
-            ->add('categories', EntityType::class, [
-                'class'         => Categorie::class,
-                "choice_label"  => "titre",
+            ->add('genres', EntityType::class, [
+                'class'         => Genre::class,
+                "choice_label"  => "libelle",
                 'multiple'      => true,
                 'expanded'      => true,
-                'label' => "Catégories"
             ])
 
         ;

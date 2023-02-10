@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <h1>Mon panier</h1>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th colspan="3">Mon panier</th>
+                <th>
+                    <a href="{{ path("app_panier_vider") }}" title="Vider le panier">
+                        <i class="fa fa-cart-arrow-down"></i>
+                    </a>
+                </th>
+            </tr>
+
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Qté</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% set total = 0 %}
+            {% for ligne in panier %}
+                <tr>
+                    <td>{{ ligne.produit.titre }}</td>
+                    <td>{{ ligne.produit.prix  }}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-2">{{ ligne.quantite }}</div>
+                            <div class="col-6"></div>
+                            <div class="col-4">
+                                <form action="{{ path("app_panier_ajouter", {id: ligne.produit.id}) }}" class="mt-2 form-inline">
+                                    <input type="number" name="quantite" value="-1" min="-{{ ligne.quantite }}" max="-1" class="form-control col-7">
+                                    <button type="submit" class="btn btn-info col-4"><i class="fa fa-cart-plus"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        
+                    </td>
+                    <td>
+                        {{ ligne.produit.prix * ligne.quantite }}
+                        <a href="{{ path("app_panier_supprimer", {id: ligne.produit.id}) }}" class="float-right text-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% set total = total + ligne.produit.prix * ligne.quantite %}
+            {% else %}
+                <tr>
+                    <td colspan="4">Il n'y a aucun produit dans le panier</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+        <tfoot class="thead-dark">
+            <tr>
+                <th colspan="3">Total</th>
+                <td>
+                    {{ total }} €
+                    <a href="{{ path("app_panier_valider") }}" class="float-right">
+                        <i class="fa fa-cash-register"></i>
+                    </a>    
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+{% endblock %}

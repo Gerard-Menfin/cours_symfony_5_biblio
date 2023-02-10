@@ -11,9 +11,10 @@ import './styles/app.scss'; /* _________________________________________________
                             /* ________________________________________________________________ */
 
 // start the Stimulus application
+// import './bootstrap';
+
 const $ = require('jquery');
 global.$ = global.jquery = $;
-// import './bootstrap';
 require("bootstrap");
 
 
@@ -24,3 +25,26 @@ $(function(){
     }
 });
 
+
+$(function(){
+    $(".frm-ajouter-panier").on("submit", function(evtSubmit){
+        evtSubmit.preventDefault();  // empêche l'action par défaut de l'évènement
+        console.log("formulaire soumis");
+        $.ajax({
+            url: $(this).prop("action"),
+            method: "get",
+            dataType: "json",
+            data: { qte: $(this).find("[name='qte']").val() },
+            success: function(donnees){
+                if( donnees ) {
+                    alert("produit ajouté au panier");
+                }
+            },
+            error: function(jqXHR, status, error){
+                alert("Erreur AJAX : " + status + ", " + error);
+            }
+        });
+    });
+
+    // alert("dév de la branche front");
+})

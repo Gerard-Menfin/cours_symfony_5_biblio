@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass=LivreRepository::class)
  * @ORM\EntityListeners({LivreListener::class})
  */
-class Livre
+class Livre extends Entity
 {
     /**
      * @ORM\Id
@@ -97,7 +97,7 @@ class Livre
     /**
      * @return Collection|Genre[]
      */
-    public function getGenres(): Collection
+    public function getGenres(): ?Collection
     {
         return $this->genres;
     }
@@ -106,6 +106,7 @@ class Livre
     {
         if (!$this->genres->contains($genre)) {
             $this->genres[] = $genre;
+            // $this->genres->add($genre);
         }
 
         return $this;
@@ -165,13 +166,12 @@ class Livre
     }
 
     /**
-     * Retourne la liste des genres liés au livre sous forme de string
+     * Retourne la liste des categories liés au livre sous forme de string
      */
-    public function getCategories(): string
+    public function getGenre(): string
     {
-        $genres = $this->genres;
         $resultat = "";
-        foreach($genres as $genre){
+        foreach($this->genres as $genre){
             if( $resultat != ""){
                 $resultat .= ", ";  //💬 si $resultat n'est pas une string vide, je concatène une virgule à $resultat
             }
@@ -194,14 +194,15 @@ class Livre
         return $this;
     }
 
-    /* Dans la bdd, le seul moyen de savoir si un livre est indisponible 
+    /** 
+        Dans la bdd, le seul moyen de savoir si un livre est indisponible 
         c'est en regardant les enregistrements de la table Emprunt dont la
         date_retour est null. 
         Je vais rajouter une propriété à la classe Livre, mais cette propriété
-        ne  crééra pas de champ dans la base de donnée (=pas d'annotations)
+        ne  créera pas de champ dans la base de donnée (= pas d'annotations)
 
         Pour affecter une valeur à cette propriété, je vais utiliser la méthode
-        LivreRepository::findLivresSortis mais je ne peux pas instancier une classe Repository
+        LivreRepository::findLivresSortis mais je ne peux pas instancier une classe Repository,
         il faut utiliser l'injection de dépendance dans un contrôleur.
         Alors, je vais utiliser la technique des écouteurs d'évènements
         cf : App/EventListener/LivreListener
@@ -227,4 +228,24 @@ class Livre
     
     /*********************************************************************************************/
 
+
+    /**
+     * Get the value of resume
+     */ 
+    public function getResume()
+    {
+        return $this->resume;
+    }
+
+    /**
+     * Set the value of resume
+     *
+     * @return  self
+     */ 
+    public function setResume($resume)
+    {
+        $this->resume = $resume;
+
+        return $this;
+    }
 }

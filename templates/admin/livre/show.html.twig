@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Fiche Livre{% endblock %}
 
@@ -25,12 +25,16 @@
             </tr>
             <tr>
                 <th>Auteur</th>
-                <td>{{ livre.auteur }}</td>
+                <td>{{ livre.auteur.identite }}</td>
             </tr>
             <tr>
-                <th>Catégories</th>
-                {# la fonction getToutesCategories a été ajoutée à la classe Entity\Livre #}
-                <td>{{ livre.toutescategories }}</td>
+                <th>Genres</th>
+                {# la fonction getGenre a été ajoutée à la classe Entity\Livre #}
+                <td>{{ livre.genre }}</td>
+            </tr>
+            <tr>
+                <th>Résumé</th>
+                <td>{{ livre.resume }}</td>
             </tr>
             <tr>
                 <th>Disponibilité</th>
@@ -46,7 +50,7 @@
                 <th>Emprunts</th>
                 <td>
                     <table class="table table-bordered table-primary table-sm">
-                        <thead class="thead-dark">
+                        <thead class="table-dark">
                             <tr>
                                 <th>Abonné</th>
                                 <th>Emprunté le</th>
@@ -68,11 +72,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin/livre_index') }}" class="btn btn-warning">
+    <a href="{{ path('app_admin_livre_index') }}" class="btn btn-warning">
 <i class="fa fa-reply"></i> Retour liste
 </a>
 
-    <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Modifier</a>
+    <a href="{{ path('app_admin_livre_edit', {'id': livre.id}) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Modifier</a>
 
 	<span class="float-right">
 	    {{ include('admin/livre/_delete_form.html.twig') }}

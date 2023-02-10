@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Modifier Livre{% endblock %}
 
@@ -10,7 +10,7 @@
 
 
     <hr>
-    <a href="{{ path('admin/livre_index') }}" class="btn btn-warning ">
+    <a href="{{ path('app_admin_livre_index') }}" class="btn btn-warning ">
         <i class="fa fa-reply"></i>
         Annuler
     </a>

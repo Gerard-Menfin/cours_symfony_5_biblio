@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Ajouter Emprunt{% endblock %}
 
@@ -6,10 +6,10 @@
 
 {% block body %}
 
-    {{ include('emprunt/_form.html.twig') }}
+    {{ include('admin/emprunt/_form.html.twig') }}
 
 	<hr>
-	<a href="{{ path('admin_emprunt_index') }}" class="btn btn-warning">
+	<a href="{{ path('app_admin_emprunt_index') }}" class="btn btn-warning">
 <i class="fa fa-reply"></i> Annuler
 </a>
 {% endblock %}

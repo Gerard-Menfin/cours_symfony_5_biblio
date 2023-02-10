@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\String\Slugger\AsciiSlugger;
 /**
- * @Route("/livre", name="livre")
+ * @Route("/livre", name="app_livre")
  */
 class LivreController extends AbstractController
 {
@@ -34,7 +34,7 @@ class LivreController extends AbstractController
         $em->persist( $emprunt );
         $em->flush();
         $this->addFlash("success", "Votre emprunt du livre <strong>" . $livre->getTitre() . "</strong> a été enregistré");
-        return $this->redirectToRoute("espace");
+        return $this->redirectToRoute("app_espace");
     }
 
     /**
@@ -49,12 +49,12 @@ class LivreController extends AbstractController
     /********************************************************************************************************** */
     /********************************************************************************************************** */
     /**
-     * @Route("/livre", name="")
+     * @Route("/cours", name="")
      * 
-     * Pour pouvoir utiliser certaines classes qu'on ne peut pas instancier directement, on va utiliser
-     * 'linjection de dépendance : l'objet est passé comme paramètre d'une méthode d'un contrôleur
-     * Dans l'exemple, on veut utiliser un objet de la classe LivreRepository, on déclare un paramètre de cette classe
-     * dans la méthode index
+     * ? Pour pouvoir utiliser certaines classes qu'on ne peut pas instancier directement, on va utiliser
+     * ? l'injection de dépendance : l'objet est passé comme paramètre d'une méthode d'un contrôleur
+     * ? Dans l'exemple, on veut utiliser un objet de la classe LivreRepository, on déclare un paramètre de cette classe
+     * ? dans la méthode index
      */
     public function index(LivreRepository $livreRepository): Response
     {
@@ -66,17 +66,17 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/ajouter", name="_ajouter")
+     * @Route("/cours/ajouter", name="_ajouter")
      * 
-     * La classe Request permet de gérer tout ce qui vient d'une requête HTTP
-     * Comme pour la classe Repository, on doit l'utiliser en injection de dépendance.
-     * L'objet $request a des propriétés qui contiennent toutes les valeurs des variables
-     * super-globales de PHP. Par exemple : 
-     *  la propriété query   contient $_GET
-     *  la propriété request contient $_POST
+     * ? La classe Request permet de gérer tout ce qui vient d'une requête HTTP
+     * ? Comme pour la classe Repository, on doit l'utiliser en injection de dépendance.
+     * ? L'objet $request a des propriétés qui contiennent toutes les valeurs des variables
+     * ? super-globales de PHP. Par exemple : 
+     * ?  la propriété query   contient $_GET
+     * ?  la propriété request contient $_POST
      * 
-     * Cet objet a aussi des méthodes, par exemple
-     *      isMethod() permet de savoir si on est en méthode GET ou POST
+     * ? Cet objet a aussi des méthodes, par exemple
+     * ?      isMethod() permet de savoir si on est en méthode GET ou POST
      * 
      */
     public function ajouter(Request $request, EntityManager $em)
@@ -91,21 +91,21 @@ class LivreController extends AbstractController
             if( !empty($titre) && !empty($auteur) ){
                 $livre = new Livre;
                 $livre->setTitre($titre);
-                $livre->setAuteur($auteur);
+                // $livre->setAuteur($auteur);
                 /* La méthode EntityManager::persist prépare et met en attente la requête INSERT INTO à partir
                     des valeurs de l'objet passé en paramètre */
                 $em->persist($livre);
                 /* La méthode EntityManager::flush exécute les requêtes en attente.
                     Après le 'flush' la base de données est modifiée  */
                 $em->flush();
-                return $this->redirectToRoute("livre");
+                return $this->redirectToRoute("app_livre");
             }
         }
         return $this->render("livre/formulaire.html.twig");
     }
 
     /**
-     * @Route("/livre/modifier/{id}", name="_modifier", requirements={"id"="[0-9]+"})
+     * @Route("/cours/modifier/{id}", name="_modifier", requirements={"id"="[0-9]+"})
      */
     public function modifier(Request $request, LivreRepository $lr, EntityManager $em, $id)
     {
@@ -116,12 +116,12 @@ class LivreController extends AbstractController
                $auteur = $request->request->get("auteur");
                if( !empty($titre) && !empty($auteur) ){
                    $livre->setTitre($titre);
-                   $livre->setAuteur($auteur);
+                //    $livre->setAuteur($auteur);
                    /* Pas besoin d'utiliser persist pour un objet Entity dont l'id n'est pas null,
                       l'entityManager enregistre automatiquement les modifications en bdd
                    */
                    $em->flush();
-                   return $this->redirectToRoute("livre");
+                   return $this->redirectToRoute("app_livre");
                }
            }
            return $this->render("livre/formulaire.html.twig", [ "livre" => $livre ]);
@@ -129,7 +129,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/supprimer/{id}", name="_supprimer", requirements={"id"="\d+"})
+     * @Route("/cours/supprimer/{id}", name="_supprimer", requirements={"id"="\d+"})
      */
     public function supprimer(LivreRepository $lr, EntityManager $em, $id)
     {
@@ -147,11 +147,11 @@ class LivreController extends AbstractController
             // $this->addFlash("danger", "Autre message d'erreur");
             // $this->addFlash("info", "message d'info");
         }
-        return $this->redirectToRoute("livre");
+        return $this->redirectToRoute("app_livre");
     }
 
     /**
-     * @Route("/livre/nouveau", name="_nouveau")
+     * @Route("/cours/nouveau", name="_nouveau")
      */
     public function nouveau(Request $request, EntityManager $em)
     {
@@ -166,13 +166,13 @@ class LivreController extends AbstractController
             $em->persist($livre);
             $em->flush();
             $this->addFlash("success", "Le nouveau livre a été enregistré");
-            return $this->redirectToRoute("livre");
+            return $this->redirectToRoute("app_livre");
         }
         return $this->render("livre/nouveau.html.twig", [ "formLivre" => $form->createView() ]);
     }
 
     /**
-     * @Route("/livre/editer/{id}", name="_editer", requirements={"id"="\d+"})
+     * @Route("/cours/editer/{id}", name="_editer", requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function editer(Request $request, EntityManager $em, LivreRepository $lr, $id)
@@ -183,13 +183,13 @@ class LivreController extends AbstractController
         if( $form->isSubmitted() && $form->isValid() ){
             $em->flush();
             $this->addFlash("success", "Le livre n°$id a été modifié");
-            return $this->redirectToRoute("livre");
+            return $this->redirectToRoute("app_livre");
         }
         return $this->render("livre/nouveau.html.twig", [ "formLivre" => $form->createView() ]);
     }
 
     /**
-     * @Route("/livre/fiche/{id}", name="_fiche", requirements={"id"="\d+"})
+     * @Route("/cours/fiche/{id}", name="_fiche", requirements={"id"="\d+"})
      */
     public function fiche(LivreRepository $lr, $id)
     {
@@ -201,14 +201,11 @@ class LivreController extends AbstractController
     }
 
     /**
-     * COURS : Comme les routes commençant par "/livre" ne sont autorisés que pour les admins, 
-     * on peut écrire cette route dans le même contrôleur en la faisant commencer par 
-     * autre chose
-     * Rappel : si le paramètre récupéré dans l'URL correspond à une propriété d'une entité (id, titre, ...),
-     *          on peut passer en paramètre de la fonction un objet entité qui sera récupéré selon
-     *          la valeur de cette propriété (SELECT * FROM livre WHERE id = {id} )
+     * ? Rappel : si le paramètre récupéré dans l'URL correspond à une propriété d'une entité (id, titre, ...),
+     * ?          on peut passer en paramètre de la fonction un objet entité qui sera récupéré selon
+     * ?          la valeur de cette propriété (SELECT * FROM livre WHERE id = {id} )
      * 
-     * @Route("/afficher/livre/{id}", name="_afficher", requirements={"id"="\d+"})
+     * @Route("/afficher/{id}", name="_afficher", requirements={"id"="\d+"})
      */
      public function afficher(Livre $livre)
      {

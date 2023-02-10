@@ -5,20 +5,15 @@ namespace App\Controller\Admin;
 use App\Entity\Emprunt;
 use App\Form\EmpruntType;
 use App\Repository\EmpruntRepository;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/emprunt", name="admin_")
- */
+#[Route('/admin/emprunt')]
 class EmpruntController extends AbstractController
 {
-    /**
-     * @Route("/", name="emprunt_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_admin_emprunt_index', methods: ['GET'])]
     public function index(EmpruntRepository $empruntRepository): Response
     {
         return $this->render('admin/emprunt/index.html.twig', [
@@ -26,33 +21,30 @@ class EmpruntController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="emprunt_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
+    #[Route('/new', name: 'app_admin_emprunt_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EmpruntRepository $empruntRepository): Response
     {
         $emprunt = new Emprunt();
-        $emprunt->setDateEmprunt(new DateTime());
         $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($emprunt);
-            $entityManager->flush();
+            $dateEmprunt = clone $emprunt->getDateEmprunt();
+            $datePrevue = $dateEmprunt->add(new \DateInterval("P2W"));
+            $emprunt->setDatePrevue( $datePrevue );
+            
+            $empruntRepository->add($emprunt, true);
 
-            return $this->redirectToRoute('emprunt_index');
+            return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/emprunt/new.html.twig', [
+        return $this->renderForm('admin/emprunt/new.html.twig', [
             'emprunt' => $emprunt,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="emprunt_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_admin_emprunt_show', methods: ['GET'])]
     public function show(Emprunt $emprunt): Response
     {
         return $this->render('admin/emprunt/show.html.twig', [
@@ -60,37 +52,31 @@ class EmpruntController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="emprunt_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Emprunt $emprunt): Response
+    #[Route('/{id}/edit', name: 'app_admin_emprunt_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Emprunt $emprunt, EmpruntRepository $empruntRepository): Response
     {
         $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $empruntRepository->add($emprunt, true);
 
-            return $this->redirectToRoute('admin_emprunt_index');
+            return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/emprunt/edit.html.twig', [
+        return $this->renderForm('admin/emprunt/edit.html.twig', [
             'emprunt' => $emprunt,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="emprunt_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Emprunt $emprunt): Response
+    #[Route('/{id}', name: 'app_admin_emprunt_delete', methods: ['POST'])]
+    public function delete(Request $request, Emprunt $emprunt, EmpruntRepository $empruntRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$emprunt->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($emprunt);
-            $entityManager->flush();
+            $empruntRepository->remove($emprunt, true);
         }
 
-        return $this->redirectToRoute('admin_emprunt_index');
+        return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
     }
 }

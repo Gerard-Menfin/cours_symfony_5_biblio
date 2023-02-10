@@ -12,36 +12,47 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class RechercheController extends AbstractController
 {
     /**
-     * @Route("/recherche", name="recherche")
+     * @Route("/recherche", name="app_recherche")
      */
     public function index(Request $request, LivreRepository $lr): Response
     {
-        /* L'objet Request a des propriétés qui contiennent les valeurs de toutes les variables superglobales de PHP.
-            $_GET   : $request->query
-            $_POST  : $request->request
-            $_FILES : $request->files
-        
-          ces propriétés sont des objets qui ont les mêmes méthodes : get, has,...     */
-        // $motRecherche = $request->query->get("search");  // $motRecherche = $_GET["search"]
+        /*
+         ?  L'objet de la classe Request a des propriétés publiques de type objet qui contiennent toutes 
+         ?  les valeurs des variables superglobales de PHP.
+         ?       $request->query         contient        $_GET
+         ?       $request->request       contient        $_POST
+         ?       $request->files         contient        $_FILES
+         ?       $request->server        contient        $_SERVER
+         ?       $request->cookies       contient        $_COOKIES
+         ?       $request->session       contient        $_SESSION
+         ?   Ces différents objets ont des méthodes communes : get, has,...    
+         ?   La méthode get() permet de récupérer la valeur voulue.
+         ?   𝒆̲̅𝒙̲̅ : $motRecherche = $request->query->get("search");  
+         ?        $motRecherche = $_GET["search"]
+        */
 
         // version avec RechercheType
-        $form = $this->createForm(RechercheType::class);
-        $form->handleRequest($request);
-        if( $form->isSubmitted() && $form->isValid() ){
-            $motRecherche = $form->get("search")->getData();
+        // $form = $this->createForm(RechercheType::class);
+        // $form->handleRequest($request);
+        // if($request->isMethod("POST")) dd($form, $form->get("search")->getData());
+        // if( $form->isSubmitted() && $form->isValid() ){
+            // $motRecherche = $form->get("search")->getData();
+            $motRecherche = $request->query->get("search");
             return $this->render('recherche/index.html.twig', [
-                'livres' => $lr->findBySearch($motRecherche),
-                "mot" => $motRecherche
+                'livres'            => $lr->recherche($motRecherche),
+                "mot"               => $motRecherche,
+                // 'livresParGenres'   => $lr->rechercheGenres($motRecherche)
             ]);
-        } else {
-            $this->addFlash("danger", "Veuillez saisir le mot à rechercher");
-            return $this->redirectToRoute("home");
-        }
+        // } else {
+        //     $this->addFlash("danger", "Veuillez saisir le mot à rechercher");
+        //     return $this->redirectToRoute("app_accueil");
+        // }
 
     }
 
-    /**
-     * Cette méthode ne sert qu'à l'affichage du formulaire de recherche. Il n'est pas lié à une route
+    /*
+     ? Cette méthode ne sert qu'à l'affichage du formulaire de recherche. 
+     ? Elle n'est pas liée à une route.
      */
     public function formulaire()
     {

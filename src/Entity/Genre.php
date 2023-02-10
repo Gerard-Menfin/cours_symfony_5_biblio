@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=GenreRepository::class)
  */
-class Genre
+class Genre extends Entity
 {
     /**
      * @ORM\Id
@@ -94,4 +94,5 @@ class Genre
 
         return $this;
     }
+
 }

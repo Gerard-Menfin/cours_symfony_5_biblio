@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Emprunt[]    findAll()
  * @method Emprunt[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EmpruntRepository extends ServiceEntityRepository
+class EmpruntRepository extends Depot
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -27,7 +27,7 @@ class EmpruntRepository extends ServiceEntityRepository
             ->join("e.livre", "l")
             ->where('l.auteur = :val')
             ->setParameter('val', $auteur)
-            ->orderBy('e.date_sortie', 'ASC')
+            ->orderBy('e.date_emprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -39,7 +39,7 @@ class EmpruntRepository extends ServiceEntityRepository
             ->join("e.abonne", "a")
             ->where('a.pseudo = :val')
             ->setParameter('val', "Chloe")
-            ->orderBy('e.date_sortie', 'ASC')
+            ->orderBy('e.date_emprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -51,7 +51,7 @@ class EmpruntRepository extends ServiceEntityRepository
             ->join("e.abonne", "a")
             ->where('a.pseudo = :val')
             ->setParameter('val', $pseudo)
-            ->orderBy('e.date_sortie', 'ASC')
+            ->orderBy('e.date_emprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -60,8 +60,8 @@ class EmpruntRepository extends ServiceEntityRepository
     public function findByNonRendus()
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.date_rendu IS NULL')
-            ->orderBy('e.date_sortie', 'ASC')
+            ->andWhere('e.date_retour IS NULL')
+            ->orderBy('e.date_emprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;

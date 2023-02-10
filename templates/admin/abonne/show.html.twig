@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Fiche Abonné{% endblock %}
 
@@ -36,7 +36,7 @@
                 <th>Emprunts</th>
                 <td>
                     <table class="table table-bordered table-primary table-sm">
-                        <thead class="thead-dark">
+                        <thead class="table-dark">
                             <tr>
                                 <th>Livre</th>
                                 <th>Emprunté le</th>
@@ -59,11 +59,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_abonne_index') }}" class="btn btn-warning">
+    <a href="{{ path('app_admin_abonne_index') }}" class="btn btn-warning">
 <i class="fa fa-reply"></i> Retour liste
 </a>
 
-    <a href="{{ path('admin_abonne_edit', {'id': abonne.id}) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Modifier</a>
+    <a href="{{ path('app_admin_abonne_edit', {'id': abonne.id}) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Modifier</a>
 
 	<span class="float-right">
 	    {{ include('admin/abonne/_delete_form.html.twig') }}

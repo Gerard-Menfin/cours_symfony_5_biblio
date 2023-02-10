@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/auteur")
+ * @Route("/admin/auteur", name="app_")
  */
 class AuteurController extends AbstractController
 {
@@ -29,17 +29,16 @@ class AuteurController extends AbstractController
     /**
      * @Route("/new", name="admin_auteur_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, AuteurRepository $ar): Response
     {
         $auteur = new Auteur();
         $form = $this->createForm(AuteurType::class, $auteur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($auteur);
-            $entityManager->flush();
+            $ar->save($auteur, true);
 
-            return $this->redirectToRoute('admin_auteur_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/auteur/new.html.twig', [
@@ -61,15 +60,14 @@ class AuteurController extends AbstractController
     /**
      * @Route("/{id}/edit", name="admin_auteur_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Auteur $auteur, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Auteur $auteur, AuteurRepository $ar): Response
     {
         $form = $this->createForm(AuteurType::class, $auteur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_auteur_index', [], Response::HTTP_SEE_OTHER);
+            $ar->save($auteur, true);
+            return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/auteur/edit.html.twig', [
@@ -81,13 +79,12 @@ class AuteurController extends AbstractController
     /**
      * @Route("/{id}", name="admin_auteur_delete", methods={"POST"})
      */
-    public function delete(Request $request, Auteur $auteur, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Auteur $auteur, AuteurRepository $ar): Response
     {
         if ($this->isCsrfTokenValid('delete'.$auteur->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($auteur);
-            $entityManager->flush();
+            $ar->remove($auteur, true);
         }
 
-        return $this->redirectToRoute('admin_auteur_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Ajouter Categorie{% endblock %}
 
@@ -9,7 +9,7 @@
 	{{ include('admin/categorie/_form.html.twig') }}
 
 	<hr>
-	<a href="{{ path('admin/categorie_index') }}" class="btn btn-warning">
+	<a href="{{ path('app_admin/categorie_index') }}" class="btn btn-warning">
 		<i class="fa fa-reply"></i>
 		Annuler
 	</a>

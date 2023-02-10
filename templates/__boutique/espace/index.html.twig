@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Client{% endblock %}
+
+{% block body %}
+    <h2>Bienvenue {{ app.user.email }}, dans l'espace client</h2>
+
+    <h3>Informations</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th>Nom</th>
+            <td>{{ app.user.nom }}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ app.user.prenom }}</td>
+        </tr>
+        <tr>
+            <th>Commandes</th>
+            <td>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <th>Numéro</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>État</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for cmd in app.user.commandes %}
+                            <tr>
+                                <td>{{ cmd.id }}</td>
+                                <td>{{ cmd.date|date("d/m/Y H:i:s") }}</td>
+                                <td>{{ cmd.montant }} €</td>
+                                <td>{{ cmd.etat }}</td>
+                                <td>
+                                    <a href="{{ path("app_espace_detail_commande", {id: cmd.id}) }}" class="btn btn-primary">Détail</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">Aucune commande</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    
+    </table>
+
+{% endblock %}

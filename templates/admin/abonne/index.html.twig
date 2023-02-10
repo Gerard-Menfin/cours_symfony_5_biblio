@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Liste Abonnes{% endblock %}
 
@@ -7,13 +7,13 @@
 {% block body %}
 
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="table-dark">
             <tr>
                 <th>Id</th>
                 <th>Pseudo</th>
                 <th>Prénom Nom</th>
                 <th>Niveau</th>
-                <th>actions</th>
+                <th><i class="fa fa-tools"></i></th>
             </tr>
         </thead>
         <tbody>
@@ -46,8 +46,8 @@
 
                     </td>
                     <td>
-                        <a href="{{ path('admin_abonne_show', {'id': abonne.id}) }}"><i class="fa fa-eye"></i></a>
-                        <a href="{{ path('admin_abonne_edit', {'id': abonne.id}) }}"><i class="fa fa-edit"></i></a>
+                        <a href="{{ path('app_admin_abonne_show', {'id': abonne.id}) }}"><i class="fa fa-eye"></i></a>
+                        <a href="{{ path('app_admin_abonne_edit', {'id': abonne.id}) }}"><i class="fa fa-edit"></i></a>
                     </td>
                 </tr>
             {% else %}
@@ -58,5 +58,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_abonne_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>
+    <a href="{{ path('app_admin_abonne_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>
 {% endblock %}

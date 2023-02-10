@@ -1,0 +1,14 @@
+{% for chapitre, contenu in cours %}
+    <li>
+        <h2>{{ chapitre }}</h2>
+        {% for titre, textes in contenu %}
+            {% if textes is iterable %}
+                <ul>
+                {{ include ("dev/cours/chapitre.html.twig", {cours: contenu}) }}
+                </ul>
+            {% else %}
+                <p>{{ textes }}</p>
+            {% endif %}
+        {% endfor %}
+    </li>
+{% endfor %}

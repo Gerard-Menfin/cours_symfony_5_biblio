@@ -1,3 +1,4 @@
+/* On peut redéfinir les variables de Bootstrap, en les plaçant avant l'importation */
 $gris_clair: #d3d3d3;
 $gris: #8d8c8c;
 $danger: #6b2f2f;
@@ -7,9 +8,11 @@ $warning: #a06e04;
 $success: #527e52;
 $white: #eee;
 
+
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "~bootstrap/scss/bootstrap";
 
+// Pour étendre les classes w- de Bootstrap avec tous les %ages possibles
 @for $i from 0 to 100 {
     .w-#{$i}{
       width: $i * 1%;
@@ -18,7 +21,7 @@ $white: #eee;
 
 html {
     background-color: $white;
-    /**/ height: 100vh;
+    height: 100vh;
 }
 
 body {
@@ -26,14 +29,14 @@ body {
     // padding-inline: 0 !important;
 
     background-image: url("../images/bibpublique_stokholm.png");
-    // background-size: cover;
-    // height: 100vh;
-    background-repeat: repeat;
-    /**/ height: 100%;
+    background-size: cover;
+    height: 100%;
+    // background-repeat: repeat;
+    // /**/ height: 100vh;
 }
 
 body > .container {
-    background-color: $gris_clair;
+    background-color: rgba(211, 211, 211, 0.333);
     padding-inline: 0;
 }
 
@@ -51,14 +54,13 @@ body > .container {
 
 footer {
     position   : relative;
-    margin-top : -150px; /* negative value of footer height */
+    // margin-top : -150px; /* negative value of footer height */
     height     : 150px;
     clear      : both;
     padding-top: 20px;
 
     background-color: $dark;
     color: $white;
-    display: none;
 }
 
 img.vignette {
@@ -73,3 +75,8 @@ img.miniature {
 h1{
     font-weight: 700;
 }
+
+// barre nav de pagination
+.pagination {
+    margin-top: 50px;
+  }

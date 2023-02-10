@@ -11,10 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass=AuteurRepository::class)
  */
-class Auteur
+class Auteur extends Entity
 {
-    private $em;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -42,9 +40,8 @@ class Auteur
      */
     private $livres;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct()
     {
-        $this->em = $em;
         $this->livres = new ArrayCollection();
     }
 
@@ -121,6 +118,10 @@ class Auteur
 
     /** ************************** **/
     public function getIdentite()
+    {
+        return trim("$this->prenom $this->nom");
+    }
+    public function getNomComplet()
     {
         return trim("$this->prenom $this->nom");
     }

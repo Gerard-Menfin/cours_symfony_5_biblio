@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     {# {{ (form) }} #}
-    {{ form_error(form.roles) }}
+    {{ form_errors(form.roles) }}
     <div class="d-flex">
         {{ form_label(form.roles) }}
         {{ form_widget(form.roles,  { attr: { class: 'bg-secondary p-2 d-flex justify-content-between' } }) }}

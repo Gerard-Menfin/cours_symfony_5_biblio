@@ -14,13 +14,55 @@
         <code>Créer un controleur "Profil" dans lequel vous aurez une route
 nommée "profil_lecteur" pour le chemin "/profil-lecteur"
 qui ne sera accessible qu à un utilisateur connecté avec le "ROLE_LECTEUR"
-Cette route devra afficher les informations de l''utilisateur connecté (pseudo, nom, prénom, adresse)
+Cette route devra afficher les informations de l'utilisateur 
+connecté (pseudo, nom, prénom, adresse)
 
-Le lien de menu qui affiche le nom de l''utilisateur connecté redirigera vers cette route
+Le lien de menu qui affiche le nom de l'utilisateur connecté redirigera vers cette route
 </code>
     </li>
     <li class="list-group-item">
-        <code>créer la table Genre dans la bdd (avec la relation entre les tables Genre et Livre)</code>
+        <code>créer la table Genre dans la bdd 
+        (avec la relation entre les tables Genre et Livre)</code>
+    </li>
+
+    <li class="list-group-item">
+        <code>
+            Ajouter une route test/produit qui affiche tous les produits déconnecter
+            dont le titre contient "noir".
+            Cette route ne sera accessible qu'aux ROLE_MODO
+        </code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
+    </li>
+    <li class="list-group-item">
+        <code></code>
     </li>
 </ul>
+
+<hr>
+    <ol class="list-group">
+        {{ include ("dev/cours/chapitre.html.twig", {cours: cours}) }}
+    </ol>   
 {% endblock %}

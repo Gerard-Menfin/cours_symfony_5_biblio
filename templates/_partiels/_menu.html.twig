@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="menu">
-	<a class="navbar-brand" href="{{ path("accueil") }}">
+	<a class="navbar-brand" href="{{ path("app_accueil") }}">
 		<img src="{{ asset(chemin_images ~ "logo.png" )}}" alt="BiblioSF5" class="vignette">
 	</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,39 +9,59 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			{% if app.user %}
-				{# si app.user est 'vrai', c'est qu'un utilisateur est connecté #}
-				<li class="nav-item {{ app.request.attributes.get("_route") == "espace" ? "active" : "" }}">
-					<a class="nav-link" href="{{ path("espace") }}">
+				{# ? si app.user n'est pas null, c'est qu'un utilisateur est connecté. app.user contient un objet User (classe Abonne dans le projet actuel) #}
+				{# ? on peut aussi utiliser le rôle IS_AUTHENTICATED_FULLY qui signifie qu'il y a  un utilisateur connecté #}
+				<li class="nav-item {{ app.request.attributes.get("_route") == "app_espace" ? "active" : "" }}">
+					<a class="nav-link" href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace") }}">
 						<i class="fa fa-user"></i>
-						{{ app.user.username }}
+						{{ app.user.username }} {# Espace_lecteur ou Gestion #}
 					</a>
 				</li>
 				<li class="nav-item {{ app.request.attributes.get("_route") == "app_logout" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_logout") }}">
-						<i class="fa fa-sign-out-alt"></i>
-						Déconnexion
+						<i class="fa fa-sign-out-alt"></i> {# Déconnexion  #}
 					</a>
 				</li>
 			{% else %}
 				<li class="nav-item {{ app.request.attributes.get("_route") == "app_login" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_login") }}">
-						<i class="fa fa-sign-in-alt"></i>
-						Connexion
+						<i class="fa fa-sign-in-alt"></i> {# Connexion #}
 					</a>
 				</li>
 
 				<li class="nav-item {{ app.request.attributes.get("_route") == "app_register" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_register") }}">
-            			<i class="fa fa-user-plus"></i> Inscription
+            			<i class="fa fa-user-plus"></i> {# Inscription #}
 					</a>
 				</li>
 			{% endif %}
-
-
 		</ul>
-		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+		<form class="form-inline my-2 my-lg-0" action={{ path("app_recherche") }} method="get">
+			<input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+				<i class="fa fa-search"></i>
+			</button>
 		</form>
 	</div>
 </nav>
+
+{# 
+	? La variable 'app' permet d'avoir des informations sur l'application.
+	?  C'est un objet. 
+	?  'app.user' contient un objet de la classe Abonne, avec les infos de
+	?    l'utilisateur connecté. Si aucun utilisateur n'est connecté, 
+	?    'app.user' est null
+	?  
+	?  Pour afficher l'identifiant unique de l'utilisateur on peut mettre
+	?  app.user.pseudo (la propriété que l'on a choisi pour se connecter)
+	?  ou app.user.username
+#}
+
+{# ? la fonction is_granted() renvoie true si l'utilisateur connecté à le rôle qui est passé en paramètre  #}
+
+{# 
+?	{{ include('vue.html.twig') }}
+? 	avec paramètres envoyés à la vue
+?  	{{ include('vue.html.twig', { variable: "valeur" }) }} 
+#}
+

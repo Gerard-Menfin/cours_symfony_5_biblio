@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+    {{ include ("espace/panier.html.twig") }}
+    
+    {# <a href="{{ path('app_vider_panier') }}">Vider</a>
+    <a href="{{ path('app_commander') }}" class="btn btn-primary">Commander</a> #}
+    <a href="{{ path('app_accueil') }}" class="btn btn-primar"></a>
+{% endblock %}

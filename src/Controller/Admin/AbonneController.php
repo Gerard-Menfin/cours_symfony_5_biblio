@@ -10,8 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface as Encoder;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface as Hasher;
 
 /**
  * COURS : si Route est avant la classe, il s'applique à toutes les routes de la classe
@@ -19,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  * je peux utiliser 
  * IsGranted("ROLE_ADMIN") pour limiter toutes les routes de ce controleur
  * 
- * @Route("/admin/abonne", name="admin_")
+ * @Route("/admin/abonne", name="app_admin_")
  */
 class AbonneController extends AbstractController
 {
@@ -36,7 +35,7 @@ class AbonneController extends AbstractController
     /**
      * @Route("/new", name="abonne_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Encoder $encoder): Response
+    public function new(Request $request, Hasher $hasher, AbonneRepository $ar): Response
     {
         $abonne = new Abonne();
         $form = $this->createForm(AbonneType::class, $abonne);
@@ -46,13 +45,11 @@ class AbonneController extends AbstractController
             // On récupére le mot de passe tapé dans le formulaire
             $mdp = $form->get("password")->getData();
             // On encode le mot de passe récupéré
-            $mdp = $encoder->encodePassword($abonne, $mdp);
+            $mdp = $hasher->hashPassword($abonne, $mdp);
             // On définit la propriété 'password' de l'entité Abonne à insérer en bdd
             $abonne->setPassword( $mdp );
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($abonne);
-            $entityManager->flush();
+            $ar->save($abonne, true);
 
             return $this->redirectToRoute('admin_abonne_index');
         }
@@ -76,19 +73,19 @@ class AbonneController extends AbstractController
     /**
      * @Route("/{id}/edit", name="abonne_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Encoder $encoder, Abonne $abonne): Response
+    public function edit(Request $request, Hasher $hasher, Abonne $abonne, AbonneRepository $ar): Response
     {
         $form = $this->createForm(AbonneType::class, $abonne);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if( $mdp = $form->get("password")->getData() ){
-                $mdp = $encoder->encodePassword($abonne, $mdp);
+                $mdp = $hasher->hashPassword($abonne, $mdp);
                 $abonne->setPassword( $mdp );
             }
-            $this->getDoctrine()->getManager()->flush();
+            $ar->save($abonne, true);
 
-            return $this->redirectToRoute('admin_abonne_index');
+            return $this->redirectToRoute('app_admin_abonne_index');
         }
 
         return $this->render('admin/abonne/edit.html.twig', [
@@ -100,15 +97,13 @@ class AbonneController extends AbstractController
     /**
      * @Route("/{id}", name="abonne_delete", methods={"POST"})
      */
-    public function delete(Request $request, Abonne $abonne): Response
+    public function delete(Request $request, Abonne $abonne, AbonneRepository $ar): Response
     {
         if ($this->isCsrfTokenValid('delete'.$abonne->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($abonne);
-            $entityManager->flush();
+            $ar->remove($abonne, true);
         }
 
-        return $this->redirectToRoute('admin_abonne_index');
+        return $this->redirectToRoute('app_admin_abonne_index');
     }
 
     /**

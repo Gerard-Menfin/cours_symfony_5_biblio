@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Modifier Categorie{% endblock %}
 
@@ -6,10 +6,10 @@
 
 {% block body %}
 
-    {{ include('admin/categorie/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/categorie/_form.html.twig', {'button_label': 'Actualiser'}) }}
 
     <hr>
-    <a href="{{ path('admin_categorie_index') }}" class="btn btn-warning">
+    <a href="{{ path('app_admin_categorie_index') }}" class="btn btn-warning">
         <i class="fa fa-reply"></i> Annuler
     </a>
 

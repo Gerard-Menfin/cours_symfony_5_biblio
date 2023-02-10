@@ -1,9 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Auteur{% endblock %}
 
+{% block titre %}Auteur{% endblock %}
+
 {% block body %}
-    <h1>Auteur</h1>
 
     <table class="table">
         <tbody>
@@ -13,11 +14,7 @@
             </tr>
             <tr>
                 <th>Nom</th>
-                <td>{{ auteur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ auteur.prenom }}</td>
+                <td>{{ auteur.identite }}</td>
             </tr>
             <tr>
                 <th>Biographie</th>
@@ -27,7 +24,7 @@
                 <th>Livres</th>
                 <td>
                     <table class="table">
-                        <thead class="thead-dark">
+                        <thead class="table-dark">
                             <tr>
                                 <td>ID</td>
                                 <td>Titre</td>
@@ -47,9 +44,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_auteur_index') }}">back to list</a>
+    <a href="{{ path('app_admin_auteur_index') }}" class="btn btn-secondary"><i class="fa fa-reply"></i> Retour à la liste</a>
 
-    <a href="{{ path('admin_auteur_edit', {'id': auteur.id}) }}">edit</a>
+    <a href="{{ path('app_admin_auteur_edit', {'id': auteur.id}) }}">edit</a>
 
     {{ include('admin/auteur/_delete_form.html.twig') }}
 {% endblock %}

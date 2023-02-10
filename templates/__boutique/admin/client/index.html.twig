@@ -1,0 +1,52 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste des Clients{% endblock %}
+
+{% block body %}
+    <h1>Liste des Clients</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Autorisations</th>
+                <th>Nb de commandes</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.id }}</td>
+                <td>{{ client.email }}</td>
+                <td>
+                    {% for role in client.roles %}
+                        {% if role == "ROLE_ADMIN" %}
+                            Administrateur
+                        {% elseif role == "ROLE_CLIENT" %}
+                            Client
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ client.commandes|length }}</td>
+
+                <td>
+                    <a href="{{ path('app_admin_client_show', {'id': client.id}) }}">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="{{ path('app_admin_client_edit', {'id': client.id}) }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_client_new') }}"><i class="fa fa-plus"></i> Ajouter</a>
+{% endblock %}

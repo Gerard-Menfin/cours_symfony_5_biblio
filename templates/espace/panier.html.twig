@@ -1,0 +1,22 @@
+<table class="table table-bordered mt-5">
+<thead>
+    <tr>
+        <td>Date</td>
+        <td>Livre</td>
+        <td><i class="fa fa-cogs"></i></td>
+    </tr>
+</thead>
+<tbody>
+    {% for ligne in reservations %}
+        <tr>
+            <td>{{ ligne.date }}</td>
+            <td>
+                <img class="w-25" src="{{ asset('images/' ~ ligne.livre.couverture) }}">
+                {{ ligne.livre.titre }}
+            </td>
+            
+            <td><a href="{{ path("app_espace_supprimer_reservation", { id: ligne.livre.id }) }}" class="fa fa-trash"></a></td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=AbonneRepository::class)
  * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo est déjà utilisé")
  */
-class Abonne implements UserInterface, PasswordAuthenticatedUserInterface
+class Abonne extends Entity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id

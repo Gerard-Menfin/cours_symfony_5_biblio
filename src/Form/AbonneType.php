@@ -35,23 +35,23 @@ class AbonneType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 "choices"   => [
                     "Abonné"         => "ROLE_ABONNE",
+                    // "Abonné"         => "ROLE_USER"
                     "Lecteur"        => "ROLE_LECTEUR",
                     "Bibliothécaire" => "ROLE_BIBLIOTHECAIRE",
                     "Directeur"      => "ROLE_ADMIN",
                     "Développeur"    => "ROLE_DEV",
-                    "Abonné"         => "ROLE_USER"
                 ],
                 "multiple"  => true,
                 "expanded"  => true,
                 "label"     => "Niveau d'accès"
             ])
-            ->add('password', PasswordType::class, [
-                "mapped" => false,
-                ])
-                ->add('password', TextType::class, [
-                    "mapped"    => false,
-                    "required"  => $abonne->getId() ? false : true,
-                    "label"  => "Mot de passe"
+            ->add('password', TextType::class, [
+                "mapped"    => false,   /**
+                                            l'option "mapped" avec la valeur false, permet de préciser que
+                                            le champ ne sera pas lié à une propriété de l'objet utilisé pour
+                                            afficher le formulaire */
+                "required"  => $abonne->getId() ? false : true,
+                "label"  => "Mot de passe"
             ])
             ->add('prenom')
             ->add('nom')

@@ -29,18 +29,18 @@ class EmpruntType extends AbstractType
                 "label" => "Rendu le ",
                 "required" => false
             ])
-            ->add('livre', EntityType::class, [
-                "class" => Livre::class,
-                "choice_label" => function($livre){
-                    return $livre->getTitre() . " - " . $livre->getAuteur();
-                },
-                "placeholder" => "choisir un livre..."
-
-            ])
             ->add('abonne', EntityType::class, [
                 "class" => Abonne::class,
                 "choice_label" => "pseudo",
                 "placeholder" => "choisir un abonné..."
+            ])
+            ->add('livre', EntityType::class, [
+                "class" => Livre::class,
+                "choice_label" => function($livre){
+                    return $livre->getTitre() . " - " . $livre->getAuteur()->getIdentite();
+                },
+                "placeholder" => "choisir un livre..."
+
             ])
         ;
     }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil!{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur l'E-boutik</h1>
+
+    <div class="card-deck">
+        {% for produit in liste_produits %}
+            {{ include("produit/vignette.html.twig") }}        
+        {% endfor %}
+    </div>
+{% endblock %}

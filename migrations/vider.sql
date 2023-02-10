@@ -1,0 +1,8 @@
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE `abonne`;
+DROP TABLE `auteur`;
+DROP TABLE `emprunt`;
+DROP TABLE `genre`;
+DROP TABLE `livre`;
+DROP TABLE `livre_genre`;
+SET FOREIGN_KEY_CHECKS=1;

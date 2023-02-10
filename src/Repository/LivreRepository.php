@@ -13,12 +13,13 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Livre[]    findAll()
  * @method Livre[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LivreRepository extends ServiceEntityRepository
+class LivreRepository extends Depot
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Livre::class);
     }
+
     /**
      * @return Livre[] Retourne les livres qui n'ont pas été rendus
      * 
@@ -50,7 +51,7 @@ class LivreRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('l')
             ->join(Emprunt::class, "e", "WITH", "e.livre=l.id")
-            ->andWhere('e.date_rendu IS NULL')
+            ->andWhere('e.date_retour IS NULL')
             ->orderBy('l.auteur', 'ASC')
             ->addOrderBy('l.titre')
             ->getQuery()
@@ -63,7 +64,7 @@ class LivreRepository extends ServiceEntityRepository
      * SELECT COUNT(*)
      * FROM livre l
      *  JOIN emprunt e ON l.id = e.livre_id
-     * WHERE e.date_rendu IS NULL
+     * WHERE e.date_retour IS NULL
      * @return integer
      */
     public function nbSortis() : int
@@ -71,7 +72,7 @@ class LivreRepository extends ServiceEntityRepository
         $requete = $this->createQueryBuilder("l")
                         ->select("COUNT(l.id) as nb")
                         ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
-                        ->andWhere('e.date_rendu IS NULL')
+                        ->andWhere('e.date_retour IS NULL')
                         ->getQuery()
                         ->getOneOrNullResult();
         return $requete ? (int)$requete["nb"] : 0;
@@ -115,8 +116,81 @@ class LivreRepository extends ServiceEntityRepository
         ;
     }
 
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /* 
+        SELECT l.* 
+        FROM livre l JOIN emprunt e ON l.id = e.livre_id 
+        WHERE e.date_retour IS NULL
+    */
+    public function findByLivresIndisponibles()
+    {
+        return $this->createQueryBuilder('l')
+                    ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
+                    ->where('e.date_retour IS NULL')
+                    ->orderBy('l.auteur', 'ASC')
+                    ->addOrderBy("l.titre")
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
 
+    public function recherche($value)
+    {
+        /* SELECT l.* 
+           FROM livre l 
+           WHERE l.titre LIKE %$value% 
+        */
+        return $this->createQueryBuilder('l')
+            ->where('l.titre LIKE :val')
+            ->setParameter('val', "%" . $value . "%")
+            ->orderBy('l.titre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
+   /**
+    *   SELECT l.*
+    *   FROM livre l 
+    *       JOIN livre_genre lc ON l.id = lc.livre_id
+    *       JOIN genre g ON g.id = lc.genre_id
+    *   WHERE g.mots_cles LIKE "%science%" OR g.libelle LIKE "%science%";
+    */
+    public function rechercheParGenres($motRecherche)
+    {
+         return $this->createQueryBuilder('l')
+                     ->join("l.genres", "g")
+                     ->where("g.mots_cles LIKE :mot OR g.libelle LIKE :mot")
+                     ->setParameter("mot", "%$motRecherche%")
+                     ->orderBy("g.libelle")
+                     ->addOrderBy("l.titre")
+                     ->getQuery()->getResult();
+    }
+ 
+
+    public function findByTitreCategorieDescription($recherche){
+        // SELECT * FROM `produit` 
+        // WHERE categorie LIKE "%pull%" 
+        //      OR titre LIKE "%pull%" 
+        //      OR description LIKE "%pull%"  
+        
+        // version avec EntityManager
+        $entityManager = $this->getEntityManager();
+        $requete = $entityManager->createQuery("SELECT p FROM App\Entity\Produit p WHERE p.categorie LIKE '%$recherche%' OR p.titre LIKE '%$recherche%' OR p.description LIKE '%$recherche%'");
+        return $requete->getResult();
+
+        // version avec CreateQueryBuilder
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.titre LIKE :val OR  p.categorie LIKE :val OR p.description LIKE :val')
+            ->setParameter('val', "%" . $recherche . "%")
+            ->orderBy('p.titre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        
+
+    }
 
 
     

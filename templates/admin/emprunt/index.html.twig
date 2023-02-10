@@ -1,4 +1,4 @@
-{% extends 'gestion.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Liste Emprunts{% endblock %}
 
@@ -7,14 +7,14 @@
 {% block body %}
 
     <table class="table">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>Id</th>
                 <th>Abonné</th>
                 <th>Livre</th>
                 <th>Emprunté le</th>
                 <th>Rendu le</th>
-                <th>actions</th>
+                <th><i class="fa fa-tools"></i></th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ emprunt.id }}</td>
                 <td>{{ emprunt.abonne.pseudo }}</td>
-                <td>{{ emprunt.livre.titre ~ " - " ~ emprunt.livre.auteur }}</td>
+                <td>{{ emprunt.livre.titre ~ " - " ~ emprunt.livre.auteur.identite }}</td>
                 {# COURS : 
                     # pour afficher une propriété de type date (donc un objet de la classe DateTime), il faut
                         utiliser le filtre 'date' qui prend le format désiré comme argument
@@ -31,8 +31,8 @@
                 {# COURS : ⚠ si la propriété type date est nulle, c'est la date du jour qui sera renvoyé par le filtre #}
                 <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date() : '' }}</td>
                 <td>
-                    <a href="{{ path('admin_emprunt_show', {'id': emprunt.id}) }}"><i class="fa fa-eye"></i></a>
-                    <a href="{{ path('admin_emprunt_edit', {'id': emprunt.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a href="{{ path('app_admin_emprunt_show', {'id': emprunt.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('app_admin_emprunt_edit', {'id': emprunt.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -43,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_emprunt_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>
+    <a href="{{ path('app_admin_emprunt_new') }}" class="btn btn-primary"> <i class="fa fa-plus"></i> Ajouter</a>
 {% endblock %}

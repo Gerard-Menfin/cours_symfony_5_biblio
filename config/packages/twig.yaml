@@ -11,4 +11,13 @@ twig:
     
     # la propriété 'date' va permettre de configurer le format par défaut d'affichage des date
     date:
-        format: d/m/Y
+        format: d/m/Y H:i
+
+    # les string ne sont pas échappés auto donc l'HTML est interprété. Il faut utiliser le filtre 
+    autoescape: false
+
+
+
+when@test:
+    twig:
+        strict_variables: true
