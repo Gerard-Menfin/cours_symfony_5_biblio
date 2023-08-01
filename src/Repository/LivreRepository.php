@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Emprunt;
+use App\Entity\Genre;
 use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -150,6 +151,20 @@ class LivreRepository extends Depot
         ;
     }
 
+    /* champ auteur type string */
+    public function findBySearch($mot){
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.auteur LIKE :val OR l.titre LIKE :val')
+            ->setParameter('val', '%' . $mot . '%')
+            ->orderBy('l.auteur', 'ASC')
+            ->addOrderBy('l.titre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
    /**
     *   SELECT l.*
     *   FROM livre l 
@@ -168,16 +183,38 @@ class LivreRepository extends Depot
                      ->getQuery()->getResult();
     }
  
+    public function findByGenres(int $searchWord): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            "SELECT p
+             FROM App\Entity\Livre l
+             JOIN App\Entity\Genre g 
+             WHERE g.mots_cles LIKE :mot OR g.libelle LIKE :mot
+             ORDER BY g.libelle ASC, l.titre ASC"
+        )->setParameter("mot", "%$searchWord%");
 
+        // returns an array of Livre objects
+        return $query->getResult();
+    }
+
+
+
+    /**
+     * SELECT * FROM `produit`
+     * WHERE categorie LIKE "%pull%"
+     *      OR titre LIKE "%pull%"
+     *      OR description LIKE "%pull%"
+     */
     public function findByTitreCategorieDescription($recherche){
-        // SELECT * FROM `produit` 
-        // WHERE categorie LIKE "%pull%" 
-        //      OR titre LIKE "%pull%" 
-        //      OR description LIKE "%pull%"  
         
         // version avec EntityManager
         $entityManager = $this->getEntityManager();
-        $requete = $entityManager->createQuery("SELECT p FROM App\Entity\Produit p WHERE p.categorie LIKE '%$recherche%' OR p.titre LIKE '%$recherche%' OR p.description LIKE '%$recherche%'");
+        $requete = $entityManager->createQuery("SELECT p 
+                                                FROM App\Entity\Produit p 
+                                                WHERE p.categorie LIKE '%$recherche%' 
+                                                    OR p.titre LIKE '%$recherche%'
+                                                    OR p.description LIKE '%$recherche%'");
         return $requete->getResult();
 
         // version avec CreateQueryBuilder
@@ -191,6 +228,34 @@ class LivreRepository extends Depot
         
 
     }
+
+    /**
+     * Requête avec jointure : livres empruntés non rendus
+     * @return Array of App\Entity\Livre object
+     */
+    public function findByEmpruntes_()
+    {
+        return $this->createQueryBuilder('l')
+            ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
+            ->andWhere('e.date_rendu IS NULL')
+            ->orderBy('l.auteur', 'ASC')
+            ->addOrderBy('l.titre')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    public function livreEmprunte(Livre $livre) {
+        return $this->createQueryBuilder("l")
+                ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
+                ->where("e.date_retour IS NULL")
+                ->andWhere("l.id = " . $livre->getId())
+                ->orderBy("l.auteur")
+                ->addOrderBy("l.titre")
+                ->getQuery()->getOneOrNullResult();
+    }
+
 
 
     

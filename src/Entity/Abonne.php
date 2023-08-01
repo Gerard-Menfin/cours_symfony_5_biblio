@@ -225,7 +225,7 @@ class Abonne extends Entity implements UserInterface, PasswordAuthenticatedUserI
     /**
      * Retourne la liste des rôles de l'abooné sous forme de string
      */
-    public function autorisations(): string
+    public function getAutorisations(): string
     {
         $texte = "";
         foreach ($this->roles as $role ) {

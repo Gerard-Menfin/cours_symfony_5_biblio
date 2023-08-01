@@ -87,4 +87,10 @@ class GenreController extends AbstractController
 
         return $this->redirectToRoute('app_admin_genre_index');
     }
+
+    public function form()
+    {
+        $form = $this->createForm(GenreType::class);
+        return $this->renderForm("admin/genre/_inline_form.html.twig", [ "form" => $form ]);
+    }
 }

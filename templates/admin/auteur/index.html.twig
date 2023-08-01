@@ -20,7 +20,7 @@
             <tr>
                 <td>{{ auteur.id }}</td>
                 <td>{{ auteur.identite }}</td>
-                <td>{{ auteur.biographie }}</td>
+                <td>{{ extrait(auteur.biographie, 20) }}</td>
                 <td>
                     <a href="{{ path('app_admin_auteur_show', {'id': auteur.id}) }}"><i class="fa fa-eye"></i></a>
                     <a href="{{ path('app_admin_auteur_edit', {'id': auteur.id}) }}"><i class="fa fa-edit"></i></a>

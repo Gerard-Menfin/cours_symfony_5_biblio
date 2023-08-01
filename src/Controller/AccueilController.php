@@ -51,4 +51,11 @@ class AccueilController extends AbstractController
         
         return $this->render("base.html.twig");
     }
+
+    /**
+    * @Route("/chemin", name="nom")
+    */
+    public function fonction() {
+        return $this->render("base.html.twig");
+    }
 }

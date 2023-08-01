@@ -3,7 +3,7 @@
     'app' est un objet.
     'app.flashes' est un array associatif, chaque valeur étant un array de string,  #}
 {% for type, messages in app.flashes %}
-    {% for msg in messages %}
-        <div class="alert alert-{{ type }}">{{ msg|raw }}</div>
+    {% for texte in messages %}
+        <div class="alert alert-{{ type }}">{{ texte|raw }}</div>
     {% endfor %}
 {% endfor %}

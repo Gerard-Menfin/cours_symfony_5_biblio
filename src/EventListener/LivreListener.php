@@ -11,10 +11,13 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * Cette classe est un EntityListener (un EventListener spécial entité)
  * Elle permet de définir des méthodes qui vont s'exécuter lorsqu'un évènement défini aura lieu.
  * 
- * //Le Listener doit être référencé dans le fichier config/services.yaml
+ * Le Listener doit être référencé dans le fichier 
+ *      • config/services.yaml
  * L'EntityListener doit être référencé dans l'entité correspondante
+ *      • @ORM\EntityListeners({LivreListener::class})
  * 
- * https://symfonycasts.com/screencast/api-platform-extending/post-load-listener
+ * 
+ * ! https://symfonycasts.com/screencast/api-platform-extending/post-load-listener
  */
 class LivreListener {
 
@@ -30,7 +33,8 @@ class LivreListener {
     public function postLoad($livre, LifecycleEventArgs $lifeCycle)
     {
         $livreRepository = $lifeCycle->getEntityManager()->getRepository(Livre::class);
-        $livreRepository = (object)$livreRepository; // cette ligne ne sert qu'à eviter l'erreur signalée par VS Code
+        /** @var LivreRepository $livreRepository */
+        // $livreRepository = (object)$livreRepository; // cette ligne ne sert qu'à eviter l'erreur signalée par VS Code
         $livre->setDispo( !in_array($livre, $livreRepository->findLivresEmpruntes()) );
     }
 }

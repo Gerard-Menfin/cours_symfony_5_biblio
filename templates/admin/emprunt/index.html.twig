@@ -24,8 +24,8 @@
                 <td>{{ emprunt.abonne.pseudo }}</td>
                 <td>{{ emprunt.livre.titre ~ " - " ~ emprunt.livre.auteur.identite }}</td>
                 {# COURS : 
-                    # pour afficher une propriété de type date (donc un objet de la classe DateTime), il faut
-                        utiliser le filtre 'date' qui prend le format désiré comme argument
+                    # pour afficher une propriété de type date (donc un objet de la classe DateTime), 
+                        il faut utiliser le filtre 'date' qui prend le format désiré comme argument
                     # pas besoin de fournir un format au filtre 'date' car défini par défaut dans twig.yaml #}
                 <td>{{ emprunt.dateEmprunt|date() }}</td>
                 {# COURS : ⚠ si la propriété type date est nulle, c'est la date du jour qui sera renvoyé par le filtre #}

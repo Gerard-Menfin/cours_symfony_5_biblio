@@ -24,6 +24,17 @@
         </thead>
 
         <tbody>
+            <tr>
+                {{ form_start(form) }}
+                <td></td>
+                <td>{{ form_widget(form.couverture) }}</td>
+                <td>{{ form_widget(form.titre) }}</td>
+                <td>{{ form_widget(form.auteur) }}</td>
+                <td></td>
+                <td>{{ form_widget(form.enregistrer) }}</td>
+                {{ form_end(form) }}
+            </tr>
+    
             {% for livre in livres %}
                 <tr>
                     <td>{{ livre.id }} {{ livre.dispo ? "✔" : "❌" }}</td>

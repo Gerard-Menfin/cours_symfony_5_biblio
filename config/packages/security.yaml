@@ -39,7 +39,7 @@ security:
         - { path: ^/admin,   roles: ROLE_ADMIN  }     # toutes les routes qui commencent par /abonne  sont accessibles uniquement aux utilisateurs ROLE_ADMIN
         - { path: ^/profil,  roles: IS_AUTHENTICATED_FULLY }
     
-    # COURS : l'option 'role_hierarchy' sert à définir une hiérarchie entre les rôles
+    # 💬 COURS : l'option 'role_hierarchy' sert à définir une hiérarchie entre les rôles
     role_hierarchy:
         ROLE_ADMIN: ROLE_BIBLIO
         ROLE_BIBLIO: ROLE_LECTEUR

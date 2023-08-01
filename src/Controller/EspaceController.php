@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Livre;
+use App\Repository\LivreRepository;
+use App\Repository\EmpruntRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -30,6 +34,15 @@ class EspaceController extends AbstractController
     /**
      * @Route("/", name="")
      */
+    /*
+        La page "Lecteur" va afficher toutes les informations du l'utilisateur connecté,
+        s'il a le ROLE_LECTEUR. On pourrait envoyer une variable contenant ces informations à 
+        la vue avec la méthode 'getUser' du contrôleur (qui retourne un objet Abonne, l'abonné actuellement connecté)
+            $abonneConnecte = $this->getUser();
+        Mais on peut avoir cet objet contenant l'abonné connecté directement dans le fichier Twig en utilisant 
+            app.user
+    */
+
     public function index(): Response
     {
         $reservations = $this->rs->getSession()->get("reservations", []);
@@ -58,7 +71,11 @@ class EspaceController extends AbstractController
     * @Route("/reservation/livre-{id}", name="_reserver", requirements={"id"="\d+"})
     */
     public function livre(Livre $livre, RequestStack $rs) {
-        $livre->libelle = $livre->getTitre(); // ! uniquement pour éviter la concaténation dnas le message 'success'
+        /**
+         * @var stdCClass $livre
+         * ! commentaire pour éviter l'affichage d'erreur pour la variable $livre
+         */
+        $livre->libelle = $livre->getTitre(); // ! uniquement pour éviter la concaténation dans le message 'success'
 
         $session = $rs->getSession();
         $panier = $session->get("reservations", []);
@@ -116,5 +133,63 @@ class EspaceController extends AbstractController
         $panier = $this->rs->getSession()->get("reservations", []);
         return $this->render("espace/panier.html.twig", compact("panier"));
     }
+
+
+    /**
+     * @Route("/livre/{id}/emprunter", name="livre_emprunter", requirements={"id"="[0-9]+"})
+     * @IsGranted("ROLE_LECTEUR")
+     */
+    public function emprunter(EntityManager $entityManager, LivreRepository $livreRepository, int $id)
+    {
+        $abonne = $this->getUser(); // getUser() retourne l'objet Abonné de l'utilisateur connecté
+        // Pour récupérer l'utilisateur connecté dans un controleur on utlise $this->get_current_user
+        // cette méthode retourne un objet de la classe Entity/Abonne
+        
+        $auj = new \DateTime();
+        $livre = $livreRepository->find($id); // SELECT * FROM livre WHERE id = $id
+
+        if( in_array($livre, $livreRepository->findByNonRendu()) ){
+            $this->addFlash("danger", "Le livre <strong>" . $livre->getTitre() . "</strong> n'est pas disponible");
+            return $this->redirectToRoute("accueil");
+        }
+
+
+        /* EXO : ajouter les lignes de codes pour créer et enregistrer un nouvel emprunt dans la bdd */
+        $toto = new \App\Entity\Emprunt;
+        $toto->setDateEmprunt($auj);
+        $toto->setAbonne($abonne);
+        $toto->setLivre($livre);
+
+        $entityManager->persist($toto);
+        $entityManager->flush();
+
+        $this->addFlash("info", "Votre emprunt du livre " . $livre->getTitre() . " à la date du " . $auj->format("d/m/y") . " a bien été enregistré");
+
+        return $this->redirectToRoute("profil");
+    }
+
+    
+    /* EXO : 1. ajouter une route qui permet de définir une date de retour à un emprunt (la date du jour). 
+             Dans l'affichage de la liste des emprunts, dans la colonne "Date retour", lorsqu'il n'y a pas de date_retour, il y aura un lien "à rendre" 
+             qui lancera cette route (après avoir enregistré la modification de l'emprunt en base de données, on redirige vers la liste des emprunts)
+        /*       2. Ajouter un lien sur chaque vignette de livre pour pouvoir emprunter ce livre.
+                    Attention ce lien ne doit être visible que si on est connecté avec le ROLE_USER
+
+            Les routes qui commencent par "/lecteur" ne sont accessibles qu'aux utilisateurs qui ont le ROLE_LECTEUR
+            quelque soit le controleur où est défini cette route
+          */
+
+    /**
+     * @Route("/biblio/emprunt/retour/{id}", name="emprunt_retour" )
+     */
+    public function retour(EmpruntRepository $er, EntityManagerInterface $em, $id)
+    {
+        $empruntAmodifier = $er->find($id);
+        $empruntAmodifier->setDateRetour(new \DateTime());
+        $em->flush();
+        $this->addFlash("info", "Le livre <strong>" . $empruntAmodifier->getLivre()->getTitre() . "</strong> emprunté par <i>" . $empruntAmodifier->getAbonne()->getPseudo() . "</i> a été rendu");
+        return $this->redirectToRoute("emprunt");
+    }
+
 
 }

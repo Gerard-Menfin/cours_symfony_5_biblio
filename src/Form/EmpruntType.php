@@ -23,6 +23,7 @@ class EmpruntType extends AbstractType
                 // "data" => new DateTime()  // si je choisis une valeur par défaut à un champ, cette valeur écrase la valeur existante de l'objet passé en 
                                              // paramètre pour créer le formulaire (par exemple, quand j'affiche le formulaire pour modifier un enregistrement
                                              //  existant)
+                // "empty_data" => new DateTime("now")  // ne change rien pour un DateType
             ])
             ->add('date_retour', DateType::class, [
                 "widget" => "single_text",

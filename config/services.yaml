@@ -35,7 +35,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # COURS : pour pouvoir utiliser un EventListener il doit apparaître dans ce fichier
-    #           doctrine...er 
+    #          
     # App\EventListener\LivreListener:
     #     tags: [doctrine.orm.entity_listener]
             # - { name: doctrine.event_listener , event: oc.lifecyle }

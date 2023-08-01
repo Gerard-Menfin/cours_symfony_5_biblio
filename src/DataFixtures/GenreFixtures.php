@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
- * COURS : Il faut implémenter une interface lorsqu'une fixture a besoin que d'autres fixtures soit
+ * COURS : Il faut implémenter l'interface lorsqu'une fixture a besoin que d'autres fixtures soit
  * exécutées avant. 
  */
 class GenreFixtures extends Fixture implements DependentFixtureInterface

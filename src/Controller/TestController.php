@@ -10,6 +10,12 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class TestController extends AbstractController
 {
+    /*
+     ? @Route("/test1", name="app_test")
+     ! NPM : ne pas mettre les 2 types de déclaration de route (l'annotation prend le dessus.)
+     */
+    // ? On peut changer le chemin mais il faut éviter de changer le nom de la route.
+
     #[Route('/test', name: 'app_test')]
     /**
      * La "fonction" Route :
@@ -51,11 +57,23 @@ class TestController extends AbstractController
     /**
      * @Route("/test/aujourdhui")
      */
-    public function auj()
+    public function aujj()
     {   
         return $this->json([ "auj" => date("d/m/Y") ]);
     }
 
+    /*
+     * EXO : faire une route pour le chemin "/test/aujourdhui" qui affiche la date du jour.
+     *       Utiliser un nouveau fichier twig pour l'affichage
+            En PHP : date("d/m/Y")
+    */
+    #[Route('/test/auj', name: 'app_test_aujax')]
+    public function auj()
+    {
+        return $this->render("test/auj.html.twig", [ "auj" => date("d/m/Y")]);
+    }
+
+    
     /**
      * @Route("/test/message")
      */
@@ -82,8 +100,25 @@ class TestController extends AbstractController
             ?                        "Vous êtes maintenant connecté"                            
             ?                    ],                                                             
             ?    ]                                                                              
-            ??                                                                                  
+            ?? 
+
+            ? Les messages flash sont des messages enregistrés dans la session utilisateur. Permettent de passer un message d'une page à une autre.
+            ? Une fois qu'ils ont été affiché, ils seront supprimés de la session.   
         */
+        $this->addFlash("danger", "la requête a échoué");
+        $this->addFlash("danger", "la bdd n'a pas été modifié");
+        $this->addFlash("danger", "erreur d'identifiants");
+        $this->addFlash("success", "requête réalisée avec succès");
+        $this->addFlash("success", "nouveau livre enregistré avec succès");
+        $this->addFlash("success", "identifiants corrects");
+        $this->addFlash("success", "une nouvelle version est disponible");
+        $this->addFlash("success", "il reste 2 jours pour profiter de l'offre");
+        $this->addFlash("success", "Vous êtes maintenant connecté");
+
+        return $this->render("test/message.html.twig", [
+            "message" => "Voici le message à afficher"
+        ]);
+
         return $this->render("test/message.html.twig", [
             "message" => "Voici le message à afficher"
         ]);
@@ -131,7 +166,7 @@ class TestController extends AbstractController
      *  \d    : le caractère doit être un chiffre (d pour digit, chiffre en anglais)
      *    +   : le caractère précédent le + doit être présent au moins 1 fois
      *    *   : le caractère précédent le * peut être présent 0 fois ou autant que l'on veut
-     *    ?   : le caractère précédent le + ne peut être présent qu'1 fois
+     *    ?   : le caractère précédent le ? ne peut être présent qu'1 fois
      */
     public function routeAvecParametre($taille)
     {
@@ -147,6 +182,18 @@ class TestController extends AbstractController
 
         return $this->render("test/variable.html.twig", [ "variable" => $variable]);
     }
+
+    #[Route("/test/salut/{nom}/{prenom}", name:"app_test_salut")]
+    public function salutation($nom, $prenom)
+    {
+        $personne["nom"] = $nom;
+        $personne["prenom"] = $prenom;
+        $p2 = new \stdClass;
+        
+        return $this->render("test/personne.html.twig", [ "personne" => $personne ]);
+    }
+
+
 
     /**
      * @Route("/test/objet", name="app_test_objet")
@@ -203,6 +250,7 @@ class TestController extends AbstractController
         ?     1e argument : la liste totale des produits à afficher
         ?     2e argument : le numéro de la page actuelle
         ?     3e argument : le nombre de produits affichés par page
+        ? 
     */
 
     /* 
@@ -261,5 +309,39 @@ class TestController extends AbstractController
         TODO     | nom      |  Mentor  |
         TODO     | prenom   |  Gérard  |
     */
+
+    /*
+     ? Pour ajouter une route, il suffit d'ajouter une méthode à un contrôleur sans oublier l'annotation.
+     ? Le mieux est de faire un copier-coller. Ne pas oublier de changer le nom de la fonction.
+
+     ? Il ne faut surtout pas oublier de changer le 'name' de la route. Avoir 2 routes avec le même nom risque de rendre
+     ? les 2 routes indisponibles.
+
+     ? On essaiera de respecter la convention de nommage des routes de symfony : 
+        app_nomDuControleur_nomFonction
+     ? Pareil pour les vues : dans le dossier templates , 1 dossier ayant le nom du contrôleur. Souvent la vue aura le 
+     ? nom de la fonction.
+
+     ? Les variables sont passés comme valeur d'un tableau. L'indice sera le nom de la variable dans le fichier twig.
+     */
+    #[Route('/test/autre_route', name: 'app_test_autreroute')]
+    public function autreRoute(): Response
+    {
+        return $this->render('test/index.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
+    }
+
+     /*
+     ? Une route peut retourner du json (pour une connexion AJAX ou dans un projet API)
+     ? l'argument passé à la méthode 'json' sera transformé en objet json 
+     */
+    #[Route('/test/ajax', name: 'app_test_aujax')]
+    public function ajax()
+    {
+        $tableau = [ "nom" => "Onyme", "prenom" => "Anne" ];
+        return $this->json($tableau);
+    }
+
 
 }

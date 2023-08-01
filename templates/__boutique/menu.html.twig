@@ -15,9 +15,10 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("app_logout") }}">
+          <a class="nav-link" href={{ path('app_logout') }}>
             <i class="fa fa-sign-out-alt"></i> Déconnexion
           </a>
+          {{ path('app_login') }}
         </li>
       {% else %}
         <li class="nav-item">

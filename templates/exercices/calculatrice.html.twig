@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calcul{% endblock %}
+
+{% block body %}
+    <ul>
+        <li>{{ nb1 ~ "+" ~ nb2 ~ " = " ~ nb1 + nb2}}</li>
+        <li>{{ nb1 ~ "-" ~ nb2 ~ " = " ~ nb1 - nb2}}</li>
+        <li>{{ nb1 ~ "x" ~ nb2 ~ " = " ~ nb1 * nb2}}</li>
+        <li>{{ nb1 ~ "/" ~ nb2 ~ " = " ~ nb1 / nb2}}</li>
+    </ul>
+
+
+    {% if nb1 == nb2 %}
+        <div class="alert alert-info">Les 2 nombres sont identiques</div>
+    {% elseif nb1 > nb2 %}
+        <div class="alert alert-success">Le 1<sup>er</sup> nombre est supérieur au 2<sup>ième</sup></div>
+    {% elseif nb1 < nb2 %}
+        <div class="alert alert-success">Le 1<sup>er</sup> nombre est inférieur au 2<sup>ième</sup></div>
+    {% else %}
+        <div class="alert alert-warning">Les 2 nombres sont différents</div>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block titreH1 %}Calculs{% endblock %}

@@ -6,31 +6,23 @@
 
 {% block body %}
     <h2>{{ liste_livres.getTotalItemCount }} livres en rayons</h2>
-    <div class="card-columns">
-        {% for l in liste_livres %}
-            {# Lorsque l'on utilise la fonction include, on peut passer des variables à la 
-                vue que l'on inclut. 
-                Le 2ième paramètre de la fonction include doit être en JSON
-                    les propriétés sont variables à passées à la vue
-            #}
+    <div class="d-flex flex-wrap">
+    {% for l in liste_livres %}
             {{ include("livre/vignette.html.twig", { livre: l }) }}
         {% endfor %}
     </div>
 
-    {# fonction : knp_pagination_render
-        1er   paramètre : données
-        2ième paramètre : thème twig (pour ne pas utiliser le thème par défaut)
-        3ième paramètre : query param
-        4ième paramètre : variables de la vue
+    {# ! fonction : knp_pagination_render
+        • 1er   paramètre : données
+        • 2ième paramètre : thème twig (pour ne pas utiliser le thème par défaut)
+        • 3ième paramètre : query param
+        • 4ième paramètre : variables de la vue
             align   : left*, center, right
             size    : small, medium*, large
             rounded : true, false*
-       cf. vendor\knplabs\knp-paginator-bundle\docs\templates.md
+       ! cf. vendor\knplabs\knp-paginator-bundle\docs\templates.md
      #}
     {{ knp_pagination_render(liste_livres, null, {}, {align: "center", size: "large", rounded: true}) }}
-
-
-
 
 {% endblock %}
 
@@ -39,3 +31,4 @@
 {% endblock %}
 
 
+    {# <div class="row row-cols-1 row-cols-md-4 g-4"> #}

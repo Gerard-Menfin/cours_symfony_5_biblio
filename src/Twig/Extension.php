@@ -4,17 +4,16 @@ namespace App\Twig;
 
 use Twig\TwigFilter;
 use App\Entity\Abonne;
-use App\Entity\Client;
 use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class Extension extends AbstractExtension {
     /**
-     * COURS : 
-     * - On utilise l'injection de dépendance pour utiliser les classes appelés Services dans Symfony
-     * - La classe ParameterBagInterface va permettre de récupérer les valeurs des paramètres du projet 
-     *   (déclarés dans config/services.yaml )
+     * 💬 COURS : 
+     * • On utilise l'injection de dépendance pour utiliser les classes appelés Services dans Symfony
+     * • La classe ParameterBagInterface va permettre de récupérer les valeurs des paramètres du projet (déclarés dans config/services.yaml ) 
+     *   
      */
     private $parametres;
 
@@ -23,6 +22,9 @@ class Extension extends AbstractExtension {
         $this->parametres = $parameters;
     }
 
+    /**
+     * Retourne un message de salutation de l'abonné passé en paramètre
+     */
     public function salut(Abonne $abonne, $auj = null)
     {
         $salutations = "Bonjour ";
@@ -38,10 +40,10 @@ class Extension extends AbstractExtension {
     }
 
     /**
-     * J'écris le filtre que je veux ajouter comme n'importe quelle fonction
+     * Pour ajouter un filtre ou une fonction accessible aux fichiers TWIG, on ajoute une méthode à cette classe
+     * qui hérite de AbstractExtension
      */
-    public function autorisations(array $roles): string
-    {
+    public function autorisations(array $roles): string {
         $autorisations = "";
         foreach ($roles as $role ) {
             $autorisations .= $autorisations ? ", " : "";
@@ -73,22 +75,34 @@ class Extension extends AbstractExtension {
         }
         return $autorisations;
     }
-    public function accreditations(Abonne $client)
-    {
+
+    public function accreditations(Abonne $abonne) {
         $autorisations = "";
-        foreach( $client->getRoles() as $role){
+        foreach( $abonne->getRoles() as $role){
             $autorisations .= $autorisations ? ", " : "";
             switch ($role) {
                 case 'ROLE_ADMIN':
-                    $autorisations .= "Gérant";
+                    $autorisations .= "Directeur";
                     break;
                 
-                case 'ROLE_VENDEUR':
-                    $autorisations .= "Vendeur";
+                case 'ROLE_BIBLIO':
+                    $autorisations .= "Bibliothécaire";
+                    break;
+                
+                case 'ROLE_LECTEUR':
+                    $autorisations .= "Lecteur";
+                    break;
+                
+                case 'ROLE_USER':
+                    $autorisations .= "Abonné";
+                    break;
+
+                case 'ROLE_DEV':
+                    $autorisations .= "Développeur";
                     break;
                 
                 default:
-                    $autorisations .= "Membre";
+                    $autorisations .= "Autre";
                     break;
             }
         }
@@ -124,21 +138,28 @@ class Extension extends AbstractExtension {
 
 
     /**
-    La fonction exit n'est pas utilisable dans twig normalement. 
+        La fonction exit n'est pas utilisable dans twig normalement. 
      */
     public function exit()
     {
         exit;
     }
 
-
+    /**
+     * La fonction n'apporte rien de plus par rapport à la fonction is_numeric de PHP mais
+     * le but est de la rendre accessible à Twig
+     */
+    public function estNumerique($variable)
+    {
+        return is_numeric($variable);
+    }
 
     /**
      * Les filtres que l'on veut ajouter doivent être renvoyés dans un array par la fonction getFilters
      * Chaque valeur de cet array est un objet de la classe TwigFilter
      * Les arguments du constructeur de TwigFilter :
-     *      1er : le nom du filtre à utiliser dans les fichiers Twig
-     *      2eme : la fonction qui est déclaré dans cette classe 
+     * •     1er : le nom du filtre à utiliser dans les fichiers Twig
+     * •     2eme : la fonction (callable) qui est déclaré dans cette classe 
      *                  [ $this, nom_de_la_fonction_dans_la_classe ]
 
      * Je référence le nouveau filtre grâce à la méthode getFilters()
@@ -150,7 +171,7 @@ class Extension extends AbstractExtension {
         return [ 
             new TwigFilter("autorisations", [$this, "autorisations"]),
             new TwigFilter("img", [$this, "baliseImg"]),
-            new TwigFilter("resume", [$this, "resume"])
+            new TwigFilter("extrait", [$this, "resume"])
         ];
     }
 

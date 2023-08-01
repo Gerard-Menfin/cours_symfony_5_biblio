@@ -27,7 +27,7 @@
         </thead>
         
         <tbody>
-            {% for i in 1..10 %}
+            {% for i in 1..100 %}
                 <tr>
                     <td>{{ i }}</td>
                     <td>{{ i * 2 }}</td>
@@ -124,10 +124,16 @@
 
 
 {# EXO : afficher cette boucle dans une table HTML
-    | 1  |  2  |
-    | 2  |  4  |
-
-    ...
+    ╔══════╦═══════╗
+    ║  nb  ║ carré ║
+    ╠══════╬═══════╣
+    ║   1  ║    2  ║
+    ║   2  ║    4  ║
+    ║   3  ║    9  ║
+    ║   4  ║   16  ║
+    ║  ... ║  ...  ║
+    ║ 100  ║ 10000 ║
+    ╚══════╩═══════╝
 
     EXO 2 - La limite doit être défini dans le controleur
     Par exemple si je veux affiche de 1 à 20, la valeur

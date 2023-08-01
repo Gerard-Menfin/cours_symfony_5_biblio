@@ -2,9 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Auteur;
 use App\Entity\Livre;
-use App\Entity\Genre;
+use App\Entity\Auteur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,19 +13,18 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class Livre1Type extends AbstractType
+class LivreInlineType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('titre', TextType::class, [
                 "label"         => "Titre du livre",
                 "required"      => false,
                 "constraints"   => [
-                    new NotBlank([
-                        "message" => "Le titre ne peut pas être vide !"
-                    ]),
+                    new NotBlank([ "message" => "Le titre ne peut pas être vide !" ]),
                     new Length([
                         "min" => 2,
                         "minMessage" => "Le titre doit comporter 2 caractères minimun",
@@ -35,35 +33,32 @@ class Livre1Type extends AbstractType
                     ])
                 ]
             ])
-            ->add('auteur', EntityType::class, [
-                'class'         => Auteur::class,
-                "choice_label"  => "identite",
-                "placeholder"   => "Choisir parmi les auteurs enregistrés..."
-            ])
             ->add('couverture', FileType::class,  [ 
                 "mapped"        => false, 
                 "required"      => false,
                 "constraints"   => [ 
                     new File([ 
                                 "mimeTypes" => [  "image/gif", "image/jpeg", "image/png" ],
-                                "mimeTypesMessage" => "Les formats autorisés sont gif, jpeg, png",
+                                "mimeTypesMessage" => "Rappel : les formats autorisés sont gif, jpeg, png",
                                 "maxSize" => "2048k",
-                                "maxSizeMessage" => "Le fichier ne peut pas faire plus de 2Mo"
+                                "maxSizeMessage" => "Le fichier ne doit pas peser plus de 2Mo"
                     ])
                 ],
-                "help" => ""
+                "row_attr"          =>  [ "style" => "width: 80px;" ],
+                "help" => "Formats autorisés : image (jpeg, gif, png)"
             ])
-            ->add('genres', EntityType::class, [
-                'class'         => Genre::class,
-                "choice_label"  => "libelle",
-                'multiple'      => true,
-                'expanded'      => true,
+            ->add('auteur', EntityType::class, [
+                'class'         => Auteur::class,
+                "choice_label"  => "identite",
+                "placeholder"   => "Choisir parmi les auteurs enregistrés..."
+            ])
+            ->add('enregistrer', SubmitType::class, [
             ])
 
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Livre::class,

@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <h1>
+        AUJOURD'HUI
+    </h1>
+    <ul>
+        <li>
+            <h2>Avec variable venant du contrôleur</h2>
+                {{ auj }}
+        </li>
+        <li>
+            <h2>Avec une fonction Twig</h2>
+                {{ dump(date()) }}
+        </li>
+        <li>
+            <h2>Avec une fonction Twig et un filtre Twig pour le format</h2>
+                {{ date()|date("d/m/y") }}
+        </li>
+    </ul>
+{% endblock %}

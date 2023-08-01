@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>{% block title %}Biblio SF5{% endblock %}</title>
+		<title>{% block title %}Bienvenue à la Be-blio !{% endblock %}</title>
         <link rel="shortcut icon" href="{{ asset(chemin_images ~ "logo.png" )}}" type="image/png">
 		
         {# Run `composer require symfony/webpack-encore-bundle` and uncomment the following Encore helpers to start using Symfony UX #}
@@ -16,11 +16,11 @@
 	</head>
 
     {# COURS : 
-        app.request.schemeAndHttpHost           : protocole - domaine
-        app.request.attributes.get("_route")    : retourne le nom de la route correspondant à l'URL actuelle
-        app.request.pathinfo                    : URL relatif
-        url("app_register")                     : retourne URL complet selon une route
-        path("app_register")                    : retourne URL relatif selon une route
+        • app.request.schemeAndHttpHost           : protocole - domaine
+        • app.request.attributes.get("_route")    : retourne le nom de la route correspondant à l'URL actuelle
+        • app.request.pathinfo                    : URL relatif
+        • url("app_register")                     : retourne URL complet selon une route
+        • path("app_register")                    : retourne URL relatif selon une route
     #}
     <body>
         <div class="container">
@@ -35,7 +35,14 @@
                 <div class="mb-5" id="main">
                     <h1 class="mt-2 mb-3 text-center">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
 
-                    {% block body %}{% endblock %}
+                    {% block body %}
+                        {% for m in 5..2 %}
+                            <p>{{ "ce texte va s'afficher" }} </p>
+                        {% endfor %}
+                        {% for m in "Ajax".."z" %}
+                            <p>{{ m }} </p>
+                        {% endfor %}
+                    {% endblock %}
                 </div>
             </div>
             {# <footer class="container">Ceci est le footer</footer> #}
@@ -45,7 +52,7 @@
 </html>
 
 
-{# 
+{# ces commentaires disparaîtront de l'HTML final #}
 
 {# } : balise twig pour les commentaires
 {% %} : balise twig pour les structures, instructions
@@ -110,8 +117,8 @@ STRUCTURE CONDITIONNELLE
         ╔═══════════════════════════════════════════╦═══════════════════════════════════════════╗
         ║                   PHP                     ║              TWIG                         ║
         ╠═══════════════════════════════════════════╬═══════════════════════════════════════════╣
-        ║   if (isset($variable))                   ║   if variable is defined                  ║
-        ║   if (isset($variable))                   ║   if variable is defined                  ║
+        ║   if (isset($var))                        ║   if var is defined                       ║
+        ║   if (empty($var))                        ║   if var is defined and var is empty      ║
         ╚═══════════════════════════════════════════╩═══════════════════════════════════════════╝
         
     - ⚠ Notez qu'il n'y a pas de () autour de la condition
@@ -137,8 +144,9 @@ STRUCTURE ITERATIVE
 
 
     - Syntaxe : 
-        {% for i in 1..10 %}
-            ...
+        {% for i in debut..fin %}
+            # avec debut et fin des int
+            # pour décrémenter, debut > fin
         {% endfor %}
     
     - Pour une boucle sur un tableau, on peut gérer le case où le tableau est vide
@@ -148,5 +156,24 @@ STRUCTURE ITERATIVE
             ...
         {% endfor %}
 
+    - On peut aussi utiliser des strings pour début et fin
+        {% for i in "a".."z" %}
+            ⚠ ne prend en compte que les initiales
+            ⚠ utilise l'ordre ASCII (ex: les MAJ sont inférieures aux min)
+        {% endfor %}
+loop.index 	The current iteration of the loop. (1 indexed)
+loop.index0 	The current iteration of the loop. (0 indexed)
+loop.revindex 	The number of iterations from the end of the loop (1 indexed)
+loop.revindex0 	The number of iterations from the end of the loop (0 indexed)
+loop.first 	True if first iteration
+loop.last 	True if last iteration
+loop.length 	The number of items in the sequence
+loop.parent 	The parent context
 
-#}
+
+
+
+{{ include('vue.html.twig') }}#}
+
+{# avec paramètres envoyés à la vue 
+{{ include('vue.html.twig', { variable: "valeur" }) }}#}

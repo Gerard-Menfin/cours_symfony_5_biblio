@@ -18,35 +18,9 @@
             </tr>
             <tr>
                 <th>Biographie</th>
-                <td>{{ auteur.biographie }}</td>
-            </tr>
-            <tr>
-                <th>Livres</th>
-                <td>
-                    <table class="table">
-                        <thead class="table-dark">
-                            <tr>
-                                <td>ID</td>
-                                <td>Titre</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for livre in auteur.livres %}
-                                <tr>
-                                    <td>{{ livre.id }} </td>
-                                    <td>{{ livre.titre }} </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </td>
+                <td>{{ auteur.bio }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_auteur_index') }}" class="btn btn-secondary"><i class="fa fa-reply"></i> Retour à la liste</a>
-
-    <a href="{{ path('app_admin_auteur_edit', {'id': auteur.id}) }}">edit</a>
-
-    {{ include('admin/auteur/_delete_form.html.twig') }}
 {% endblock %}

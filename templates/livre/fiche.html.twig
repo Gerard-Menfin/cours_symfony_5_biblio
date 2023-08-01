@@ -27,17 +27,17 @@
                 <li class="list-group-item">
                     <h3 class="row">
                         <strong class="col-3 text-right">Auteur</strong>
-                        <span class="col-9">{{ livre.auteur }}</span>
+                        <span class="col-9">{{ livre.auteur.identite }}</span>
                     </h3>
                 </li>
                 
                 <li class="list-group-item">
                     <h4 class="row">
-                        <strong class="col-3 text-right">Catégories</strong>
+                        <strong class="col-3 text-right">Genres</strong>
                         {# COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
                         <span class="col-9">
-                            {% for categorie in livre.categories %}
-                                {{ categorie.titre ~ (loop.last ? "" : ", ") }}
+                            {% for genre in livre.genres %}
+                                {{ genre.libelle ~ (loop.last ? "" : ", ") }}
                             {% endfor %}
                             {# On peut aussi utiliser la fonction getToutescategories ajoutée dans l'entité Categorie #}
                             {# {{ livre.toutesCategories }}  #}

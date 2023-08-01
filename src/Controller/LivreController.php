@@ -22,29 +22,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class LivreController extends AbstractController
 {
 
-    /**
-     * @Route("/emprunter/{id}", name="_emprunter", requirements={"id"="\d+"})
-     */
-    public function emprunter(EntityManagerInterface $em, Livre $livre)
-    {
-        $emprunt = new Emprunt;
-        $emprunt->setAbonne( $this->getUser() );
-        $emprunt->setDateEmprunt( new DateTime() );
-        $emprunt->setLivre( $livre );
-        $em->persist( $emprunt );
-        $em->flush();
-        $this->addFlash("success", "Votre emprunt du livre <strong>" . $livre->getTitre() . "</strong> a été enregistré");
-        return $this->redirectToRoute("app_espace");
-    }
-
-    /**
-     * @Route("/fiche/{url}", name="_fiche2")
-     */
-    public function ficheLivre(Livre $livre) {
-        return $this->render("livre/fiche.html.twig", compact("livre"));
-    }
-
-
     /********************************************************************************************************** */
     /********************************************************************************************************** */
     /********************************************************************************************************** */
@@ -66,18 +43,46 @@ class LivreController extends AbstractController
     }
 
     /**
+     * 
+     * Pour instancier un objet de la classe Request, on va utiliser l'injection de dépendance.
+     * On définit un paramètre dans une méthode d'un contrôleur de la classe Request et dans cette méthode,
+     * on pourra utiliser l'objet, qui aura des propriétés avec toutes les valeurs des superglobales de PHP
+     * ex:
+     *      * $request->query      : cette propriété est l'objet qui a les valeurs de $_GET
+     * $request->request    : propriété qui a les valeurs de $_POST
+    
+        La classe Request pert de gérer les informations de la requête HTTP.
+        Dans un objet de cette classe, on va aussi retrouver toutes les valeurs des variables super-globales de PHP.
+        à chaque variable superglobale correspond une propriété publique de l'objet Request : 
+            query       correspond à        $_GET
+            request     correspond à        $_POST
+            files                           $_FILES
+            session                         $_SESSION
+            cookies                         $_COOKIES
+            server                          $_SERVER
+
+        Ces propriétés sont des objets qui ont des méthodes pour accéder aux valeurs :
+            get(indice)   pour récupérer une valeur de l'indice 
+                par exemple $_POST["nom"]  sera récupéré avec $request->request->get("nom")
+
+            has(indice)   pour savoir si l'indice existe
+        
+        L'objet Request a aussi des méthodes, par exemple :
+            isMethod("POST")  pour savoir si la méthode HTTP correspond à la méthode POST
+        ?  L'objet de la classe Request a des propriétés publiques de type objet qui contiennent toutes 
+        ?  les valeurs des variables superglobales de PHP.
+        ?       $request->query         contient        $_GET
+        ?       $request->request       contient        $_POST
+        ?       $request->files         contient        $_FILES
+        ?       $request->server        contient        $_SERVER
+        ?       $request->cookies       contient        $_COOKIES
+        ?       $request->session       contient        $_SESSION
+        ?   Ces différents objets ont des méthodes communes : get, has,...    
+        ?   La méthode get() permet de récupérer la valeur voulue.
+        ?   𝒆̲̅𝒙̲̅ : $motRecherche = $request->query->get("search");  
+        ?        $motRecherche = $_GET["search"]
+     * 
      * @Route("/cours/ajouter", name="_ajouter")
-     * 
-     * ? La classe Request permet de gérer tout ce qui vient d'une requête HTTP
-     * ? Comme pour la classe Repository, on doit l'utiliser en injection de dépendance.
-     * ? L'objet $request a des propriétés qui contiennent toutes les valeurs des variables
-     * ? super-globales de PHP. Par exemple : 
-     * ?  la propriété query   contient $_GET
-     * ?  la propriété request contient $_POST
-     * 
-     * ? Cet objet a aussi des méthodes, par exemple
-     * ?      isMethod() permet de savoir si on est en méthode GET ou POST
-     * 
      */
     public function ajouter(Request $request, EntityManager $em)
     {
@@ -92,8 +97,13 @@ class LivreController extends AbstractController
                 $livre = new Livre;
                 $livre->setTitre($titre);
                 // $livre->setAuteur($auteur);
-                /* La méthode EntityManager::persist prépare et met en attente la requête INSERT INTO à partir
-                    des valeurs de l'objet passé en paramètre */
+                /**
+                    La méthode EntityManager::persist prépare et met en attente la requête INSERT INTO à partir
+                    des valeurs de l'objet passé en paramètre 
+                    
+                quand on veut mettre à jour un enregistrement, on n'est pas obligé d'utiliser la méthode 'persist'. 
+                Les modifications faites à l'objet Entity vont être enregistrées automatiquement.
+            */
                 $em->persist($livre);
                 /* La méthode EntityManager::flush exécute les requêtes en attente.
                     Après le 'flush' la base de données est modifiée  */
@@ -156,12 +166,21 @@ class LivreController extends AbstractController
     public function nouveau(Request $request, EntityManager $em)
     {
         $livre = new Livre;
+        /* La méthode 'createForm' va créer un objet qui va permettre de gérer un formulaire
+            créé à partir de la classe Form\AbonneType. On lie ce formulaire à l'objet
+            $abonne
+
+            AbonneType::class = "App\Form\AbonneType", c'est-à-dire le nom complet de la classe
+            (en string)
+        */
         /* Le 2ième paramètre de 'createForm' est un objet Entity. Le formulaire va être lié à cet objet */
         $form = $this->createForm(LivreType::class, $livre);
 
         /* La méthode 'handleRequest' permet à la variable $form de gérer les informations venant de la requête HTTP (en utilisant l'objet 
                 de la classe Request) */
         $form->handleRequest($request);
+
+        /* On vérifie si le formulaire a été soumis et s'il est valide */
         if( $form->isSubmitted() && $form->isValid() ){
             $em->persist($livre);
             $em->flush();
@@ -193,8 +212,9 @@ class LivreController extends AbstractController
      */
     public function fiche(LivreRepository $lr, $id)
     {
-       /* EXO : Affichez les informations du livre puis la liste de toutes les fois où le
-            livre a été emprunté
+       /* 
+          !EXO : Affichez les informations du livre puis la liste de toutes les fois où le
+          !     livre a été emprunté
        */
         $livre = $lr->find($id);
         return $this->render("livre/fiche.html.twig", [ "livre" => $livre ]);
@@ -207,8 +227,33 @@ class LivreController extends AbstractController
      * 
      * @Route("/afficher/{id}", name="_afficher", requirements={"id"="\d+"})
      */
-     public function afficher(Livre $livre)
-     {
-        return $this->render("livre/detail.html.twig", [ "livre" => $livre ]);
-     }
+    public function afficher(Livre $livre)
+    {
+       return $this->render("livre/detail.html.twig", [ "livre" => $livre ]);
+    }
+
+    /**
+     * @Route("/emprunter/{id}", name="_emprunter", requirements={"id"="\d+"})
+     */
+    public function emprunter(EntityManagerInterface $em, Livre $livre)
+    {
+        $emprunt = new Emprunt;
+        $emprunt->setAbonne( $this->getUser() );
+        $emprunt->setDateEmprunt( new DateTime() );
+        $emprunt->setLivre( $livre );
+        $em->persist( $emprunt );
+        $em->flush();
+        $this->addFlash("success", "Votre emprunt du livre <strong>" . $livre->getTitre() . "</strong> a été enregistré");
+        return $this->redirectToRoute("app_espace");
+    }
+
+    /**
+     * @Route("/fiche/{url}", name="_fiche2")
+     */
+    public function ficheLivre(Livre $livre) {
+        return $this->render("livre/fiche.html.twig", compact("livre"));
+    }
+
+
+
 }

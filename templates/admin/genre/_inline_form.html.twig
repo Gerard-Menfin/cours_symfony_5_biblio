@@ -1,0 +1,8 @@
+{{ form_start(form, {attr: {"class": "frm", action: path('app_admin_genre_new') }}) }}
+    <td><a class="btn btn-primary disabled"><i class="fa fa-plus"></i></a></td>
+    <td>{{ form_widget(form.libelle, {attr: {placeholder: "libellé"}}) }}</td>
+    <td>{{ form_widget(form.mots_cles, {attr: {placeholder: "mots clés"}}) }}</td>
+    <td></td>
+    <td><button  class="btn btn-secondary form-control"><i class="fa fa-save"></i></button></td>
+    {{ form_widget(form) }}
+{{ form_end(form) }}

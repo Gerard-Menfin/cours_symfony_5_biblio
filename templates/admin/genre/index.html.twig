@@ -9,15 +9,21 @@
     <table class="table">
         <thead class="table-dark">
             <tr>
-                <th>Id</th>
-                <th>Libellé</th>
-                <th>Mots clés</th>
-                <th>Nb de livres</th>
-                <th><i class="fa fa-tools"></i></th>
+                <th class="col-1">Id</th>
+                <th class="col-4">Libellé</th>
+                <th class="col-5">Mots clés</th>
+                <th class="col-1">Nb de livres</th>
+                <th class="col-1"><i class="fa fa-tools"></i></th>
             </tr>
         </thead>
         <tbody>
-        {% for genre in genres %}
+            {# 💬   la fonction 'render' permet d'afficher le rendu d'une route (en utilisant 'path' ou 'url')    
+            💬      avec la fonction 'controller', on peut appeler directement une méthode d'un contrôleur sans   
+            💬      sans être obligé de créer une nouvelle route                                                #}
+            <tr> {{ render(controller("App\\Controller\\Admin\\GenreController::form")) }} </tr>
+            
+            {% for genre in genres %}
+
             <tr>
                 <td>{{ genre.id }}</td>
                 <td>{{ genre.libelle }}</td>
@@ -28,11 +34,14 @@
                     <a href="{{ path('app_admin_genre_edit', {'id': genre.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
-        {% else %}
+
+            {% else %}
+
             <tr>
                 <td colspan="4">Aucun genre enregis</td>
             </tr>
-        {% endfor %}
+
+            {% endfor %}
         </tbody>
     </table>
 

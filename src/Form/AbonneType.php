@@ -34,8 +34,7 @@ class AbonneType extends AbstractType
             ])
             ->add('roles', ChoiceType::class, [
                 "choices"   => [
-                    "Abonné"         => "ROLE_ABONNE",
-                    // "Abonné"         => "ROLE_USER"
+                    "Abonné"         => "ROLE_USER",
                     "Lecteur"        => "ROLE_LECTEUR",
                     "Bibliothécaire" => "ROLE_BIBLIOTHECAIRE",
                     "Directeur"      => "ROLE_ADMIN",
@@ -46,12 +45,21 @@ class AbonneType extends AbstractType
                 "label"     => "Niveau d'accès"
             ])
             ->add('password', TextType::class, [
-                "mapped"    => false,   /**
-                                            l'option "mapped" avec la valeur false, permet de préciser que
-                                            le champ ne sera pas lié à une propriété de l'objet utilisé pour
-                                            afficher le formulaire */
+                "mapped"    => false,   
+                /**
+                    l'option "mapped" avec la valeur false, permet de préciser que
+                    le champ ne sera pas lié à une propriété de l'objet utilisé pour
+                    afficher le formulaire.
+                    Donc la valeur de ce champ ne va pas modifier automatiquement l'objet Livre.
+                    */
                 "required"  => $abonne->getId() ? false : true,
                 "label"  => "Mot de passe"
+                // new Regex([
+                //     "pattern" => "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/",
+                //     "message" => "Le mot de passe doit être composé d'au moins une minuscule, une majuscule, un chiffre , un caractère spécial -+!*$@%_, et 
+                //                     avoir entre 8 et 15 caractères"
+                // ])
+
             ])
             ->add('prenom')
             ->add('nom')

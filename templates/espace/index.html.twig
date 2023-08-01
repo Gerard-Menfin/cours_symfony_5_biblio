@@ -20,3 +20,83 @@
         </table>
     
 {% endblock %}
+
+
+{# 
+{% extends 'base.html.twig' %}
+
+{% block title %}Lecteur {{ app.user.username }}{% endblock %}
+
+{% block h1 %}Mon espace lecteur{% endblock %}
+
+{% block body %}
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2 bg-dark text-white"><strong>Pseudo</strong></div>
+                <div class="col-10">{{ app.user.pseudo }}</div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2 bg-dark text-white"><strong>MdP</strong></div>
+                <div class="col-10">****</div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2 bg-dark text-white"><strong>Prénom</strong></div>
+                <div class="col-10">{{ app.user.prenom }}</div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2 bg-dark text-white"><strong>Nom</strong></div>
+                <div class="col-10">{{ app.user.nom }}</div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2 bg-dark text-white"><strong>Mes empruts</strong></div>
+                <div class="col-10">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <th>Livre</th>
+                            <th>Emprunté</th>
+                            <th>Rendu le</th>
+                        </thead>
+                        <tbody>
+                            {% set compteur = 0 %}
+                            {% for emprunt in app.user.emprunts %}
+                                <tr>
+                                    <td> <strong>{{ emprunt.livre.titre }}</strong> de <i>{{ emprunt.livre.auteur }}</i></td>
+                                    <td>{{ emprunt.dateemprunt|date("d/m/Y") }}</td>
+                                    <td>
+                                        {% if emprunt.dateRetour is null %}
+                                            {% set compteur = compteur + 1 %}
+                                            <a href="{{ path("emprunt_retour", {"id": emprunt.id}) }}" class="btn btn-warning">à rendre</a>
+                                        {% else %}
+                                            {{ emprunt.dateRetour|date("d/m/Y") }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2 bg-dark text-white"><strong>Livres à rendre</strong></div>
+                <div class="col-10">{{ compteur }}</div>
+            </div>
+        </li>
+
+    </ul>
+
+{% endblock %}
+
+#}

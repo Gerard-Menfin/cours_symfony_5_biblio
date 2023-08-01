@@ -17,7 +17,7 @@ class EntityListener{
         /* Si l'entité qui a déclenché l'évènement est une entité Livre... */
         if( $entite instanceof Livre ){
             $livreRepository = $lifeCycle->getEntityManager()->getRepository(Livre::class);
-            $livreRepository = (object)$livreRepository;
+            // $livreRepository = (object)$livreRepository;
             $entite->setDispo( !in_array($entite, $livreRepository->findLivresEmpruntes()) );
         }
     }

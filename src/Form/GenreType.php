@@ -12,9 +12,9 @@ class GenreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle')
-            ->add('mots_cles')
-            ->add('livres')
+            ->add('libelle', null,   [ "label"  => "Libellés" ])
+            ->add('mots_cles', null, [ "label"  => "Mots clés" ])
+            // ->add('livres')
         ;
     }
 

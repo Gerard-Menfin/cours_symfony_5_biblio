@@ -38,12 +38,11 @@ class AbonneRepository extends Depot implements PasswordUpgraderInterface
     }
     
     /**
-     *? Abonnés qui ont des livres non rendus
-     *? SELECT a.*
-     *? FROM abonne a JOIN emprunt e ON a.id = e.abonne_id
-     *? WHERE e.date_retour IS NULL
-     *
-     *? NB : la jointure peut être définiée à partir des entités
+     Abonnés qui ont des livres non rendus
+     SELECT a.*
+     FROM abonne a JOIN emprunt e ON a.id = e.abonne_id
+     WHERE e.date_retour IS NULL
+         NB : la jointure peut être définiée à partir des entités
      */
     public function findByLivresNonRendus(){
         $requete = $this->createQueryBuilder("a")
@@ -93,6 +92,16 @@ class AbonneRepository extends Depot implements PasswordUpgraderInterface
         return $requete->getQuery()->getResult();
     }
 
+
+
+
+
+
+
+
+
+
+    
     // /**
     //  * @return Abonne[] Returns an array of Abonne objects
     //  */

@@ -3,12 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Livre;
-use App\Form\Livre1Type;
-use Cocur\Slugify\Slugify;
+use App\Form\LivreType;
+use App\Form\LivreInlineType;
+use App\Form\LivreListAddType;
 use App\Form\LivreCategoriesType;
 use App\Repository\LivreRepository;
-use Doctrine\ORM\EntityManagerInterface as EM;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface as EM;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -21,13 +22,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class LivreController extends AbstractController
 {
     /**
-     * @Route("/", name="app_admin_livre_index", methods={"GET"})
+     * @Route("/", name="app_admin_livre_index", methods={"GET", "POST"})
      */
     public function index(LivreRepository $lr, Paginator $paginator, Request $rq): Response
     {
+       // On instancie une objet qui va représenter l'enregistrement en bdd
+        $livre = new Livre;
+
+        // On crée un objet qui servira à gérer le formulaire. Cet objet est créé à partir de la 
+        //  classe LivreType, et on relie à ce formulaire l'objet $livre
+        $form = $this->createForm(LivreInlineType::class, $livre);
+
+        // On récupère ce qui vient du formulaire envoyé par l'utilisateur ($_POST). Si le formulaire a été
+        // soumis, l'objet $livre est mis à jour avec les informations de $_POST
+        $form->handleRequest($rq);
         $nombreParPage = 10;
+        if($form->isSubmitted() && $form->isValid()) {
+            $lr->save($livre, true);
+            $this->addFlash("success", "Livre ajouté !");
+            return $this->redirectToRoute("app_admin_livre_index");
+        }
         return $this->render('admin/livre/index.html.twig', [
-            'livres' => $paginator->paginate($lr->findAll(), $rq->query->get("page", 1 ), $nombreParPage),
+            'livres'    => $paginator->paginate($lr->findAll(), $rq->query->get("page", 1 ), $nombreParPage),
+            'form'      => $form->createView()
         ]);
     }
 
@@ -54,7 +71,7 @@ class LivreController extends AbstractController
     {
         $livre = new Livre();
         // $livre->addCategory(new Categorie);
-        $form = $this->createForm(Livre1Type::class, $livre);
+        $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -98,7 +115,7 @@ class LivreController extends AbstractController
      */
     public function edit(Request $request, Livre $livre, LivreRepository $lr): Response
     {
-        $form = $this->createForm(Livre1Type::class, $livre);
+        $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -221,6 +238,30 @@ class LivreController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('livre_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /* */
+
+    /**
+     * @Route("/par-titre/{titre}")
+     * L'objet $livre vaudra l'enregistrement de la table livre dont le titre
+     * est égal à {titre}
+     */
+    public function parTitre(Livre $livre)
+    {
+        return $this->render('livre/show.html.twig', [
+            'livre' => $livre,
+        ]);
+    }
+
+    /**
+     * @Route("/test", name="livre_test", methods={"GET"}, requirements={"id"="[0-9]+"})
+     */
+    public function test()
+    {
+        $livre = new Livre();
+        // $livre->setTitre("Le meilleur des mondes")->setAuteur("Aldous Huxley");
+        return $this->render("livre/fiche.html.twig", [ "livre" => $livre ]);
     }
 
 }

@@ -5,7 +5,6 @@
 
 $largeur_aside: 200px;
 
-
 aside{
     position: fixed;
     width: $largeur_aside;
@@ -21,11 +20,7 @@ aside{
 
 ///////////////////
 
-
-
-table.table{
-    background-color: #eee;
-}
+.table, form.frm { background-color: #eee9 !important; font-weight: bold; }
 
 thead th {
     text-align: center;
@@ -45,7 +40,7 @@ th.sorted.asc::after{
 
 th a { color: white; }
 
-label{
+label, .col-form-label{
     font-weight: 700;
 }
 
@@ -53,8 +48,11 @@ label{
     position: fixed;
     width: calc(100% - 200px);
     top: 0px;
+    z-index: 1000;
 }
 
-.table { background-color: #eee9 !important; font-weight: bold; }
 
-i.fa { font-size: 1.1em; }
+i.fa { font-size: 1.5em; }
+table i.fa { margin-right: 3%; }
+
+form.frm { padding: 1% }

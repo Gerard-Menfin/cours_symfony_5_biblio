@@ -61,8 +61,7 @@ class Livre extends Entity
 
     public function __construct()
     {
-        $this->emprunts = new ArrayCollection();
-      
+        $this->emprunts = new ArrayCollection();   
     }
 
     public function getId(): ?int
@@ -166,7 +165,7 @@ class Livre extends Entity
     }
 
     /**
-     * Retourne la liste des categories liés au livre sous forme de string
+     * Retourne la liste des genres liés au livre sous forme de string
      */
     public function getGenre(): string
     {
