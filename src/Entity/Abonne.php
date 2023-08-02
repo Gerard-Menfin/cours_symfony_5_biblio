@@ -258,4 +258,15 @@ class Abonne extends Entity implements UserInterface, PasswordAuthenticatedUserI
         }
         return $texte;
     }
+
+    // ************************
+    public function getIdentite()
+    {
+        return trim("$this->prenom $this->nom");
+    }
+    public function getNomComplet()
+    {
+        return trim("$this->prenom $this->nom");
+    }
+
 }

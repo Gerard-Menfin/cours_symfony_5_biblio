@@ -90,6 +90,10 @@ class GenreController extends AbstractController
 
     public function form()
     {
+        /**
+         * 💬 createForm sera appelé sans 2ième argument. cf GenreType.php
+         */
+
         $form = $this->createForm(GenreType::class);
         return $this->renderForm("admin/genre/_inline_form.html.twig", [ "form" => $form ]);
     }

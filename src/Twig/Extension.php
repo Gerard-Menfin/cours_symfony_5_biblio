@@ -109,7 +109,7 @@ class Extension extends AbstractExtension {
         return $autorisations;
     }
 
-    public function resume(string $texte, int $longueur)
+    public function resume(?string $texte, int $longueur)
     {
         return strlen($texte) > $longueur ? substr($texte, 0, $longueur) . "[...]" : $texte;
     }

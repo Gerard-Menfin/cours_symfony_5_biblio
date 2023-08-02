@@ -18,19 +18,15 @@
             </tr>
             <tr>
                 <th>Accréditations</th>
-                <td>{{ abonne.roles ? abonne.roles|json_encode : '' }}</td>
+                <td>{{ abonne.autorisations }}</td>
             </tr>
             <tr>
                 <th>Mot de passe</th>
-                <td>{{ abonne.password }}</td>
+                <td>{{ abonne.password ? "*****" : "<i class='fa fa-times'></i>" }}</td>
             </tr>
             <tr>
-                <th>Prénom</th>
-                <td>{{ abonne.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ abonne.nom }}</td>
+                <th>Prénom Nom</th>
+                <td>{{ abonne.identite }}</td>
             </tr>
             <tr>
                 <th>Emprunts</th>
