@@ -5,19 +5,30 @@
 {% block titre %} {{ block("title") }} {% endblock %}
 
 {% block body %}
-    <h2>Mes livres préférés</h2>
-    <h2>Mes réservations</h2>
-        {{ include ("espace/panier.html.twig") }}
-    <h2>Mes emprunts</h2>
-    <table class="table">
-        {% for emprunt in app.user.emprunts %}
-            <tr>
-                <td>{{ emprunt.livre }}</td> {# COURS : possible grâce à la méthode magique __toString() #}
-                <td>{{ emprunt.dateEmprunt|date() }}</td>
-                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date() : "à rendre" }}</td>
-            </tr>
-        {% endfor %}
-        </table>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h2>Mes livres préférés</h2>
+        </li>
+        
+        <li class="list-group-item">
+            <h2>Mes réservations</h2>
+            {{ include ("espace/panier.html.twig") }}
+        </li>
+        
+        <li class="list-group-item">    
+            <h2>Mes emprunts</h2>
+            <table class="table">
+            {% for emprunt in app.user.emprunts %}
+                <tr>
+                    <td>{{ emprunt.livre.titreAuteur }}</td> {# COURS : possible grâce à la méthode magique __toString() #}
+                    <td>{{ emprunt.dateEmprunt|date() }}</td>
+                    <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date() : "à rendre" }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </li>
+    </ul>
+    
     
 {% endblock %}
 

@@ -9,11 +9,11 @@ twig:
         chemin_images: "/img/"
         chemin_couvertures: "/img/couvertures/"
     
-    # la propriété 'date' va permettre de configurer le format par défaut d'affichage des date
+    # la propriété 'date' va permettre de configurer le format par défaut du filtre 'date'
     date:
-        format: d/m/Y H:i
+        format: d/m/Y
 
-    # les string ne sont pas échappés auto donc l'HTML est interprété. Il faut utiliser le filtre 
+    # 💬 
     autoescape: false
 
 

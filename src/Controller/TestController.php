@@ -343,5 +343,72 @@ class TestController extends AbstractController
         return $this->json($tableau);
     }
 
+    #[Route('/test/entite', name: 'app_test_entite')]
+    public function entite()
+    {
+        $tableau = [ "nom" => "Onyme", "prenom" => "Anne" ];
+        return $this->json($tableau);
+    }
+
+//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
+    /**
+     * @Route("/test/heritage")
+     */
+    public function heritage()
+    {
+        return $this->render("test/heritage.html.twig");
+    }
+
+
+    /**
+     * @Route("/test/transitif")
+     */
+    public function transitif()
+    {
+        return $this->render("test/transitif.html.twig");
+    }
+
+    /**
+     * @Route("/test/tableau")
+     */
+    public function tableau2()
+    {
+        $tab = [ "jour" => "07", "mois" => "mai", "annee" => 2021 ];
+
+        return $this->render("test/variables.html.twig", [
+            "tableau" => $tab,
+            "tableau2" => [ 45, "test", true ],
+            "nombre" => 0,
+            "chaine" => ""
+        ]);
+    }
+
+
+    /**
+     * @Route("/test/salutation/{prenom?}")
+     */
+    // #[Route('/test/salutation/{prenom?}')]
+    public function salutation2($prenom )
+    {
+        $prenom = $prenom ?? "inconnu";
+        return $this->render("test/salutation.html.twig", [ 
+            "prenom" => $prenom
+            // "nombre" => 456    
+        ]);
+        // EXO : créez la vue et affichez dans la balise h1
+            // Bonjour prenom
+    }
+
+
+    /**
+     * @Route("/test/calcul/{nb1}-{nb2}", name="test_calcul", requirements={"nb1"="[0-9]+", "nb2"="[0-9]+"})
+     */
+    public function calcul($nb1, $nb2)
+    {
+        return $this->render("test/calcul.html.twig", [ "nb1" => $nb1, "nb2" => $nb2 ]);
+    }
+
+
 
 }

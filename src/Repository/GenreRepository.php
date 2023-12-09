@@ -20,6 +20,16 @@ class GenreRepository extends Depot
         parent::__construct($registry, Genre::class);
     }
 
+    public function recherche($mot){
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.libelle LIKE :val OR g.motsCles LIKE :val')
+            ->setParameter('val', '%' . $mot . '%')
+            ->orderBy('g.libelle', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
      ? Pour faire une jointure DQL sur une relation n-n, dans la méthode 'join', il faut utiliser la propriété
      ? liée à l'entité jointe. Ne pas utiliser WITH...

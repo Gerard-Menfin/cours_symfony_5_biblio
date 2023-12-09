@@ -123,6 +123,16 @@ class LivreController extends AbstractController
             // si un fichier a été téléversé dans l'input 'couverture'...
             if( $fichier = $form->get("couverture")->getData() ){
                 
+                if( $livre->getCouverture() ) {
+                    $ancienFichier = $this->getParameter("dossier_images") . "/" .  $livre->getCouverture();
+                    if( file_exists( $ancienFichier ) ) {
+                        /**
+                        Si vous essayez de supprimer un fichier qui n'existe pas, la fonction unlink renvoie une erreur
+                         */
+                        unlink($ancienFichier);
+                    }
+                }
+                
                 // on récupère le nom du fichier qui a été téléversé
                 $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
 

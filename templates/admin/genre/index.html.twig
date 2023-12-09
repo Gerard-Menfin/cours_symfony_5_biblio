@@ -22,16 +22,16 @@
             💬      sans être obligé de créer une nouvelle route                                                #}
             <tr> {{ render(controller("App\\Controller\\Admin\\GenreController::form")) }} </tr>
             
-            {% for genre in genres %}
+            {% for entite in genres %}
 
             <tr>
-                <td>{{ genre.id }}</td>
-                <td>{{ genre.libelle }}</td>
-                <td>{{ genre.motsCles }}</td>
-                <td>{{ genre.livres|length }}</td>
+                <td>{{ entite.id }}</td>
+                <td>{{ entite.libelle }}</td>
+                <td>{{ entite.motsCles }}</td>
+                <td>{{ entite.livres|length }}</td>
                 <td>
-                    <a href="{{ path('app_admin_genre_show', {'id': genre.id}) }}"><i class="fa fa-eye"></i></a>
-                    <a href="{{ path('app_admin_genre_edit', {'id': genre.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a href="{{ path('app_admin_genre_show', {'id': entite.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('app_admin_genre_edit', {'id': entite.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
 

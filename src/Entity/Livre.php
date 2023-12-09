@@ -59,9 +59,12 @@ class Livre extends Entity
      */
     private $emprunts;
 
+    public $libelle;
+
     public function __construct()
     {
-        $this->emprunts = new ArrayCollection();   
+        $this->emprunts = new ArrayCollection();
+        $this->libelle = $this->titre;
     }
 
     public function getId(): ?int
@@ -219,9 +222,9 @@ class Livre extends Entity
     }
 
     /*********************************************************************************************/
-    public function __toString()
+    public function getTitreAuteur()
     {
-        return ucfirst( $this->getTitre() ) . " - " . strtoupper( $this->getAuteur()->getIdentite() );
+        return ucfirst( $this->getTitre() ) . " - " . ucfirst( $this->getAuteur()->getIdentite() );
     }
     
     

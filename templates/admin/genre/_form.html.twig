@@ -1,4 +1,4 @@
 {{ form_start(form, {"attr" : {"class": "frm" }}) }}
     {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    {{ include ( "admin/_communs/_buttons_form.html.twig" ) }}
 {{ form_end(form) }}

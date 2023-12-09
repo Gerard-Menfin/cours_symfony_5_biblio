@@ -113,7 +113,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         } elseif($this->security->isGranted("ROLE_BIBLIOTHECAIRE")) {
             $route = "biblio_gestion";
         } else {
-            $route = "profil";
+            $route = "espace_profil";
         }
 
         return new RedirectResponse($this->urlGenerator->generate("app_$route"));

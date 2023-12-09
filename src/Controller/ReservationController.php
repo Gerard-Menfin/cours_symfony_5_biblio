@@ -8,32 +8,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface as Session;
 
 class ReservationController extends AbstractController
 {
-
-    public function __construct(RequestStack $rs) {
-        $this->rs = $rs;
-    }
-
     /**
      * @Route("/reservation", name="app_reservation")
      */
-    public function index(Request $rq, RequestStack $rs): Response
+    public function index(Request $rq, Session $session): Response
     {
        
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $rs->getSession()->get("reservations", []),
+            'reservations' => $session->get("reservations", []),
         ]);
     }
 
     /**
     * @Route("/reservation/livre/{id}", name="app_reservation_livre")
     */
-    public function livre(Livre $livre) {
-        $livre->libelle = $livre->getTitre();
+    public function livre(Livre $livre, Session $session) {
+        // $livre->libelle = $livre->getTitre();
 
-        $session = $this->rs->getSession();
         $panier = $session->get("reservations", []);
         $dejaReserve = false;
         foreach($panier as $indice => $ligne){
@@ -54,8 +49,8 @@ class ReservationController extends AbstractController
     /**
     * @Route("/reservation/test", name="app_reservation_test")
     */
-    public function fonction(RequestStack $rs) {
-        $rs->getsession()->set("reservation", ["valeur ajouté à la session"]);
+    public function fonction(Session $session) {
+        $session->set("reservation", ["valeur ajouté à la session"]);
         return $this->redirectToRoute("app_reservation");
     }
 }

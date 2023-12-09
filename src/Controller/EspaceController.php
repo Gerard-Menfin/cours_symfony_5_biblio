@@ -13,9 +13,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
- * @Route("/espace-lecture", name="app_espace")
+ * @Route("/espace-lecture")
  * @IsGranted("ROLE_LECTEUR")
  */
 class EspaceController extends AbstractController
@@ -32,7 +33,7 @@ class EspaceController extends AbstractController
     }
 
     /**
-     * @Route("/", name="")
+     * @Route("/", name="app_espace")
      */
     /*
         La page "Lecteur" va afficher toutes les informations du l'utilisateur connecté,
@@ -43,14 +44,15 @@ class EspaceController extends AbstractController
             app.user
     */
 
-    public function index(): Response
+    public function index(/* SessionInterface $session */): Response
     {
         $reservations = $this->rs->getSession()->get("reservations", []);
+        /* $reservations = $session->get("reservations", []); */
         return $this->render('espace/index.html.twig', compact("reservations"));
     }
 
     /**
-     * @Route("/profil", name="app_profil")
+     * @Route("/profil", name="app_espace_profil")
      */
     public function profil(): Response
     {
@@ -58,7 +60,7 @@ class EspaceController extends AbstractController
     }
 
     /**
-     * @Route("/reservations", name="app_reservations")
+     * @Route("/reservations", name="app_espace_reservations")
      */
     public function reservations(): Response
     {
@@ -68,7 +70,7 @@ class EspaceController extends AbstractController
     }
 
     /**
-    * @Route("/reservation/livre-{id}", name="_reserver", requirements={"id"="\d+"})
+    * @Route("/reservation/livre-{id}", name="app_espace_reserver", requirements={"id"="\d+"})
     */
     public function livre(Livre $livre, RequestStack $rs) {
         /**
@@ -95,7 +97,10 @@ class EspaceController extends AbstractController
         return $this->redirectToRoute("app_espace");
     }
 
-    #[Route("/supprimer-reservation-livre-{id}", name: "_supprimer_reservation", requirements: ["id" => "\d+"])]
+    #[Route("/supprimer-reservation-livre-{id}", name: "app_espace_supprimer_reservation", requirements: ["id" => "\d+"])]
+    /**
+     * @Route("/supprimer-reservation-livre-{id}", name="app_espace_supprimer_reservation", requirements={"id": "\d+"})
+     */
     public function supprimerReservation(Livre $livre, RequestStack $rs)
     {
         /* EXERCICE : écrire le code de cette route puis ajouter un lien dans l'Espace Lecteur pour 
@@ -127,7 +132,7 @@ class EspaceController extends AbstractController
 
 
     /**
-    * @Route("/aj-panier", name="app_panier")
+    * @Route("/aj-panier", name="app_espace_panier")
     */
     public function panier() {
         $panier = $this->rs->getSession()->get("reservations", []);
@@ -136,7 +141,7 @@ class EspaceController extends AbstractController
 
 
     /**
-     * @Route("/livre/{id}/emprunter", name="livre_emprunter", requirements={"id"="[0-9]+"})
+     * @Route("/livre/{id}/emprunter", name="app_espace_livre_emprunter", requirements={"id"="[0-9]+"})
      * @IsGranted("ROLE_LECTEUR")
      */
     public function emprunter(EntityManager $entityManager, LivreRepository $livreRepository, int $id)
@@ -180,7 +185,7 @@ class EspaceController extends AbstractController
           */
 
     /**
-     * @Route("/biblio/emprunt/retour/{id}", name="emprunt_retour" )
+     * @Route("/biblio/emprunt/retour/{id}", name="app_espace_emprunt_retour" )
      */
     public function retour(EmpruntRepository $er, EntityManagerInterface $em, $id)
     {

@@ -40,6 +40,16 @@ class Auteur extends Entity
      */
     private $livres;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $naissance;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $deces;
+
     public function __construct()
     {
         $this->livres = new ArrayCollection();
@@ -124,5 +134,29 @@ class Auteur extends Entity
     public function getNomComplet()
     {
         return trim("$this->prenom $this->nom");
+    }
+
+    public function getNaissance(): ?\DateTimeInterface
+    {
+        return $this->naissance;
+    }
+
+    public function setNaissance(?\DateTimeInterface $naissance): self
+    {
+        $this->naissance = $naissance;
+
+        return $this;
+    }
+
+    public function getDeces(): ?\DateTimeInterface
+    {
+        return $this->deces;
+    }
+
+    public function setDeces(?\DateTimeInterface $deces): self
+    {
+        $this->deces = $deces;
+
+        return $this;
     }
 }

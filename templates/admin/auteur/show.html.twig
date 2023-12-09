@@ -18,7 +18,15 @@
             </tr>
             <tr>
                 <th>Biographie</th>
-                <td>{{ auteur.bio }}</td>
+                <td>{{ auteur.biographie }}</td>
+            </tr>
+            <tr>
+                <th>Date de naissance</th>
+                <td>{{ auteur.naissance ? auteur.naissance|date : "" }}</td>
+            </tr>
+            <tr>
+                <th>Date de décès</th>
+                <td>{{ auteur.deces ? auteur.deces|date : "" }}</td>
             </tr>
         </tbody>
     </table>

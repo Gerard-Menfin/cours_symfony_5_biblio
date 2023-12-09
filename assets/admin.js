@@ -39,10 +39,10 @@ $(function(){
         dataSrcUploadedImage(this, $('#' + id + 'img'));
     });
 
-    let main = document.querySelector("main");
-    let hauteurAvant = main.clientHeight;
-    main.style.height = "calc(100vh - 60px)";
-    if(hauteurAvant > main.clientHeight) {
-        main.style.height = hauteurAvant + "px";
-    }
+    // let main = document.querySelector("main");
+    // let hauteurAvant = main.clientHeight;
+    // main.style.height = "calc(100vh - 60px)";
+    // if(hauteurAvant > main.clientHeight) {
+    //     main.style.height = hauteurAvant + "px";
+    // }
 });

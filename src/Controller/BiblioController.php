@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use DateTime;
+use App\Repository\LivreRepository;
+use App\Repository\EmpruntRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\EmpruntRepository;
-use DateTime;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BiblioController extends AbstractController
 {
@@ -33,5 +34,14 @@ class BiblioController extends AbstractController
         $empruntAmodifier->setDateRetour( $dateRetour );
         $em->flush();  //
         return $this->redirectToRoute("app_biblio");
+    }
+
+    /**
+    * @Route("/biblio/livres", name="app_biblio_livres")
+    */
+    public function livres(LivreRepository $lr) {
+        $livres_disponibles = $lr->livresDisponibles();
+        $livres_indisponibles = $lr->livresIndisponibles();
+        return $this->render("biblio/livres.html.twig", compact("livres_disponibles", "livres_indisponibles"));
     }
 }

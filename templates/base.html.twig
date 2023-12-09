@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>{% block title %}Bienvenue à la Be-blio !{% endblock %}</title>
+		<title>{% block title %}Bienvenue{% endblock %} | e-bliothèque</title>
         <link rel="shortcut icon" href="{{ asset(chemin_images ~ "logo.png" )}}" type="image/png">
 		
         {# Run `composer require symfony/webpack-encore-bundle` and uncomment the following Encore helpers to start using Symfony UX #}
@@ -17,12 +17,15 @@
 
     {# COURS : 
         • app.request.schemeAndHttpHost           : protocole - domaine
-        • app.request.attributes.get("_route")    : retourne le nom de la route correspondant à l'URL actuelle
+        • app.request.attributes.get("_route")    : nom de la route correspondant à l'URL actuelle
         • app.request.pathinfo                    : URL relatif
         • url("app_register")                     : retourne URL complet selon une route
         • path("app_register")                    : retourne URL relatif selon une route
+
+        • app.session
     #}
     <body>
+    {% block main %}
         <div class="container">
             {% block menu %}
                 {% include "_partiels/_menu.html.twig" %}
@@ -33,21 +36,24 @@
                 {% include "_partiels/_messages.html.twig" %}
                 
                 <div class="mb-5" id="main">
-                    <h1 class="mt-2 mb-3 text-center">{% block titre %}Bienvenue à la bibliothèque{% endblock %}</h1>
+                    <h1 class="mt-2 mb-3 text-center">{% block titre %}Bienvenue à l'e-bliothèque{% endblock %}</h1>
 
                     {% block body %}
+
                         {% for m in 5..2 %}
                             <p>{{ "ce texte va s'afficher" }} </p>
                         {% endfor %}
                         {% for m in "Ajax".."z" %}
                             <p>{{ m }} </p>
                         {% endfor %}
+                        
                     {% endblock %}
                 </div>
             </div>
             {# <footer class="container">Ceci est le footer</footer> #}
             {# {% include "_partiels/_footer.html.twig" %} #}
         </div>
+    {% endblock %}
     </body>
 </html>
 

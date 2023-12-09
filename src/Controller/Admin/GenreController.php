@@ -41,7 +41,7 @@ class GenreController extends AbstractController
         }
 
         return $this->render('admin/genre/new.html.twig', [
-            'genre' => $genre,
+            "entite" => $genre,
             'form' => $form->createView(),
         ]);
     }
@@ -52,7 +52,7 @@ class GenreController extends AbstractController
     public function show(Genre $genre): Response
     {
         return $this->render('admin/genre/show.html.twig', [
-            'genre' => $genre,
+            "entite" => $genre,
         ]);
     }
 
@@ -71,7 +71,7 @@ class GenreController extends AbstractController
         }
 
         return $this->render('admin/genre/edit.html.twig', [
-            'genre' => $genre,
+            "entite" => $genre,
             'form' => $form->createView(),
         ]);
     }

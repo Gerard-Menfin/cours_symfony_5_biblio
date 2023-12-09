@@ -27,7 +27,7 @@ class Genre extends Entity
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $mots_cles;
+    private $motsCles;
 
     /**
      * @ORM\ManyToMany(targetEntity=Livre::class, mappedBy="genres")
@@ -58,12 +58,12 @@ class Genre extends Entity
 
     public function getMotsCles(): ?string
     {
-        return $this->mots_cles;
+        return $this->motsCles;
     }
 
-    public function setMotsCles(?string $mots_cles): self
+    public function setMotsCles(?string $motsCles): self
     {
-        $this->mots_cles = $mots_cles;
+        $this->motsCles = $motsCles;
 
         return $this;
     }

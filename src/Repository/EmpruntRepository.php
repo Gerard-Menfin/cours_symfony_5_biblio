@@ -27,7 +27,7 @@ class EmpruntRepository extends Depot
             ->join("e.livre", "l")
             ->where('l.auteur = :val')
             ->setParameter('val', $auteur)
-            ->orderBy('e.date_emprunt', 'ASC')
+            ->orderBy('e.dateEmprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -39,7 +39,7 @@ class EmpruntRepository extends Depot
             ->join("e.abonne", "a")
             ->where('a.pseudo = :val')
             ->setParameter('val', "Chloe")
-            ->orderBy('e.date_emprunt', 'ASC')
+            ->orderBy('e.dateEmprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -51,7 +51,7 @@ class EmpruntRepository extends Depot
             ->join("e.abonne", "a")
             ->where('a.pseudo = :val')
             ->setParameter('val', $pseudo)
-            ->orderBy('e.date_emprunt', 'ASC')
+            ->orderBy('e.dateEmprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -60,8 +60,8 @@ class EmpruntRepository extends Depot
     public function findByNonRendus()
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.date_retour IS NULL')
-            ->orderBy('e.date_emprunt', 'ASC')
+            ->andWhere('e.dateRetour IS NULL')
+            ->orderBy('e.dateEmprunt', 'ASC')
             ->getQuery()
             ->getResult()
         ;

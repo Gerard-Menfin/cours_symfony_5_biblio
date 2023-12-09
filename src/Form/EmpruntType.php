@@ -17,7 +17,7 @@ class EmpruntType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date_emprunt', DateType::class, [
+            ->add('dateEmprunt', DateType::class, [
                 "widget" => "single_text",
                 "label" => "Emprunté le",
                 // "data" => new DateTime()  // si je choisis une valeur par défaut à un champ, cette valeur écrase la valeur existante de l'objet passé en 
@@ -25,7 +25,7 @@ class EmpruntType extends AbstractType
                                              //  existant)
                 // "empty_data" => new DateTime("now")  // ne change rien pour un DateType
             ])
-            ->add('date_retour', DateType::class, [
+            ->add('dateRetour', DateType::class, [
                 "widget" => "single_text",
                 "label" => "Rendu le ",
                 "required" => false

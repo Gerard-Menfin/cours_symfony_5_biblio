@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Livre;
-use Cocur\Slugify\Slugify;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -34,10 +34,10 @@ class LivreFixtures extends Fixture
             [ "titre" => "Le crime de l'Orient-Express",  "auteur" => "Christie",   "couverture" => "le_crime_de_l_orient-express.jpg" ],
         ];
         
-        $slugify = new Slugify;
+        $slugger = new AsciiSlugger();
         foreach ($livres as $cpt => $book) {
             $livre = new Livre;
-            $livre->setTitre( $book["titre"] )->setAuteur( $this->getReference("auteur_" . $book["auteur"]) )->setCouverture( $book["couverture"] )->setUrl( $slugify->slugify($book["titre"]) );
+            $livre->setTitre( $book["titre"] )->setAuteur( $this->getReference("auteur_" . $book["auteur"]) )->setCouverture( $book["couverture"] )->setUrl( $slugger->slug($book["titre"]) );
             $manager->persist( $livre );
 
             $this->setReference( "livre_" . $book["titre"], $livre );
@@ -48,7 +48,7 @@ class LivreFixtures extends Fixture
             $livre->setTitre( $book["titre"] )
                     ->setAuteur( $this->getReference("auteur_" . $book["auteur"]) )
                     ->setCouverture( $book["couverture"] )
-                    ->setUrl( $slugify->slugify($book["titre"]) );
+                    ->setUrl( $slugger->slug($book["titre"]) );
 
         }
         $manager->flush();

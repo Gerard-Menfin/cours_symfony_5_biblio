@@ -19,18 +19,17 @@ class AccueilController extends AbstractController
     {
         // $this->redirectToRoute("app_test");
         /**
-            COURS : 
-            Pour générer l'affichage, on utilise la méthode render
-                1er argument   : le fichier vue que l'on veut afficher
-                    le nom du fichier est donné à partir du dossier "templates"
-                2ième argument : un array qui contient les variables nécéssaires à la vue
-                    Les indices de cet array correspondent aux noms des variables
-                    dans le fichier twig
-
-            La fonction paginate va filter les produits à afficher selon le numéro de page demandé
-                1e argument : la liste totale des produits à afficher
-                2e argument : le numéro de la page actuelle
-                3e argument : le nombre de produits affichés par page
+          * 💬 COURS : 
+          * 💬 Pour générer l'affichage, on utilise la méthode render
+          * 💬     1er argument   : le fichier vue que l'on veut afficher
+          * 💬         le nom du fichier est donné à partir du dossier "templates"
+          * 💬     2ième argument : un array qui contient les variables nécéssaires à la vue
+          * 💬         Les indices de cet array correspondent aux noms des variables
+          * 💬         dans le fichier twig  *   💬 
+          * 💬 La fonction paginate va filter les produits à afficher selon le numéro de page demandé
+          * 💬     1e argument : la liste totale des produits à afficher
+          * 💬     2e argument : le numéro de la page actuelle
+          * 💬     3e argument : le nombre de produits affichés par page
         */
 
         $livres = $lr->findAll();

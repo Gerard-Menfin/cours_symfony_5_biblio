@@ -3,12 +3,16 @@
 {% block title %}Résultats de la recherche{% endblock %}
 
 {% block body %}
-{# EXO : remplacer les ... par le mot qui a été tapé dans
-     la barre de recherche #}
-    <h2>Résultats de la recherche de <code>{{ mot }}</code></h2>
-    <div class="card-columns">
+    <div class="row mx-0">
+        <h2 class="col">Résultats de la recherche de "<code>{{ mot }}</code>"</h2>
+        <h3 class="col-1">(x{{ livres|length }})</h3>
+    </div>
+    <div class="card-deck">
         {% for livre in livres %}
             {% include "livre/vignette.html.twig" %}
+        {% else %}
+            </div>
+            <div class="alert alert-info">Aucun livre trouvé
         {% endfor %}
     </div>
 {% endblock %}

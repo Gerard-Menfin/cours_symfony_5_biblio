@@ -11,9 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/emprunt')]
+/**
+ * @Route("/admin/emprunt")
+ */
 class EmpruntController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_emprunt_index', methods: ['GET'])]
+    # [Route('/', name: 'app_admin_emprunt_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="app_admin_emprunt_index", methods={"GET"})
+     */
     public function index(EmpruntRepository $empruntRepository): Response
     {
         return $this->render('admin/emprunt/index.html.twig', [
@@ -22,6 +28,9 @@ class EmpruntController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_emprunt_new', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/new", name="app_admin_emprunt_new", methods={"GET", "POST"})
+     */
     public function new(Request $request, EmpruntRepository $empruntRepository): Response
     {
         $emprunt = new Emprunt();
@@ -30,6 +39,9 @@ class EmpruntController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dateEmprunt = clone $emprunt->getDateEmprunt();
+            /**
+             * @var \DateTime $dateEmprunt 
+             */
             $datePrevue = $dateEmprunt->add(new \DateInterval("P2W"));
             $emprunt->setDatePrevue( $datePrevue );
             
@@ -45,6 +57,9 @@ class EmpruntController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_emprunt_show', methods: ['GET'])]
+    /**
+     * @Route("/{id}", name="app_admin_emprunt_show", methods= {"GET"})
+     */
     public function show(Emprunt $emprunt): Response
     {
         return $this->render('admin/emprunt/show.html.twig', [
@@ -53,6 +68,9 @@ class EmpruntController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_emprunt_edit', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/edit", name="app_admin_emprunt_edit", methods={"GET", "POST"})
+     */
     public function edit(Request $request, Emprunt $emprunt, EmpruntRepository $empruntRepository): Response
     {
         $form = $this->createForm(EmpruntType::class, $emprunt);
@@ -71,6 +89,9 @@ class EmpruntController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_emprunt_delete', methods: ['POST'])]
+    /**
+     * @Route("/{id}", name="app_admin_emprunt_delete", methods={"POST"})
+     */
     public function delete(Request $request, Emprunt $emprunt, EmpruntRepository $empruntRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$emprunt->getId(), $request->request->get('_token'))) {

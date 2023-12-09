@@ -41,13 +41,13 @@ class AbonneRepository extends Depot implements PasswordUpgraderInterface
      Abonnés qui ont des livres non rendus
      SELECT a.*
      FROM abonne a JOIN emprunt e ON a.id = e.abonne_id
-     WHERE e.date_retour IS NULL
+     WHERE e.dateRetour IS NULL
          NB : la jointure peut être définiée à partir des entités
      */
     public function findByLivresNonRendus(){
         $requete = $this->createQueryBuilder("a")
                         ->join(Emprunt::class, "e", "WITH", "a = e.abonne")
-                        ->where("e.date_retour IS NULL");
+                        ->where("e.dateRetour IS NULL");
 
         return $requete->getQuery()->getResult();
     }

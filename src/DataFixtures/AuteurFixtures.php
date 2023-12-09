@@ -26,7 +26,9 @@ class AuteurFixtures extends Fixture
             [ "prenom" => "René",           "nom" => "Descartes",   "biographie" => "Philosophe, mathématicien, ..." ],       
             [ "prenom" => "Katsuhiro",      "nom" => "Otomo",       "biographie" => "Mangaka, célèbre pour sa série Akira, devenu une référence après l'adaption au cinéma" ],      
             [ "prenom" => "",               "nom" => "Homère",      "biographie" => "Auteur antique, dont l'existence réelle est contesté." ],               
-            [ "prenom" => "George R.R.",    "nom" => "Martin",      "biographie" => "Écrivain américain célèbre pour sa sage Game of Thrones, insipiré des Rois Maudits et de l'oeuvre de Tolkien" ],   
+            [ "prenom" => "George R.R.",    "nom" => "Martin",      "biographie" => "Écrivain américain célèbre pour sa sage Game of Thrones, insipiré des Rois Maudits et de l'oeuvre de Tolkien" ],
+            [ "prenom" => "", "nom" => "", "biographie" => "" ],  
+            [ "prenom" => "", "nom" => "", "biographie" => "" ],  
         ];
         foreach ($auteurs as $indice => $valeur) {
             $auteur = new Auteur;

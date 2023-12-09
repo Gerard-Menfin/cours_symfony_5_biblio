@@ -35,8 +35,27 @@
 					</a>
 				</li>
 			{% endif %}
+			<li class="nav-item ">
+				<a class="nav-link" href="">
+					<i class="fa fa-grip-lines-vertical"></i>
+				</a>
+			</li>
+
+			<li class="nav-item {{ app.request.attributes.get("_route") == "app_visiteur_genre" ? "active" : "" }}">
+				<a class="nav-link" href="{{ path("app_visiteur_genre") }}">
+					Genres 
+				</a>
+			</li>
+			{% if is_granted("ROLE_ADMIN") %}
+				<li class="nav-item {{ app.request.attributes.get("_route") == "app_admin_gestion" ? "active" : "" }}">
+					<a class="nav-link" href="{{ path("app_admin_gestion") }}">
+						Gestion 
+					</a>
+				</li>
+			{% endif %}
+
 		</ul>
-		<form class="form-inline my-2 my-lg-0" action={{ path("app_recherche") }} method="get">
+		<form class="form-inline my-2 my-lg-0" action={{ path(is_granted('ROLE_ADMIN') ? "app_admin_recherche" : "app_recherche") }} method="get">
 			<input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
 				<i class="fa fa-search"></i>

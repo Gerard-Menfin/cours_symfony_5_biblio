@@ -61,7 +61,7 @@ class LivreType extends AbstractType
                 },
                 'multiple'      => true,
                 'expanded'      => true,
-                'attr'          => [ "class" => "d-flex justify-content-between"],
+                'attr'          => [ "class" => "d-flex flex-wrap justify-content-around px-3"],
             ])
             ->add('resume', null, [
                 "label"         =>  "Résumé"

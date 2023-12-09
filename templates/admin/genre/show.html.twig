@@ -9,22 +9,52 @@
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ genre.id }}</td>
+                <td>{{ entite.id }}</td>
             </tr>
             <tr>
-                <th>Libelle</th>
-                <td>{{ genre.libelle }}</td>
+                <th>Libellé</th>
+                <td>{{ entite.libelle }}</td>
             </tr>
             <tr>
-                <th>Mots_cles</th>
-                <td>{{ genre.motsCles }}</td>
+                <th>Mots-clés</th>
+                <td>{{ entite.motsCles }}</td>
             </tr>
+            <tr>
+                <th>Livres</th>
+                <td>
+                    <table class="table table-bordered table-primary table-sm">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="col-1">ID</th>
+                                <th class="col-6">Titre</th>
+                                <th class="col-5">Auteur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for livre in entite.livres %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app_admin_livre_show', {id: livre.id}) }}" class="d-block">
+                                        {{ livre.id }}
+                                        <i class="fa fa-eye float-right"></i>
+                                    </a>
+                                </td>
+                                <td>{{ livre.titre }}</td>
+                                <td>{{ livre.auteur.identite }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>Aucun livre de ce genre dans la bibliothèque</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_genre_index') }}" class="btn btn-secondary"><i class="fa fa-reply"></i> Retour à la liste</a>
 
-    <a href="{{ path('app_admin_genre_edit', {'id': genre.id}) }}">edit</a>
-
-    {{ include('admin/genre/_delete_form.html.twig') }}
+    {{ include ("admin/_communs/_buttons_line.html.twig") }}
 {% endblock %}

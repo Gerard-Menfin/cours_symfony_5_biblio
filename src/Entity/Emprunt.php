@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\EmpruntRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\LessThan;
 
 /**
  * @ORM\Entity(repositoryClass=EmpruntRepository::class)
@@ -19,13 +21,18 @@ class Emprunt extends Entity
 
     /**
      * @ORM\Column(type="date")
+     * @LessThan(propertyPath= "dateRetour",  message= "La date d'emprunt doit être antérieure" )
      */
-    private $date_emprunt;
+    #[LessThan( propertyPath: "dateRetour",  message: "La date d'emprunt doit être antérieure" )]
+
+    private $dateEmprunt;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @GreaterThan(propertyPath= "dateEmprunt", message= "La date retour doit être postérieure")
      */
-    private $date_retour;
+    #[GreaterThan(propertyPath: "dateEmprunt", message: "La date retour doit être postérieure")]
+    private $dateRetour;
 
     /**
      * @ORM\ManyToOne(targetEntity=Livre::class, inversedBy="emprunts")
@@ -51,24 +58,24 @@ class Emprunt extends Entity
 
     public function getDateEmprunt(): ?\DateTimeInterface
     {
-        return $this->date_emprunt;
+        return $this->dateEmprunt;
     }
 
-    public function setDateEmprunt(\DateTimeInterface $date_emprunt): self
+    public function setDateEmprunt(\DateTimeInterface $dateEmprunt): self
     {
-        $this->date_emprunt = $date_emprunt;
+        $this->dateEmprunt = $dateEmprunt;
 
         return $this;
     }
 
     public function getDateRetour(): ?\DateTimeInterface
     {
-        return $this->date_retour;
+        return $this->dateRetour;
     }
 
-    public function setDateRetour(?\DateTimeInterface $date_retour): self
+    public function setDateRetour(?\DateTimeInterface $dateRetour): self
     {
-        $this->date_retour = $date_retour;
+        $this->dateRetour = $dateRetour;
 
         return $this;
     }

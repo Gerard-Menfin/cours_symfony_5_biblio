@@ -17,7 +17,7 @@ class GestionController extends AbstractController
      * @Route("/admin/gestion", name="app_admin_gestion")
      */
     public function index(LivreRepository $lr, EmpruntRepository $er, AbonneRepository $ar, AuteurRepository $aR, GenreRepository $gr){
-        $emprunts = $er->findAll(["date_retour" => "ASC", "date_emprunt" => "ASC"]);
+        $emprunts = $er->findAll(["dateRetour" => "ASC", "dateEmprunt" => "ASC"]);
         $empruntsEnCours = $er->findByNonRendus();
         
         $emprunts["liste"] = $emprunts;
@@ -26,8 +26,8 @@ class GestionController extends AbstractController
         
         $livres["liste"] = $lr->findAll();
         $livres["nb"] = $lr->nb();
-        $livres["nbSortis"] = $lr->nbSortis();
-        $livres["nbDisponibles"] = $lr->nbDisponibles();
+        $livres["nbSortis"] = $lr->nbLivresEmpruntes();
+        $livres["nbDisponibles"] = $lr->nbLivresDisponibles();
         $livres["plusAncienEmprunt"] = count($empruntsEnCours) ? $empruntsEnCours[0] : null;
         $livres_empruntes = $lr->lesPlusEmpruntes();
         // $livres_empruntes = array_splice($livres_empruntes, 0, 5);

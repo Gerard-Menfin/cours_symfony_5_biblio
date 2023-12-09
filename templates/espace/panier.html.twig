@@ -7,11 +7,12 @@
     </tr>
 </thead>
 <tbody>
+    {% set reservations = app.session.get("reservations", []) %}
     {% for ligne in reservations %}
         <tr>
             <td>{{ ligne.date }}</td>
             <td>
-                <img class="w-25" src="{{ asset('images/' ~ ligne.livre.couverture) }}">
+                <img  src="{{ chemin_couvertures ~ ligne.livre.couverture }}" width=50>
                 {{ ligne.livre.titre }}
             </td>
             

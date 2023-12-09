@@ -23,57 +23,76 @@ class LivreRepository extends Depot
 
     /**
      * @return Livre[] Retourne les livres qui n'ont pas été rendus
-     * 
-     */
-    public function findLivresEmpruntes()
-    {
-        /*
         SELECT l.*
         FROM livre l JOIN emprunt e ON l.id = e.livre_id
-        WHERE e.date_retour IS NULL
-        ORDER BY l.auteur ASC, l.titre
-        */
+        WHERE e.dateRetour IS NULL
+     * 
+     */
+    public function findLivresEmpruntes(): array
+    // public function livresIndisponibles(): array
+    {
         return $this->createQueryBuilder('l')
             ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
-            ->where('e.date_retour IS NULL')
-            ->select("l")
-            ->orderBy('l.auteur', 'ASC')
-            ->addOrderBy("l.titre")
+            //! ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
+            ->where('e.dateRetour IS NULL')
+            // ->select("l")                            // ? inutile
+            ->orderBy("l.titre")
             ->getQuery()
             ->getResult()
         ;
     }
 
-        /**
-     * Requête avec jointure : livres empruntés non rendus
-     * @return Array of App\Entity\Livre object
+
+    /**
+        SELECT l.*
+        FROM livre l 
+        WHERE l.id NOT IN (
+                            SELECT l.id
+                            FROM emprunt e JOIN livre l ON e.livre_id = l.id
+                            WHERE e.date_retour IS NULL 
+                          ) 
+     * 💬: 
+
+     * • l'utilisation de l'entityManager permet d'écrire une requête DQL
+     * • on n'utilise pas les tables mais les classes entités
+     * • dans la requête imbriquée, on ne peut pas utiliser 2x le même alias pour une table
+     * • les noms des champs correspondent aux propriétés pas aux colonnes de la bdd
+     * • dans les jointures, on ne peut pas utiliser ON, plutôt WITH
      */
-    public function findByEmpruntes()
+    public function livresDisponibles()
     {
-        return $this->createQueryBuilder('l')
-            ->join(Emprunt::class, "e", "WITH", "e.livre=l.id")
-            ->andWhere('e.date_retour IS NULL')
-            ->orderBy('l.auteur', 'ASC')
-            ->addOrderBy('l.titre')
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            "SELECT l
+             FROM App\Entity\Livre l 
+             WHERE l.id NOT IN (
+                SELECT liv.id
+                FROM App\Entity\Emprunt e 
+                JOIN App\Entity\Livre liv WITH e.livre = liv.id
+                WHERE e.dateRetour IS NULL )
+            ORDER BY l.titre"
+        );
+        return $query->getResult();
     }
+
+
+
 
     /**
      * Nombre de livres empruntés actuellement
-     * SELECT COUNT(*)
-     * FROM livre l
-     *  JOIN emprunt e ON l.id = e.livre_id
-     * WHERE e.date_retour IS NULL
      * @return integer
+     * 
+       SELECT COUNT(*)
+       FROM livre l
+        JOIN emprunt e ON l.id = e.livre_id
+       WHERE e.dateRetour IS NULL
      */
-    public function nbSortis() : int
+    public function nbLivresEmpruntes() : int
     {
         $requete = $this->createQueryBuilder("l")
                         ->select("COUNT(l.id) as nb")
-                        ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
-                        ->andWhere('e.date_retour IS NULL')
+                        ->join(Emprunt::class, "e", "WITH", "e.livre = l.id")
+                        ->andWhere('e.dateRetour IS NULL')
                         ->getQuery()
                         ->getOneOrNullResult();
         return $requete ? (int)$requete["nb"] : 0;
@@ -83,26 +102,26 @@ class LivreRepository extends Depot
      * Nombre de livres disponibles
      * @return integer
      */
-    public function nbDisponibles() : int
+    public function nbLivresDisponibles() : int
     {
-        return $this->nb() - $this->nbSortis();
+        return $this->nb() - $this->nbLivresEmpruntes();
     }
 
     /**
-     * Livres les plus emprunts
+     * Livres les plus empruntés
      * Requête SQL :
-     *  SELECT l.titre, COUNT(*) AS nb
-     *  FROM livre l
-     *   JOIN emprunt e ON l.id = e.livre_id
-     *  GROUP BY l.titre
-     *  ORDER BY nb DESC, l.titre ASC
+        SELECT l.titre, COUNT(*) AS nb
+        FROM livre l
+          JOIN emprunt e ON l.id = e.livre_id
+        GROUP BY l.titre
+        ORDER BY nb DESC, l.titre ASC
      * 
      * @param $max integer
      */
     public function lesPlusEmpruntes($max=0)
     {
-        // NB : s'il n'y a pas de champ reliant les deux entités dans l'entité du Repository actuel
-        //      il faut préciser les champs liés (? le mot ON ne fonctionne pas)
+        // NB: s'il n'y a pas de champ reliant les deux entités dans l'entité du Repository actuel  
+        // NB: il faut préciser les champs liés (? le mot ON ne fonctionne pas)                     
         // NB : dans la méthode select l équivaut à l.*
         $requete = $this->createQueryBuilder("l")
                         ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
@@ -119,45 +138,14 @@ class LivreRepository extends Depot
 
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
-    /* 
-        SELECT l.* 
-        FROM livre l JOIN emprunt e ON l.id = e.livre_id 
-        WHERE e.date_retour IS NULL
-    */
-    public function findByLivresIndisponibles()
-    {
-        return $this->createQueryBuilder('l')
-                    ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
-                    ->where('e.date_retour IS NULL')
-                    ->orderBy('l.auteur', 'ASC')
-                    ->addOrderBy("l.titre")
-                    ->getQuery()
-                    ->getResult()
-        ;
-    }
 
-    public function recherche($value)
-    {
-        /* SELECT l.* 
-           FROM livre l 
-           WHERE l.titre LIKE %$value% 
-        */
-        return $this->createQueryBuilder('l')
-            ->where('l.titre LIKE :val')
-            ->setParameter('val', "%" . $value . "%")
-            ->orderBy('l.titre', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
 
-    /* champ auteur type string */
-    public function findBySearch($mot){
+
+    public function recherche($mot){
         return $this->createQueryBuilder('l')
-            ->andWhere('l.auteur LIKE :val OR l.titre LIKE :val')
+            ->andWhere('l.titre LIKE :val OR l.resume LIKE :val')
             ->setParameter('val', '%' . $mot . '%')
-            ->orderBy('l.auteur', 'ASC')
-            ->addOrderBy('l.titre', 'ASC')
+            ->orderBy('l.titre', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -229,31 +217,56 @@ class LivreRepository extends Depot
 
     }
 
+
     /**
-     * Requête avec jointure : livres empruntés non rendus
-     * @return Array of App\Entity\Livre object
+     * @return Livre[] Retourne les livres qui n'ont pas été rendus
+     * 
      */
-    public function findByEmpruntes_()
+    public function findByLivresEmpruntes()
     {
+        /*
+        SELECT l.*
+        FROM livre l JOIN emprunt e ON l.id = e.livre_id
+        WHERE e.dateRetour IS NULL
+        ORDER BY l.auteur ASC, l.titre
+
+        Pour créer une nouvelle méthode dans un Repository qui va donc exécuter une requête SELECT
+        on utilise la méthode createQueryBuider. A partir de l'objet renvoyé par createQueryBuilder, on peut
+        construire la requête en utilsant plusieurs méthodes qui correspondent aux clauses de la requête SQL
+
+        Le paramètre de createQueryBuilder est l'alias de la table sur laquelle on fait la requête (cela dépend donc
+        du Repository dans lequel vous écrivez votre code, donc ici il s'agit de la table Livre)
+        ensuite vous pouvez enchainer les méthodes join, where, andWhere, orderBy, ....
+        Si vous utilisez des paramètres dans une partie de la requête (par exemple :
+            ->where("l.titre = :titre)
+        n'oubliez pas d'utilier setParameter pour donner une valeur à ce paramètre :
+            ->setParameter('titre', $titre)
+        */
         return $this->createQueryBuilder('l')
-            ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
-            ->andWhere('e.date_rendu IS NULL')
+            ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
+            ->where('e.dateRetour IS NULL')
             ->orderBy('l.auteur', 'ASC')
-            ->addOrderBy('l.titre')
+            ->addOrderBy("l.titre")
             ->getQuery()
             ->getResult()
         ;
     }
 
+    public function findByRecherche($value)
+    {
+        /*  SELECT l.*
+            FROM livre
+            WHERE l.titre LIKE :val OR l.auteur LIKE :val */
 
-    public function livreEmprunte(Livre $livre) {
-        return $this->createQueryBuilder("l")
-                ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
-                ->where("e.date_retour IS NULL")
-                ->andWhere("l.id = " . $livre->getId())
-                ->orderBy("l.auteur")
-                ->addOrderBy("l.titre")
-                ->getQuery()->getOneOrNullResult();
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.titre LIKE :val')
+            ->orWhere('l.auteur LIKE :val')
+            ->setParameter('val', '%' . $value . '%')
+            ->orderBy('l.auteur')
+            ->orderBy('l.titre')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 

@@ -59,6 +59,11 @@ class Abonne extends Entity implements UserInterface, PasswordAuthenticatedUserI
      */
     private $emprunts;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $naissance;
+
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
@@ -267,6 +272,18 @@ class Abonne extends Entity implements UserInterface, PasswordAuthenticatedUserI
     public function getNomComplet()
     {
         return trim("$this->prenom $this->nom");
+    }
+
+    public function getNaissance(): ?\DateTimeInterface
+    {
+        return $this->naissance;
+    }
+
+    public function setNaissance(?\DateTimeInterface $naissance): self
+    {
+        $this->naissance = $naissance;
+
+        return $this;
     }
 
 }
