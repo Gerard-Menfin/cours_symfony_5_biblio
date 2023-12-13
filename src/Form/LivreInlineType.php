@@ -52,8 +52,7 @@ class LivreInlineType extends AbstractType
                 "choice_label"  => "identite",
                 "placeholder"   => "Choisir parmi les auteurs enregistrés..."
             ])
-            ->add('enregistrer', SubmitType::class, [
-            ])
+            ->add('enregistrer', SubmitType::class, [])
 
         ;
     }

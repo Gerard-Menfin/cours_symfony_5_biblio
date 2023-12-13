@@ -47,7 +47,7 @@ class GenreRepository extends Depot
                         // ->getResult()
         ;
         // return $temp;
-        return $temp["nb"];
+        return $temp ? $temp["nb"] : 0;
     }
 
     public function findByNbLivres($max = true)

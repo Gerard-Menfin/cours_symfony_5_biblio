@@ -75,8 +75,12 @@
             <h3 class="card-header">Auteurs</h3>
             <ul class="list-group">
                 <li class="list-group-item">Nombre d'auteurs : <strong class="float-right">{{ auteurs.nb }}</strong></li>
+                {% if auteurs.prolifique %}
                 <li class="list-group-item">Le plus prolifique : <strong class="float-right">{{ auteurs.prolifique.nomComplet }} (x{{ auteurs.prolifique.livres|length }})</strong></li>
-                <li class="list-group-item">Le moins prolifique : <strong class="float-right">{{ auteurs.faineant.nomComplet }} (x{{ auteurs.faineant.livres|length }})</strong></li>
+                {% endif %}
+                {% if auteurs.faineant %}
+                    <li class="list-group-item">Le moins prolifique : <strong class="float-right">{{ auteurs.faineant.nomComplet }} (x{{ auteurs.faineant.livres|length }})</strong></li>
+                {% endif %}
             </ul>
             <div class="card-footer">
                 <a class="card-link" href="{{ path("app_admin_auteur_index") }}"><i class="fa fa-list-alt"></i> Liste</a>

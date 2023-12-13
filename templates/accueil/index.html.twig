@@ -15,13 +15,13 @@
     {# 
       ! en utilisant la variable loop et l'opérateur modulo
     #}
-    <div class="card-deck mt-1">
+    {# <div class="card-deck mt-1">
     {% for livre in liste_livres %}
         {% if loop.index % 3 == 1  %} <div class="d-flex mb-3"> {% endif %}
         {{ include ("livre/vignette.html.twig") }}
         {% if loop.index % 3 == 0  %} </div> {% endif %}
     {% endfor %}
-    </div>
+    </div> #}
 
 
     {# ! fonction : knp_pagination_render

@@ -26,18 +26,31 @@ class LivreController extends AbstractController
      */
     public function index(LivreRepository $lr, Paginator $paginator, Request $rq): Response
     {
-       // On instancie une objet qui va représenter l'enregistrement en bdd
         $livre = new Livre;
 
-        // On crée un objet qui servira à gérer le formulaire. Cet objet est créé à partir de la 
-        //  classe LivreType, et on relie à ce formulaire l'objet $livre
         $form = $this->createForm(LivreInlineType::class, $livre);
 
-        // On récupère ce qui vient du formulaire envoyé par l'utilisateur ($_POST). Si le formulaire a été
-        // soumis, l'objet $livre est mis à jour avec les informations de $_POST
         $form->handleRequest($rq);
         $nombreParPage = 10;
         if($form->isSubmitted() && $form->isValid()) {
+            if( $fichier = $form->get("couverture")->getData() ){
+                
+                // on récupère le nom du fichier qui a été téléversé
+                $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // on utilise AsciiSlugger
+                $slugger = new AsciiSlugger();
+                $nouveauNomFichier = $slugger->slug( $nomFichier ); 
+
+                // on ajoute un string au nom du fichier (pour éviter les doublons) puis l'extension du fichier
+                $nouveauNomFichier .= "_" . uniqid() . "." . $fichier->guessExtension(); 
+
+                // on copie le fichier dans un dossier défini dans services.yaml avec le nouveau nom de fichier
+                $fichier->move($this->getParameter("dossier_couvertures"), $nouveauNomFichier);
+
+                // on modifie la propriété 'couverture' de l'entité $livre
+                $livre->setCouverture($nouveauNomFichier);
+            }
             $lr->save($livre, true);
             $this->addFlash("success", "Livre ajouté !");
             return $this->redirectToRoute("app_admin_livre_index");

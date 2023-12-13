@@ -53,8 +53,8 @@ class GestionController extends AbstractController
         $genres["nb"]               = $gr->nb();
         $plusPresent                = $gr->findByNbLivres(true);
         $moinsPresent               = $gr->findByNbLivres(false);
-        $genres["nbPlusPresent"]    = $plusPresent[0][0]->getLivres()->count();
-        $genres["nbMoinsPresent"]   = $moinsPresent[0][0]->getLivres()->count();
+        $genres["nbPlusPresent"]    = $plusPresent ? $plusPresent[0][0]->getLivres()->count() : 0;
+        $genres["nbMoinsPresent"]   = $moinsPresent ? $moinsPresent[0][0]->getLivres()->count() : 0;
         $genres["plusPresent"]      = "";
         $genres["moinsPresent"]     = "";
         foreach ($plusPresent as $genre) {

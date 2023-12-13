@@ -34,4 +34,20 @@ $(function(){
         main.style.height = hauteurAvant + "px";
     }
 
+
+    $("#frmAuteurIL").on("submit", (evt) => {
+        evt.preventDefault();
+        $.ajax({
+            url: $("#frmAuteurIL").prop("action"),
+            method: "post",
+            data: $('#frmAuteurIL').serialize(),
+            success: function(reponse){
+                console.log(reponse);
+            },
+            error: function(jqxhr, error, status) {
+                console.log("ERREUR AJAX " + error + "- " + status);
+            }
+        });
+    });
+
 });

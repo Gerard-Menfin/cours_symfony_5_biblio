@@ -4,12 +4,13 @@ namespace App\Controller\Admin;
 
 use App\Entity\Auteur;
 use App\Form\AuteurType;
+use Knp\Component\Pager\PaginatorInterface as Paginator;
 use App\Repository\AuteurRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/auteur", name="app_")
@@ -19,10 +20,10 @@ class AuteurController extends AbstractController
     /**
      * @Route("/", name="admin_auteur_index", methods={"GET"})
      */
-    public function index(AuteurRepository $auteurRepository): Response
+    public function index(AuteurRepository $auteurRepository, Paginator $paginator, Request $rq): Response
     {
         return $this->render('admin/auteur/index.html.twig', [
-            'auteurs' => $auteurRepository->findAll(),
+            'auteurs' => $paginator->paginate($auteurRepository->findAll(), $rq->query->get("page", 1)),
         ]);
     }
 
@@ -77,14 +78,45 @@ class AuteurController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_auteur_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="admin_auteur_delete", methods={"POST"})
      */
     public function delete(Request $request, Auteur $auteur, AuteurRepository $ar): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$auteur->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $auteur->getId(), $request->request->get('_token'))) {
             $ar->remove($auteur, true);
         }
 
         return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function form()
+    {
+        /**
+         * 💬 createForm sera appelé sans 2ième argument. cf GenreType.php
+         */
+
+        $form = $this->createForm(AuteurType::class);
+        return $this->renderForm("admin/auteur/_inline_form.html.twig", ["form" => $form]);
+    }
+
+    /**
+     * @Route("/ajouter", name="admin_auteur_new_ajax", methods={"POST"})
+     */
+    public function ajaxNew(Request $request, AuteurRepository $ar): Response
+    {
+        $auteur = new Auteur();
+        $form = $this->createForm(AuteurType::class, $auteur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ar->save($auteur, true);
+
+            return $this->json(["reponse" => true, "message" => "Nouvel auteur enregistré"]);
+        }
+        
+        return $this->json(["reponse" => false, "message" => "Erreur formulaire",
+            "submited" => $form->isSubmitted(),
+            "valid" => $form->isValid()
+        ]);
     }
 }

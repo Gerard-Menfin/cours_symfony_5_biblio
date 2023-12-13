@@ -41,6 +41,12 @@ class LivreType extends AbstractType
                 "placeholder"   => "Choisir parmi les auteurs enregistrés..."
             ])
             ->add('couverture', FileType::class,  [ 
+                /**
+                    l'option "mapped" avec la valeur false, permet de préciser que
+                    le champ ne sera pas lié à une propriété de l'objet utilisé pour
+                    afficher le formulaire.
+                    Donc la valeur de ce champ ne va pas modifier automatiquement l'objet Livre.
+                    */
                 "mapped"        => false, 
                 "required"      => false,
                 "constraints"   => [ 

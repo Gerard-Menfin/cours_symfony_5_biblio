@@ -46,7 +46,19 @@
 					Genres 
 				</a>
 			</li>
+			
+			<li class="nav-item {{ app.request.attributes.get("_route") == "app_visiteur_auteur" ? "active" : "" }}">
+				<a class="nav-link" href="{{ path("app_visiteur_auteur") }}">
+					Auteurs 
+				</a>
+			</li>
+
 			{% if is_granted("ROLE_ADMIN") %}
+				<li class="nav-item ">
+					<a class="nav-link" href="">
+						<i class="fa fa-grip-lines-vertical"></i>
+					</a>
+				</li>
 				<li class="nav-item {{ app.request.attributes.get("_route") == "app_admin_gestion" ? "active" : "" }}">
 					<a class="nav-link" href="{{ path("app_admin_gestion") }}">
 						Gestion 

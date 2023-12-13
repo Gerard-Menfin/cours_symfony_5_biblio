@@ -54,8 +54,8 @@ class AuteurRepository extends Depot
                                                      GROUP BY a.id 
                                                      HAVING count(*) = ($sousRequete)");
         $result = $query->fetchAll();
-        $auteur = $result[0];
-        $auteur = $this->find($auteur["id"]);
+        $auteur = $result[0] ?? null;
+        $auteur = $auteur ? $this->find($auteur["id"]) : null;
         return $auteur;
     }
    
