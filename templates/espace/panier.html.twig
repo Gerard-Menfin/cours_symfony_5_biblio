@@ -18,6 +18,10 @@
             
             <td><a href="{{ path("app_espace_supprimer_reservation", { id: ligne.livre.id }) }}" class="fa fa-trash"></a></td>
         </tr>
-    {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3" class="alert alert-info">Aucune réservation en attente</td>
+        </tr>
+{% endfor %}
 </tbody>
 </table>

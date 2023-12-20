@@ -4,6 +4,8 @@ namespace App\Twig;
 
 use Twig\TwigFilter;
 use App\Entity\Abonne;
+use App\Entity\Livre;
+use App\Repository\LivreRepository;
 use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -16,10 +18,15 @@ class Extension extends AbstractExtension {
      *   
      */
     private $parametres;
+    private $lr;
 
-    public function __construct(ParameterBagInterface $parameters)
+    public function __construct(ParameterBagInterface $parameters, LivreRepository $lr)
     {
         $this->parametres = $parameters;
+        $this->lr = $lr;
+    }
+    function dispo(Livre $l) {
+        return in_array($l, $this->lr->livresDisponibles());
     }
 
     /**
@@ -171,7 +178,8 @@ class Extension extends AbstractExtension {
         return [ 
             new TwigFilter("autorisations", [$this, "autorisations"]),
             new TwigFilter("img", [$this, "baliseImg"]),
-            new TwigFilter("extrait", [$this, "resume"])
+            new TwigFilter("extrait", [$this, "resume"]),
+            new TwigFilter("dispo", [$this, "dispo"]),
         ];
     }
 

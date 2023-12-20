@@ -35,7 +35,7 @@ class LivreRepository extends Depot
             ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
             //! ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
             ->where('e.dateRetour IS NULL')
-            // ->select("l")                            // ? inutile
+            // ->select("l")                            // ! inutile
             ->orderBy("l.titre")
             ->getQuery()
             ->getResult()

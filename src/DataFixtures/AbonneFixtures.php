@@ -21,7 +21,7 @@ class AbonneFixtures extends Fixture
             [ "pseudo"  => "admin",     "prenom" => "Nordine",   "nom" => "Ateur",      "role" => "admin"   ],
             [ "pseudo"  => "biblio",    "prenom" => "Hayet ",    "nom" => "Dementir",   "role" => "biblio"  ],
             [ "pseudo"  => "mentor",    "prenom" => "Gérard",    "nom" => "Mentor",     "role" => "biblio"  ],
-            [ "pseudo"  => "alien",     "prenom" => "Ali ",      "nom" => "Aine",       "role" => "biblio"  ],
+            [ "pseudo"  => "alien",     "prenom" => "Ali ",      "nom" => "Hène",       "role" => "biblio"  ],
             [ "pseudo"  => "lecteur",   "prenom" => "Hannibal",  "nom" => "Lecteur",    "role" => "lecteur" ],
             [ "pseudo"  => "fanta",     "prenom" => "Fanta",     "nom" => "Stick",      "role" => "lecteur" ],
             [ "pseudo"  => "foot",      "prenom" => "Marc",      "nom" => "Ainbutte",   "role" => "lecteur" ],

@@ -45,7 +45,7 @@ class EmpruntController extends AbstractController
             $datePrevue = $dateEmprunt->add(new \DateInterval("P2W"));
             $emprunt->setDatePrevue( $datePrevue );
             
-            $empruntRepository->add($emprunt, true);
+            $empruntRepository->record($emprunt, true);
 
             return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }

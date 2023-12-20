@@ -9,6 +9,7 @@
     <div class="d-flex flex-wrap">
     {% for l in liste_livres %}
         {{ include("livre/vignette.html.twig", { livre: l }) }}
+        {{ l|dispo ? "✔" : "❌" }}
     {% endfor %}
     </div>
 
