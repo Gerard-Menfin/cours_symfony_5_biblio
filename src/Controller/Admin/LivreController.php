@@ -190,47 +190,47 @@ class LivreController extends AbstractController
     /* *************************************************************************  */
     // ROUTES new et edit avec le formulaire utilisant EntityType (ChoiceType) 
 
-    /**
-     * AJOUTER avec TOUTES LES CATEGORIES
-     * @Route("/nouveau", name="app_admin_livre_new_cat", methods={"GET","POST"})
-     */
-    public function new_cat(Request $request, LivreRepository $lr): Response
-    {
-        $livre = new Livre();
-        $form = $this->createForm(LivreCategoriesType::class, $livre);
-        $form->handleRequest($request);
+    // /**
+    //  * AJOUTER avec TOUTES LES CATEGORIES
+    //  * @Route("/nouveau", name="app_admin_livre_new_cat", methods={"GET","POST"})
+    //  */
+    // public function new_cat(Request $request, LivreRepository $lr): Response
+    // {
+    //     $livre = new Livre();
+    //     $form = $this->createForm(LivreCategoriesType::class, $livre);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $lr->save($livre, true);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $lr->save($livre, true);
 
-            return $this->redirectToRoute('app_admin_livre_index');
-        }
+    //         return $this->redirectToRoute('app_admin_livre_index');
+    //     }
 
-        return $this->render('admin/livre/new.html.twig', [
-            'livre' => $livre,
-            'form' => $form->createView(),
-        ]);
-    }
+    //     return $this->render('admin/livre/new.html.twig', [
+    //         'livre' => $livre,
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
 
-    /**
-     * @Route("/{id}/modifier", name="app_admin_livre_edit_cat", methods={"GET","POST"}, requirements={"id"="\d+"})
-     */
-    public function edit_cat(Request $request, Livre $livre, LivreRepository $lr): Response
-    {
-        $form = $this->createForm(LivreCategoriesType::class, $livre);
-        $form->handleRequest($request);
+    // /**
+    //  * @Route("/{id}/modifier", name="app_admin_livre_edit_cat", methods={"GET","POST"}, requirements={"id"="\d+"})
+    //  */
+    // public function edit_cat(Request $request, Livre $livre, LivreRepository $lr): Response
+    // {
+    //     $form = $this->createForm(LivreCategoriesType::class, $livre);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $lr->save($livre, true);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $lr->save($livre, true);
 
-            return $this->redirectToRoute('app_admin_livre_index');
-        }
+    //         return $this->redirectToRoute('app_admin_livre_index');
+    //     }
 
-        return $this->render('admin/livre/edit.html.twig', [
-            'livre' => $livre,
-            'form' => $form->createView(),
-        ]);
-    }
+    //     return $this->render('admin/livre/edit.html.twig', [
+    //         'livre' => $livre,
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
 
     
 

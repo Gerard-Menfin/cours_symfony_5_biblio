@@ -1,6 +1,9 @@
 <div class="col-4 mb-3">
     <div class="card livre ">
-        <h4 class="card-header bg-primary text-light">{{ livre.titre }}</h4>
+        <h4 class="card-header bg-primary text-light d-flex justify-content-between">
+            {{ livre.titre }}
+            {{ livre|dispo ? "✔" : "❌" }}
+        </h4>
 
         <div class="row  couverture">
             <div class="col-4 d-flex align-items-center">
